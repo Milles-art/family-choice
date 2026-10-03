@@ -22,6 +22,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { formatTzs } from '../currency';
 
 export function HomePage() {
   const { navigate, addToCart, recentlyViewed } = useStore();
@@ -153,7 +154,7 @@ export function HomePage() {
       <section className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { icon: Truck, title: 'Free Delivery', subtitle: 'On orders over $35' },
+            { icon: Truck, title: 'Free Delivery', subtitle: 'On orders over TSh 75,000' },
             { icon: Clock3, title: 'Same-Day Pickup', subtitle: 'Ready in 2 hours' },
             { icon: Shield, title: 'Quality Promise', subtitle: 'Fresh or refunded' },
             { icon: Sparkles, title: 'Daily Deals', subtitle: 'New savings every day' },
@@ -283,7 +284,7 @@ export function HomePage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-2.5 py-1 text-xs font-semibold text-gray-700">
-                    ${totalPrice.toFixed(2)} total
+                    {formatTzs(totalPrice)} total
                   </div>
                 </div>
                 <div className="p-4">

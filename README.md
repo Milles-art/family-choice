@@ -1,4 +1,4 @@
-# FreshCart — React storefront + Laravel backend
+# FreshCart Tanzania — React storefront + Laravel backend
 
 The original React/TypeScript storefront now uses a Laravel 12 backend with a database. This is the first connected version, ready for local setup and further development. It is not deployed.
 
@@ -54,9 +54,16 @@ Sign in again, open **My Account → Manage store**, and edit product prices, in
 
 ## Settings and launch work
 
-The original sample USD prices and dollar display are retained. `.env` controls `STORE_TAX_RATE`, `STORE_DELIVERY_CENTS` and `STORE_FREE_DELIVERY_CENTS`. The default 8% tax and $3.99 delivery fee are sample values from the original project, not locally verified business rules. Pickup has no delivery fee. The `STORE_CURRENCY` field records the intended currency; changing it alone does not convert product prices or replace dollar symbols. Currency localization needs a separate storefront update.
+The storefront is localized for Tanzania: product prices are shown in Tanzanian shillings (TSh), deliveries use Tanzanian address wording, and checkout accepts Tanzanian mobile numbers beginning with `+255` or `0`. `.env` controls `STORE_TAX_RATE`, `STORE_DELIVERY_CENTS` and `STORE_FREE_DELIVERY_CENTS`; the supplied defaults are 18% tax, TSh 5,000 delivery and free delivery from TSh 75,000. Confirm these commercial settings with your accountant and operations team before launch. Pickup has no delivery fee. Monetary values are stored in cents internally, while the storefront displays whole TSh.
 
-Card and mobile-money payments are not integrated. No card details are collected. No confirmation email is claimed or sent. Password recovery, email verification, notification delivery, cancellation/refunds, address management and favorites persistence are not implemented in this first version. The original rewards displays remain sample UI; reward points are not earned from orders. Recipe/category/deal content and delivery time choices remain sample storefront content. Delivery capacity and actual dated scheduling require further work. Images still use external Pexels URLs.
+Cash payment is available immediately. Mobile money has a safe manual-confirmation workflow, disabled by default: enable it only after configuring your merchant paybill instructions and staff verification process. It is not an automated payment gateway yet—do not enable it until provider onboarding and signed webhook verification are complete. No card details are collected. No confirmation email is claimed or sent. Password recovery, email verification, notification delivery, cancellation/refunds, address management and favorites persistence are not implemented in this first version. The original rewards displays remain sample UI; reward points are not earned from orders. Recipe/category/deal content and delivery time choices remain sample storefront content. Delivery capacity and actual dated scheduling require further work. Images still use external Pexels URLs.
+
+## Tanzania launch checklist
+
+- Appoint a data-protection contact, register as required with the PDPC, and have the supplied Privacy Notice reviewed for your business.
+- Set `APP_TIMEZONE=Africa/Dar_es_Salaam`, production database credentials, HTTPS, `APP_DEBUG=false`, secure session cookies, backups and error monitoring.
+- Set real supplier prices and inventory by importing the database catalog. See `backend/docs/PRODUCT_IMPORT.md`.
+- Before enabling mobile money, complete merchant onboarding with your chosen provider and replace manual confirmation with a signed, idempotent provider webhook.
 
 SQLite is convenient locally. Use MySQL/PostgreSQL and verify concurrent checkout behavior before live traffic; SQLite does not provide row locks like those databases. Configure real delivery settings, currency, tax, payment provider, mail, monitoring and backups before production use. Point the web server document root to `backend/public`, run `npm run build:laravel`, configure `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, HTTPS and secure session cookies; keep `.env` and application files outside public access. Never use `php artisan serve` as a production server.
 
@@ -70,7 +77,7 @@ cd backend
 php artisan test
 ```
 
-The backend suite has 10 store feature tests plus the framework's unit smoke test (11 total), covering authentication, server prices, totals, stock rollback, retries, pickup fees, validation, order privacy and admin access. Browser visual testing was unavailable in this workspace; inspect desktop/mobile layouts after setup.
+The backend suite has 12 store feature tests plus the framework's unit smoke test (13 total), covering authentication, server prices, totals, stock rollback, retries, pickup fees, validation, mobile-money safeguards, privacy requests, audit logging and admin access. Browser visual testing was unavailable in this workspace; inspect desktop/mobile layouts after setup.
 
 ## API
 
@@ -82,7 +89,8 @@ All endpoints are same-origin session endpoints under `/api`. Fetch `/api/csrf` 
 | GET | `/csrf` | CSRF token |
 | POST | `/register`, `/login`, `/logout` | Customer session |
 | GET | `/me` | Signed-in customer |
-| GET / POST | `/orders` | Customer order history / cash checkout |
+| GET / POST | `/orders` | Customer order history / checkout |
+| POST | `/me/erasure-request` | Customer account-data erasure request |
 | GET | `/admin/orders` | Administrator order list |
 | PATCH | `/admin/orders/{id}` | Order/payment status |
 | PATCH | `/admin/products/{id}` | Price in cents / stock |

@@ -1,0 +1,28 @@
+name: Test FreshCart
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, mbstring, xml, curl
+          coverage: none
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build:laravel
+      - working-directory: backend
+        run: composer install --no-interaction --prefer-dist --no-progress
+      - working-directory: backend
+        run: php artisan test

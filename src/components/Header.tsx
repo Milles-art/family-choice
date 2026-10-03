@@ -14,6 +14,7 @@ import {
 import { settings } from '../api';
 import { useState, useRef, useEffect } from 'react';
 import type { Product } from '../types';
+import { formatTzs } from '../currency';
 
 export function Header() {
   const { cartCount, setCartOpen, navigate, page, rewardsPoints } = useStore();
@@ -67,10 +68,10 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5" />
-            <span>Deliver to: 123 Main St, Springfield</span>
+            <span>Delivering across Dar es Salaam, Tanzania</span>
           </div>
           <div className="flex items-center gap-4">
-            <span>Free delivery on orders over ${(settings.free_delivery_cents / 100).toFixed(2)}</span>
+            <span>Free delivery on orders over {formatTzs(settings.free_delivery_cents / 100)}</span>
             <button className="hover:text-green-200 transition-colors">Help</button>
             <button
               onClick={() => navigate({ name: 'account' })}
@@ -136,7 +137,7 @@ export function Header() {
                         <p className="text-xs text-gray-500">{product.unit}</p>
                       </div>
                       <span className="text-sm font-bold text-green-600 flex-shrink-0">
-                        ${product.price.toFixed(2)}
+                        {formatTzs(product.price)}
                       </span>
                     </button>
                   ))}
@@ -374,7 +375,7 @@ export function Header() {
                   {product.name}
                 </span>
                 <span className="text-sm font-bold text-green-600">
-                  ${product.price.toFixed(2)}
+                  {formatTzs(product.price)}
                 </span>
               </button>
             ))}

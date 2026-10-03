@@ -62,4 +62,5 @@ export type Page =
   | { name: 'checkout' }
   | { name: 'account' }
   | { name: 'recipes' }
-  | { name: 'deals' };
+  | { name: 'deals' }
+  | { name: 'privacy' };

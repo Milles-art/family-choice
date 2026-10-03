@@ -12,6 +12,7 @@ Route::prefix('api')->group(function () {
     Route::post('/login', [StoreController::class, 'login'])->middleware('throttle:10,1');
     Route::middleware('auth')->group(function () {
         Route::get('/me', fn (Request $r) => response()->json($r->user()));
+        Route::post('/me/erasure-request', [StoreController::class, 'requestErasure'])->middleware('throttle:3,1');
         Route::post('/logout', [StoreController::class, 'logout']);
         Route::get('/orders', [StoreController::class, 'orders']);
         Route::post('/orders', [StoreController::class, 'checkout'])->middleware('throttle:20,1');

@@ -1,5 +1,6 @@
 import { settings } from '../api';
 import { useStore } from '../store';
+import { formatTzs } from '../currency';
 import {
   X,
   Plus,
@@ -82,7 +83,7 @@ export function CartPanel() {
                 <p className="text-sm text-green-800">
                   Add{' '}
                   <span className="font-bold">
-                    ${remainingForFree.toFixed(2)}
+                    {formatTzs(remainingForFree)}
                   </span>{' '}
                   more for FREE delivery!
                 </p>
@@ -138,7 +139,7 @@ export function CartPanel() {
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-bold text-gray-900">
-                          ${(item.product.price * item.quantity).toFixed(2)}
+                          {formatTzs(item.product.price * item.quantity)}
                         </span>
                         <button
                           onClick={() => removeFromCart(item.product.id)}
@@ -162,14 +163,14 @@ export function CartPanel() {
                     You're saving
                   </span>
                   <span className="font-semibold text-green-600">
-                    ${cartSavings.toFixed(2)}
+                    {formatTzs(cartSavings)}
                   </span>
                 </div>
               )}
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Subtotal</span>
                 <span className="text-xl font-bold text-gray-900">
-                  ${cartSubtotal.toFixed(2)}
+                  {formatTzs(cartSubtotal)}
                 </span>
               </div>
               <p className="text-xs text-gray-400">

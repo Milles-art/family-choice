@@ -1,4 +1,5 @@
 import type { Product } from '../types';
+import { formatTzs } from '../currency';
 import { useStore } from '../store';
 import { Star, Plus, Check } from 'lucide-react';
 import { useState } from 'react';
@@ -68,11 +69,11 @@ export function ProductCard({ product, onQuickView }: Props) {
         <div className="mt-auto flex items-center justify-between gap-2">
           <div className="flex items-baseline gap-1">
             <span className="text-lg font-bold text-gray-900">
-              ${product.price.toFixed(2)}
+              {formatTzs(product.price)}
             </span>
             {product.originalPrice && (
               <span className="text-xs text-gray-400 line-through">
-                ${product.originalPrice.toFixed(2)}
+                {formatTzs(product.originalPrice)}
               </span>
             )}
           </div>

@@ -1,6 +1,7 @@
 import { useStore } from '../store';
 import { getProductById, getCategoryById, getBestSellers } from '../data';
 import type { Product } from '../types';
+import { formatTzs } from '../currency';
 import { ProductCard } from './ProductCard';
 import {
   ArrowLeft,
@@ -126,12 +127,12 @@ export function ProductDetail() {
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-6">
             <span className="text-3xl font-bold text-gray-900">
-              ${product.price.toFixed(2)}
+              {formatTzs(product.price)}
             </span>
             {product.originalPrice && (
               <>
                 <span className="text-lg text-gray-400 line-through">
-                  ${product.originalPrice.toFixed(2)}
+                  {formatTzs(product.originalPrice)}
                 </span>
                 <span className="bg-red-100 text-red-600 text-sm font-bold px-2 py-0.5 rounded-lg">
                   Save {discount}%
@@ -194,7 +195,7 @@ export function ProductDetail() {
               ) : (
                 <>
                   <ShoppingCart className="w-5 h-5" />
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
+                  Add to Cart - {formatTzs(product.price * quantity)}
                 </>
               )}
             </button>
@@ -203,7 +204,7 @@ export function ProductDetail() {
           {/* Trust badges */}
           <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-100">
             {[
-              { icon: Truck, label: 'Free delivery over $35' },
+              { icon: Truck, label: 'Free delivery over TSh 75,000' },
               { icon: RefreshCw, label: 'Easy returns' },
               { icon: Shield, label: 'Quality guaranteed' },
             ].map((badge) => (

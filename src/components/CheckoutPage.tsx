@@ -1,6 +1,7 @@
 import { useStore } from '../store';
 import { useState } from 'react';
 import { api, settings, type Order } from '../api';
+import { formatTzs } from '../currency';
 import {
   ArrowLeft,
   ArrowRight,
@@ -29,6 +30,8 @@ export function CheckoutPage() {
   const [deliveryOption, setDeliveryOption] = useState<'delivery' | 'pickup'>('delivery');
   const [timeSlot, setTimeSlot] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cash');
+  const [paymentProvider, setPaymentProvider] = useState('');
+  const [paymentReference, setPaymentReference] = useState('');
   const [confirmedOrder, setConfirmedOrder] = useState<Order | null>(null);
   const [requestId] = useState(() => crypto.randomUUID());
   const [busy, setBusy] = useState(false);
@@ -82,12 +85,15 @@ export function CheckoutPage() {
     } else if (step === 'schedule') {
       if (!timeSlot) { setError('Choose a delivery or pickup time.'); return; }
       setStep('payment');
-    } else if (step === 'payment') setStep('review');
+    } else if (step === 'payment') {
+      if (paymentMethod === 'mobile_money' && (!paymentProvider.trim() || !paymentReference.trim())) { setError('Enter your mobile-money provider and payment reference.'); return; }
+      setStep('review');
+    }
     else if (step === 'review' && !busy) {
       setBusy(true);
       try {
-        const order = await api<Order>('/orders','POST',{requestId,items:cart.map(i=>({productId:i.product.id,quantity:i.quantity})),delivery:deliveryInfo,deliveryOption,timeSlot,paymentMethod});
-        setConfirmedOrder(order); setStep('confirmation'); clearCart(); showToast('Order received! Payment is due on delivery or pickup.');
+        const order = await api<Order>('/orders','POST',{requestId,items:cart.map(i=>({productId:i.product.id,quantity:i.quantity})),delivery:deliveryInfo,deliveryOption,timeSlot,paymentMethod,paymentProvider,paymentReference});
+        setConfirmedOrder(order); setStep('confirmation'); clearCart(); showToast(paymentMethod === 'mobile_money' ? 'Order received! Your mobile-money payment is awaiting confirmation.' : 'Order received! Payment is due on delivery or pickup.');
       } catch (e) { setError(e instanceof Error ? e.message : 'Unable to place order.'); }
       finally { setBusy(false); }
     }
@@ -109,7 +115,7 @@ export function CheckoutPage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
           <p className="text-gray-500 mb-6">
-            Your order has been saved. Payment is due on delivery or pickup.
+            Your order has been saved. {paymentMethod === 'mobile_money' ? 'Your mobile-money payment is awaiting confirmation.' : 'Payment is due on delivery or pickup.'}
           </p>
 
           <div className="bg-gray-50 rounded-2xl p-5 mb-6 text-left space-y-3">
@@ -123,7 +129,7 @@ export function CheckoutPage() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">Total Due</span>
-              <span className="font-bold text-green-600">${((confirmedOrder?.total_cents ?? Math.round(total * 100)) / 100).toFixed(2)}</span>
+              <span className="font-bold text-green-600">{formatTzs((confirmedOrder?.total_cents ?? Math.round(total * 100)) / 100)}</span>
             </div>
             <div className="flex items-center gap-2 pt-3 border-t border-gray-200">
               <Truck className="w-5 h-5 text-green-600" />
@@ -246,7 +252,7 @@ export function CheckoutPage() {
                   />
                   <input
                     type="tel"
-                    placeholder="Phone Number"
+                      placeholder="Phone number, e.g. +255 7XX XXX XXX"
                     value={deliveryInfo.phone}
                     onChange={(e) => setDeliveryInfo({ ...deliveryInfo, phone: e.target.value })}
                     className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -256,7 +262,7 @@ export function CheckoutPage() {
                   <>
                     <input
                       type="text"
-                      placeholder="Street Address"
+                      placeholder="House, street and landmark"
                       value={deliveryInfo.address}
                       onChange={(e) => setDeliveryInfo({ ...deliveryInfo, address: e.target.value })}
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -264,14 +270,14 @@ export function CheckoutPage() {
                     <div className="grid grid-cols-2 gap-3">
                       <input
                         type="text"
-                        placeholder="City"
+                        placeholder="Region / city, e.g. Dar es Salaam"
                         value={deliveryInfo.city}
                         onChange={(e) => setDeliveryInfo({ ...deliveryInfo, city: e.target.value })}
                         className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                       />
                       <input
                         type="text"
-                        placeholder="ZIP Code"
+                        placeholder="Ward or postal code (optional)"
                         value={deliveryInfo.zip}
                         onChange={(e) => setDeliveryInfo({ ...deliveryInfo, zip: e.target.value })}
                         className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -292,8 +298,8 @@ export function CheckoutPage() {
                   <div className="bg-gray-50 rounded-xl p-4 flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">FreshCart Store</p>
-                      <p className="text-sm text-gray-500">123 Market Street, Springfield, ST 12345</p>
+                      <p className="text-sm font-semibold text-gray-900">FreshCart Dar es Salaam</p>
+                      <p className="text-sm text-gray-500">Dar es Salaam, Tanzania</p>
                       <p className="text-xs text-gray-400 mt-1">Ready in approximately 2 hours</p>
                     </div>
                   </div>
@@ -338,9 +344,8 @@ export function CheckoutPage() {
                 <h2 className="font-bold text-gray-900 text-lg mb-1">Payment Method</h2>
                 <div className="space-y-3">
                   {[
-                    
-                    
-                    { id: 'cash', label: 'Cash on Delivery', icon: ShoppingBag },
+                    { id: 'cash', label: 'Cash on Delivery / Pickup', icon: ShoppingBag },
+                    ...(settings.mobile_money_enabled ? [{ id: 'mobile_money', label: 'Mobile Money', icon: CreditCard }] : []),
                   ].map((method) => (
                     <button
                       key={method.id}
@@ -365,7 +370,13 @@ export function CheckoutPage() {
                     </button>
                   ))}
                 </div>
-
+                {paymentMethod === 'mobile_money' && (
+                  <div className="space-y-3 rounded-xl bg-green-50 p-4">
+                    <p className="text-sm text-gray-700">{settings.mobile_money_instructions || 'Use your store’s approved mobile-money paybill, then enter the transaction reference below. Payment is confirmed by the store team.'}</p>
+                    <input value={paymentProvider} onChange={(e) => setPaymentProvider(e.target.value)} placeholder="Provider, e.g. M-Pesa" className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                    <input value={paymentReference} onChange={(e) => setPaymentReference(e.target.value)} placeholder="Mobile-money transaction reference" className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                  </div>
+                )}
 
               </div>
             )}
@@ -384,7 +395,7 @@ export function CheckoutPage() {
                     </p>
                     {deliveryOption === 'delivery' && (
                       <p className="text-sm text-gray-600">
-                        {deliveryInfo.address || '123 Main St'}, {deliveryInfo.city || 'Springfield'}, {deliveryInfo.zip || '12345'}
+                        {deliveryInfo.address || 'Your delivery address'}, {deliveryInfo.city || 'Dar es Salaam'}, {deliveryInfo.zip || 'Tanzania'}
                       </p>
                     )}
                     <p className="text-sm text-gray-600 mt-1">
@@ -395,11 +406,7 @@ export function CheckoutPage() {
                   <div className="bg-gray-50 rounded-xl p-3">
                     <p className="text-xs text-gray-500 mb-1">Payment</p>
                     <p className="text-sm font-semibold text-gray-900">
-                      {paymentMethod === 'card'
-                        ? 'Credit / Debit Card'
-                        : paymentMethod === 'apple'
-                        ? 'Apple Pay'
-                        : 'Cash on Delivery'}
+                      {paymentMethod === 'mobile_money' ? `Mobile Money · ${paymentProvider}` : 'Cash on Delivery / Pickup'}
                     </p>
                   </div>
 
@@ -417,7 +424,7 @@ export function CheckoutPage() {
                             {item.product.name} x{item.quantity}
                           </span>
                           <span className="text-sm font-semibold text-gray-900">
-                            ${(item.product.price * item.quantity).toFixed(2)}
+                            {formatTzs(item.product.price * item.quantity)}
                           </span>
                         </div>
                       ))}
@@ -456,32 +463,32 @@ export function CheckoutPage() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-500">Subtotal</span>
-                <span className="font-semibold text-gray-900">${cartSubtotal.toFixed(2)}</span>
+                <span className="font-semibold text-gray-900">{formatTzs(cartSubtotal)}</span>
               </div>
               {cartSavings > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Savings</span>
-                  <span className="font-semibold">-${cartSavings.toFixed(2)}</span>
+                  <span className="font-semibold">-{formatTzs(cartSavings)}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span className="text-gray-500">Delivery</span>
                 <span className="font-semibold text-gray-900">
-                  {deliveryFee === 0 ? 'FREE' : `$${deliveryFee.toFixed(2)}`}
+                  {deliveryFee === 0 ? 'FREE' : formatTzs(deliveryFee)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Tax ({(settings.tax_rate * 100).toFixed(1)}%)</span>
-                <span className="font-semibold text-gray-900">${tax.toFixed(2)}</span>
+                <span className="font-semibold text-gray-900">{formatTzs(tax)}</span>
               </div>
               <div className="border-t border-gray-100 pt-2 flex justify-between">
                 <span className="font-bold text-gray-900">Total</span>
-                <span className="font-bold text-green-600 text-lg">${((confirmedOrder?.total_cents ?? Math.round(total * 100)) / 100).toFixed(2)}</span>
+                <span className="font-bold text-green-600 text-lg">{formatTzs((confirmedOrder?.total_cents ?? Math.round(total * 100)) / 100)}</span>
               </div>
             </div>
             {deliveryFee > 0 && (
               <p className="text-xs text-green-600 bg-green-50 rounded-lg p-2">
-                Add ${(settings.free_delivery_cents / 100 - cartSubtotal).toFixed(2)} more for free delivery!
+                Add {formatTzs(settings.free_delivery_cents / 100 - cartSubtotal)} more for free delivery!
               </p>
             )}
           </div>

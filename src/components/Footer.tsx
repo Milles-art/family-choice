@@ -41,7 +41,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm leading-relaxed mb-4">
-              Your neighborhood online supermarket. Fresh groceries delivered to your door, same day.
+              Your Tanzanian online supermarket. Fresh groceries delivered to your door, same day.
             </p>
             <div className="flex gap-2">
               {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
@@ -98,15 +98,15 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>123 Market Street, Springfield, ST 12345</span>
+                <span>Dar es Salaam, Tanzania</span>
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                <span>(555) 123-4567</span>
+                <span>+255 700 000 000</span>
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                <span>support@freshcart.com</span>
+                <span>support@freshcart.co.tz</span>
               </li>
             </ul>
           </div>
@@ -118,9 +118,9 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-xs">© 2026 FreshCart. All rights reserved.</p>
           <div className="flex gap-4 text-xs">
-            <a href="#" className="hover:text-green-400 transition-colors" onClick={(e) => e.preventDefault()}>
-              Privacy Policy
-            </a>
+            <button className="hover:text-green-400 transition-colors" onClick={() => navigate({ name: 'privacy' })}>
+              Privacy Notice
+            </button>
             <a href="#" className="hover:text-green-400 transition-colors" onClick={(e) => e.preventDefault()}>
               Terms of Service
             </a>

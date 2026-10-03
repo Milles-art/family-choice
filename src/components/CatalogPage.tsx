@@ -4,6 +4,7 @@ import type { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { SlidersHorizontal, X, ChevronRight, Home } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
+import { formatTzs } from '../currency';
 
 type SortOption = 'relevance' | 'price-low' | 'price-high' | 'rating' | 'discount';
 
@@ -16,7 +17,8 @@ export function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState(initialSearch || '');
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
   const [showFiltersOnly, setShowFiltersOnly] = useState(false);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 25]);
+  const maximumPrice = Math.ceil(Math.max(...products.map((product) => product.price)) / 1000) * 1000;
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, maximumPrice]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   useEffect(() => {
@@ -123,14 +125,14 @@ export function CatalogPage() {
         <h3 className="text-sm font-bold text-gray-900 mb-3">Price Range</h3>
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm text-gray-600">
-            <span>${priceRange[0].toFixed(2)}</span>
-            <span>${priceRange[1].toFixed(2)}</span>
+            <span>{formatTzs(priceRange[0])}</span>
+            <span>{formatTzs(priceRange[1])}</span>
           </div>
           <input
             type="range"
             min="0"
-            max="25"
-            step="1"
+            max={maximumPrice}
+            step="1000"
             value={priceRange[1]}
             onChange={(e) => setPriceRange([0, parseInt(e.target.value, 10)])}
             className="w-full accent-green-600"

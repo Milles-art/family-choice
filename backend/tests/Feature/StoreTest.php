@@ -20,17 +20,17 @@ class StoreTest extends TestCase
 
     private function payload(): array
     {
-        return ['requestId' => (string) Str::uuid(), 'items' => [['productId' => 'p1', 'quantity' => 2]], 'delivery' => ['name' => 'Test Customer', 'phone' => '+255700000000', 'address' => 'Test Street', 'city' => 'Test City'], 'deliveryOption' => 'delivery', 'timeSlot' => 'Tomorrow, 10:00 AM - 12:00 PM', 'paymentMethod' => 'cash'];
+        return ['requestId' => (string) Str::uuid(), 'items' => [['productId' => 'p1', 'quantity' => 2]], 'delivery' => ['name' => 'Test Customer', 'phone' => '+255 700 000 000', 'address' => 'Test Street', 'city' => 'Dar es Salaam'], 'deliveryOption' => 'delivery', 'timeSlot' => 'Tomorrow, 10:00 AM - 12:00 PM', 'paymentMethod' => 'cash'];
     }
 
     public function test_catalog_comes_from_database(): void
     {
-        $this->getJson('/api/products')->assertOk()->assertJsonCount(39)->assertJsonPath('0.price', 1.99);
+        $this->getJson('/api/products')->assertOk()->assertJsonCount(39)->assertJsonPath('0.price', 5200);
     }
 
     public function test_registration_sign_in_and_logout(): void
     {
-        $this->postJson('/api/register', ['name' => 'Customer', 'email' => 'customer@example.test', 'password' => 'password123'])->assertCreated()->assertJsonMissingPath('password')->assertJsonPath('is_admin', false);
+        $this->postJson('/api/register', ['name' => 'Customer', 'email' => 'customer@example.test', 'password' => 'password123', 'privacyConsent' => true])->assertCreated()->assertJsonMissingPath('password')->assertJsonPath('is_admin', false);
         $this->getJson('/api/me')->assertOk();
         $this->postJson('/api/logout')->assertNoContent();
         $this->postJson('/api/login', ['email' => 'customer@example.test', 'password' => 'wrong'])->assertUnprocessable();
@@ -48,7 +48,7 @@ class StoreTest extends TestCase
         $d = $this->payload();
         $d['total_cents'] = 1;
         $d['items'][0]['price'] = 0;
-        $this->actingAs($u)->postJson('/api/orders', $d)->assertCreated()->assertJsonPath('subtotal_cents', 398)->assertJsonPath('tax_cents', 32)->assertJsonPath('total_cents', 829)->assertJsonPath('payment_status', 'unpaid');
+        $this->actingAs($u)->postJson('/api/orders', $d)->assertCreated()->assertJsonPath('subtotal_cents', 1040000)->assertJsonPath('tax_cents', 187200)->assertJsonPath('total_cents', 1727200)->assertJsonPath('payment_status', 'unpaid');
         $this->assertEquals(98, Product::find('p1')->stock);
         $this->getJson('/api/orders')->assertJsonCount(1)->assertJsonPath('0.items.0.quantity', 2);
     }
@@ -68,7 +68,7 @@ class StoreTest extends TestCase
     {
         $d = $this->payload();
         $d['deliveryOption'] = 'pickup';
-        $this->actingAs(User::factory()->create())->postJson('/api/orders', $d)->assertCreated()->assertJsonPath('delivery_cents', 0)->assertJsonPath('total_cents', 430);
+        $this->actingAs(User::factory()->create())->postJson('/api/orders', $d)->assertCreated()->assertJsonPath('delivery_cents', 0)->assertJsonPath('total_cents', 1227200);
     }
 
     public function test_insufficient_stock_rolls_back_whole_order(): void
@@ -92,6 +92,26 @@ class StoreTest extends TestCase
         $this->postJson('/api/orders', $d)->assertUnprocessable();
     }
 
+    public function test_mobile_money_requires_enablement_and_records_reference_when_enabled(): void
+    {
+        $d = $this->payload();
+        $d['paymentMethod'] = 'mobile_money';
+        $d['paymentProvider'] = 'M-Pesa';
+        $d['paymentReference'] = 'ABC123';
+        $this->actingAs(User::factory()->create())->postJson('/api/orders', $d)->assertUnprocessable();
+
+        config()->set('store.mobile_money_enabled', true);
+        $d['requestId'] = (string) Str::uuid();
+        $this->postJson('/api/orders', $d)->assertCreated()->assertJsonPath('payment_method', 'mobile_money')->assertJsonPath('payment_details.reference', 'ABC123');
+    }
+
+    public function test_customer_can_request_data_erasure(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user)->postJson('/api/me/erasure-request')->assertOk();
+        $this->assertDatabaseHas('privacy_requests', ['user_id' => $user->id, 'type' => 'erasure', 'status' => 'pending']);
+    }
+
     public function test_customer_cannot_see_others_orders_or_manage_store(): void
     {
         $this->actingAs(User::factory()->create())->postJson('/api/orders', $this->payload())->assertCreated();
@@ -105,9 +125,10 @@ class StoreTest extends TestCase
         $u = User::factory()->create();
         $u->forceFill(['is_admin' => true])->save();
         $this->actingAs($u);
-        $this->patchJson('/api/admin/products/p1', ['price_cents' => 250, 'stock' => 10])->assertOk()->assertJsonPath('price', 2.5);
+        $this->patchJson('/api/admin/products/p1', ['price_cents' => 250000, 'stock' => 10])->assertOk()->assertJsonPath('price', 2500);
         $o = $this->postJson('/api/orders', $this->payload())->assertCreated();
         $this->getJson('/api/admin/orders')->assertJsonCount(1);
         $this->patchJson('/api/admin/orders/'.$o->json('id'), ['status' => 'delivered', 'payment_status' => 'paid'])->assertOk()->assertJsonPath('status','delivered');
+        $this->assertDatabaseCount('admin_audits', 2);
     }
 }

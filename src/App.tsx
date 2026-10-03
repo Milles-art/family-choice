@@ -11,6 +11,7 @@ import { CheckoutPage } from './components/CheckoutPage';
 import { AccountPage } from './components/AccountPage';
 import { DealsPage } from './components/DealsPage';
 import { RecipesPage } from './components/RecipesPage';
+import { PrivacyPage } from './components/PrivacyPage';
 
 function PageContent() {
   const { page } = useStore();
@@ -30,6 +31,8 @@ function PageContent() {
       return <DealsPage />;
     case 'recipes':
       return <RecipesPage />;
+    case 'privacy':
+      return <PrivacyPage />;
     case 'cart':
       return <CheckoutPage />;
     default:

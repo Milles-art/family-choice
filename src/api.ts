@@ -1,6 +1,6 @@
 import type { Product } from './types';
 export type Customer = { id: number; name: string; email: string; is_admin?: boolean };
-export type Order = { id: number; number: string; status: string; payment_status: string; total_cents: number; time_slot: string; created_at: string; delivery?: {name:string;phone:string;address?:string;city?:string;instructions?:string}; delivery_option?:string; items: { id: number; name: string; quantity: number; price_cents: number }[] };
+export type Order = { id: number; number: string; status: string; payment_status: string; payment_method?: string; payment_details?: {provider?:string;reference?:string}; total_cents: number; time_slot: string; created_at: string; delivery?: {name:string;phone:string;address?:string;city?:string;instructions?:string}; delivery_option?:string; items: { id: number; name: string; quantity: number; price_cents: number }[] };
 let csrf = '';
 export async function api<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
  if (method !== 'GET' && !csrf) { const r=await fetch('/api/csrf',{credentials:'include',headers:{Accept:'application/json'}}); if(!r.ok) throw new Error('Cannot connect to the server.'); csrf=(await r.json()).token; }
@@ -11,4 +11,4 @@ export async function api<T>(path: string, method = 'GET', body?: unknown): Prom
 }
 export const loadProducts = () => api<Product[]>('/products');
 
-export const settings = {currency:'USD', tax_rate:0.08, delivery_cents:399, free_delivery_cents:3500};
+export const settings = {currency:'TZS', tax_rate:0.18, delivery_cents:500000, free_delivery_cents:7500000, mobile_money_enabled:false, mobile_money_instructions:''};

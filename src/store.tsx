@@ -175,6 +175,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 
+// The hook intentionally shares this module's private context with StoreProvider.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useStore() {
   const ctx = useContext(StoreContext);
   if (!ctx) throw new Error('useStore must be used within StoreProvider');

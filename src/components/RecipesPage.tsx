@@ -3,6 +3,7 @@ import { recipes, getProductById } from '../data';
 import type { Product } from '../types';
 import { Clock, Users, ChevronRight, Home, Plus, Check } from 'lucide-react';
 import { useState } from 'react';
+import { formatTzs } from '../currency';
 
 export function RecipesPage() {
   const { navigate, addToCart } = useStore();
@@ -66,7 +67,7 @@ export function RecipesPage() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-xl px-3 py-1.5 text-sm font-bold text-gray-900">
-                  ${totalPrice.toFixed(2)}
+                  {formatTzs(totalPrice)}
                 </div>
               </div>
               <div className="p-5">
@@ -104,7 +105,7 @@ export function RecipesPage() {
                           <p className="text-xs text-gray-500">{product.unit}</p>
                         </div>
                         <span className="text-sm font-bold text-green-600">
-                          ${product.price.toFixed(2)}
+                          {formatTzs(product.price)}
                         </span>
                       </button>
                     ))}
