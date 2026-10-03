@@ -1,0 +1,14 @@
+import type { Product } from './types';
+export type Customer = { id: number; name: string; email: string; is_admin?: boolean };
+export type Order = { id: number; number: string; status: string; payment_status: string; total_cents: number; time_slot: string; created_at: string; delivery?: {name:string;phone:string;address?:string;city?:string;instructions?:string}; delivery_option?:string; items: { id: number; name: string; quantity: number; price_cents: number }[] };
+let csrf = '';
+export async function api<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
+ if (method !== 'GET' && !csrf) { const r=await fetch('/api/csrf',{credentials:'include',headers:{Accept:'application/json'}}); if(!r.ok) throw new Error('Cannot connect to the server.'); csrf=(await r.json()).token; }
+ const r=await fetch('/api'+path,{method,credentials:'include',headers:{Accept:'application/json','Content-Type':'application/json',...(method !== 'GET' ? {'X-CSRF-TOKEN':csrf} : {})},body:body === undefined ? undefined : JSON.stringify(body)});
+ if (!r.ok) { if(r.status===419) csrf=''; const d=await r.json().catch(()=>({message:'Cannot connect to the server.'})); if(r.status===401) throw new Error('Please sign in from My Account before checking out.'); throw new Error(Object.values(d.errors || {}).flat().join(' ') || d.message || 'Request failed.'); }
+ if(['/logout','/login','/register'].includes(path)) csrf='';
+ return r.status===204 ? undefined as T : r.json();
+}
+export const loadProducts = () => api<Product[]>('/products');
+
+export const settings = {currency:'USD', tax_rate:0.08, delivery_cents:399, free_delivery_cents:3500};
