@@ -1,13 +1,16 @@
-# FreshCart Tanzania — React storefront + Laravel backend
+# FAMILY CHOICE SUPERMARKET — React storefront + Laravel backend
 
-The original React/TypeScript storefront now uses a Laravel 12 backend with a database. This is the first connected version, ready for local setup and further development. It is not deployed.
+React/TypeScript storefront with a Laravel 12 database backend. The current design and local verification are documented in [REDESIGN-VERIFICATION.md](REDESIGN-VERIFICATION.md). Historical implementation notes are retained in [docs/history](docs/history).
 
 ## Included
 
-- Original storefront design, categories, recipes and product images.
+- Redesigned homepage, information, recipe, account, cart and checkout presentation; preserved Shop catalogue, product cards, product details and shopping controls.
+- All 21 supplied images as responsive WebP assets, with original image backups and locally hosted fonts. Existing hero photographs rotate every four seconds.
 - All 39 original products seeded into the database.
 - Cookie/session registration, login and logout; CSRF protection; authentication throttling.
-- Saved customer orders and order history.
+- Saved customer orders, order history and owner-only order tracking.
+- Optional Selcom wallet payments, disabled until configured; verified callbacks and background reconciliation.
+- Queued order-confirmation emails and password recovery through Laravel’s password broker.
 - Database prices and stock; checkout calculates totals on the server using integer cents.
 - Transactional stock deduction; insufficient stock rolls back the whole order.
 - Retry protection: the same customer/request UUID returns the existing order.
@@ -21,7 +24,7 @@ PHP 8.2 or newer with PDO, SQLite (or MySQL), mbstring, XML/DOM, tokenizer, ctyp
 
 ## Local setup
 
-Run from the extracted `freshcart` folder:
+Run from the project root:
 
 ```sh
 npm ci
@@ -54,16 +57,20 @@ Sign in again, open **My Account → Manage store**, and edit product prices, in
 
 ## Settings and launch work
 
-The storefront is localized for Tanzania: product prices are shown in Tanzanian shillings (TSh), deliveries use Tanzanian address wording, and checkout accepts Tanzanian mobile numbers beginning with `+255` or `0`. `.env` controls `STORE_TAX_RATE`, `STORE_DELIVERY_CENTS` and `STORE_FREE_DELIVERY_CENTS`; the supplied defaults are 18% tax, TSh 5,000 delivery and free delivery from TSh 75,000. Confirm these commercial settings with your accountant and operations team before launch. Pickup has no delivery fee. Monetary values are stored in cents internally, while the storefront displays whole TSh.
+The storefront is localized for Tanzania: product prices are shown in Tanzanian shillings (TZS), deliveries use Tanzanian address wording, and checkout accepts Tanzanian mobile numbers beginning with `+255` or `0`. `.env` controls `STORE_TAX_RATE`, `STORE_DELIVERY_CENTS` and `STORE_FREE_DELIVERY_CENTS`; the supplied defaults are 18% tax, TZS 5,000 delivery and free delivery from TZS 75,000. Confirm these commercial settings with your accountant and operations team before launch. Pickup has no delivery fee. Monetary values are stored in cents internally, while the storefront displays whole TZS.
 
-Cash payment is available immediately. Mobile money has a safe manual-confirmation workflow, disabled by default: enable it only after configuring your merchant paybill instructions and staff verification process. It is not an automated payment gateway yet—do not enable it until provider onboarding and signed webhook verification are complete. No card details are collected. No confirmation email is claimed or sent. Password recovery, email verification, notification delivery, cancellation/refunds, address management and favorites persistence are not implemented in this first version. The original rewards displays remain sample UI; reward points are not earned from orders. Recipe/category/deal content and delivery time choices remain sample storefront content. Delivery capacity and actual dated scheduling require further work. Images still use external Pexels URLs.
+Cash payment is available immediately. Manual mobile-money confirmation remains separately configurable with merchant instructions and staff verification. Selcom automatic wallet payment is implemented but **disabled by default**; it requires HTTPS provider configuration, credentials and a successful sandbox payment before enablement. It does not collect PINs or card details. Payment polling reads stored status; callbacks and the scheduled reconciliation command confirm the provider’s order ID and exact amount before marking paid.
+
+Order confirmations are queued. The local log/array mailer never sets `confirmation_email_sent`; that flag appears only after a real mail transport accepts the message, not as a guarantee of inbox delivery. Password recovery uses Laravel’s broker with neutral request responses and SPA reset links. See [Selcom and mail setup](docs/SELCOM-SETUP.md) and [handoff verification](docs/SELCOM-HANDOFF-VERIFICATION.md).
+
+Email verification, cancellation/refunds, address management and server-side wishlist synchronization remain unimplemented. Wishlist selections are stored locally. Recipe/category/deal content and delivery time choices remain sample storefront content. Delivery capacity and actual dated scheduling require further work. Supplied editorial/hero images are hosted locally; product photo sources and supplier prices are unchanged. Community Impact remains removed from the active storefront and APIs.
 
 ## Tanzania launch checklist
 
 - Appoint a data-protection contact, register as required with the PDPC, and have the supplied Privacy Notice reviewed for your business.
 - Set `APP_TIMEZONE=Africa/Dar_es_Salaam`, production database credentials, HTTPS, `APP_DEBUG=false`, secure session cookies, backups and error monitoring.
 - Set real supplier prices and inventory by importing the database catalog. See `backend/docs/PRODUCT_IMPORT.md`.
-- Before enabling mobile money, complete merchant onboarding with your chosen provider and replace manual confirmation with a signed, idempotent provider webhook.
+- Before enabling Selcom, obtain credentials, register the webhook, configure the queue/scheduler and verify sandbox success, cancellation, decline and timeout recovery. Keep the separate manual workflow disabled unless staff can verify it.
 
 SQLite is convenient locally. Use MySQL/PostgreSQL and verify concurrent checkout behavior before live traffic; SQLite does not provide row locks like those databases. Configure real delivery settings, currency, tax, payment provider, mail, monitoring and backups before production use. Point the web server document root to `backend/public`, run `npm run build:laravel`, configure `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, HTTPS and secure session cookies; keep `.env` and application files outside public access. Never use `php artisan serve` as a production server.
 
@@ -77,7 +84,9 @@ cd backend
 php artisan test
 ```
 
-The backend suite has 12 store feature tests plus the framework's unit smoke test (13 total), covering authentication, server prices, totals, stock rollback, retries, pickup fees, validation, mobile-money safeguards, privacy requests, audit logging and admin access. Browser visual testing was unavailable in this workspace; inspect desktop/mobile layouts after setup.
+The backend suite covers authentication, server prices, totals, stock rollback, retries, pickup fees, privacy requests and audit logging, plus signed Selcom requests, payment verification/replays, ownership/throttling, password recovery and honest mail flags. Desktop/mobile browser checks and results are documented in [REDESIGN-VERIFICATION.md](REDESIGN-VERIFICATION.md).
+
+The Laravel build copies frontend assets, images and fonts into `backend/public`. It removes obsolete hashed bundles while retaining the current build and the preceding served build's imported chunks. Browser screenshots are generated local output; original image backups and JSON verification records remain intact.
 
 ## API
 
@@ -94,3 +103,5 @@ All endpoints are same-origin session endpoints under `/api`. Fetch `/api/csrf` 
 | GET | `/admin/orders` | Administrator order list |
 | PATCH | `/admin/orders/{id}` | Order/payment status |
 | PATCH | `/admin/products/{id}` | Price in cents / stock |
+
+Additional API endpoints: `GET /api/orders/{id}/payment-status`, `POST /api/orders/{id}/payment/retry`, `POST /api/selcom/webhook`, `POST /api/forgot-password` and `POST /api/reset-password`. Only the Selcom webhook is exempt from CSRF; payment status/retry require the owning account.
