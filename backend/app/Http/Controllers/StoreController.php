@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Jobs\SendOrderConfirmation;
+use App\Services\OrderPayments;
+use App\Services\SelcomService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -16,13 +20,14 @@ class StoreController extends Controller
 {
     public function products()
     {
-        return Product::all()->map(fn ($p) => $p->storefront());
+        return Product::latest()->get()->map(fn ($p) => $p->storefront());
     }
 
     public function register(Request $r)
     {
         $data = $r->validate(['name' => 'required|string|max:100', 'email' => 'required|email|max:255|unique:users', 'password' => 'required|string|min:8|max:128', 'privacyConsent' => 'accepted']);
-        $user = User::create(['name' => $data['name'], 'email' => $data['email'], 'password' => Hash::make($data['password']), 'privacy_consented_at' => now()]);
+        $user = new User(['name' => $data['name'], 'email' => $data['email'], 'password' => Hash::make($data['password'])]);
+        $user->forceFill(['privacy_consented_at' => now()])->save();
         Auth::login($user);
         $r->session()->regenerate();
 
@@ -54,7 +59,7 @@ class StoreController extends Controller
         return Order::where('user_id', $r->user()->id)->with('items')->latest()->get();
     }
 
-    public function checkout(Request $r)
+    public function checkout(Request $r, SelcomService $selcom, OrderPayments $payments)
     {
         $delivery = $r->input('delivery', []);
         if (is_array($delivery) && array_key_exists('phone', $delivery)) {
@@ -62,7 +67,17 @@ class StoreController extends Controller
             $r->merge(['delivery' => $delivery]);
         }
 
-        $paymentMethods = config('store.mobile_money_enabled') ? 'required|in:cash,mobile_money' : 'required|in:cash';
+        $methods = ['cash'];
+        if (config('store.mobile_money_enabled')) {
+            $methods[] = 'mobile_money';
+        }
+        if ($selcom->enabled()) {
+            $methods[] = 'selcom';
+        }
+        $paymentMethods = 'required|in:'.implode(',', $methods);
+        if ($r->input('paymentMethod') === 'selcom') {
+            $r->merge(['payerPhone' => SelcomService::normalizePhone($r->input('payerPhone'))]);
+        }
         $d = $r->validate([
             'requestId' => 'required|uuid', 'items' => 'required|array|min:1|max:100',
             'items.*.productId' => 'required|string|distinct|exists:products,id', 'items.*.quantity' => 'required|integer|min:1|max:100',
@@ -71,7 +86,8 @@ class StoreController extends Controller
             'delivery.city' => 'required_if:deliveryOption,delivery|nullable|string|max:100',
             'delivery.zip' => 'nullable|string|max:30', 'delivery.instructions' => 'nullable|string|max:1000',
             'deliveryOption' => 'required|in:delivery,pickup', 'timeSlot' => 'required|string|max:100', 'paymentMethod' => $paymentMethods,
-            'paymentProvider' => 'required_if:paymentMethod,mobile_money|nullable|string|max:50',
+            'paymentProvider' => ['required_if:paymentMethod,mobile_money,selcom', 'nullable', 'string', 'max:50', ...($r->input('paymentMethod') === 'selcom' ? ['in:mpesa,tigopesa,airtelmoney,halopesa'] : [])],
+            'payerPhone' => ['required_if:paymentMethod,selcom', 'nullable', 'regex:/^255[67]\d{8}$/'],
             'paymentReference' => 'required_if:paymentMethod,mobile_money|nullable|string|max:100',
         ]);
         $order = DB::transaction(function () use ($r, $d) {
@@ -95,15 +111,28 @@ class StoreController extends Controller
             }
             $fee = $d['deliveryOption'] === 'pickup' || $subtotal >= config('store.free_delivery_cents') ? 0 : config('store.delivery_cents');
             $tax = (int) round($subtotal * config('store.tax_rate'));
+            $normalTotal = $subtotal + $fee + $tax;
             $order = Order::create(['user_id' => $r->user()->id, 'request_id' => $d['requestId'], 'number' => 'FC-'.strtoupper(Str::random(12)),
                 'delivery' => $d['delivery'], 'delivery_option' => $d['deliveryOption'], 'time_slot' => $d['timeSlot'],
                 'payment_method' => $d['paymentMethod'],
+                'payment_status' => $d['paymentMethod'] === 'selcom' ? 'pending' : 'unpaid',
                 'payment_details' => $d['paymentMethod'] === 'mobile_money' ? ['provider' => $d['paymentProvider'], 'reference' => $d['paymentReference']] : null,
-                'subtotal_cents' => $subtotal, 'delivery_cents' => $fee, 'tax_cents' => $tax, 'total_cents' => $subtotal + $fee + $tax]);
+                'subtotal_cents' => $subtotal, 'delivery_cents' => $fee, 'tax_cents' => $tax, 'total_cents' => $normalTotal]);
             $order->items()->createMany($lines);
 
             return $order;
         }, 3);
+
+        if ($order->wasRecentlyCreated) {
+            try {
+                SendOrderConfirmation::dispatch($order->id)->afterCommit();
+            } catch (\Throwable $exception) {
+                Log::warning('Order confirmation could not be queued', ['order_id' => $order->id, 'error_type' => class_basename($exception)]);
+            }
+        }
+        if ($order->payment_method === 'selcom' && $order->wasRecentlyCreated) {
+            $payments->initiate($order, $d['paymentProvider'], $d['payerPhone']);
+        }
 
         return response()->json($order->fresh()->load('items'), 201);
     }
@@ -124,6 +153,9 @@ class StoreController extends Controller
     {
         $this->admin($r);
         $d = $r->validate(['status' => 'sometimes|in:pending,processing,out_for_delivery,delivered', 'payment_status' => 'sometimes|in:unpaid,paid']);
+        if ($order->payment_method === 'selcom' && array_key_exists('payment_status', $d)) {
+            throw ValidationException::withMessages(['payment_status' => 'Selcom payments must be verified by the payment provider.']);
+        }
         $before = $order->only(['status', 'payment_status']);
         $order->update($d);
         $this->audit($r, 'order.updated', 'order', (string) $order->id, $before, $order->only(['status', 'payment_status']));
