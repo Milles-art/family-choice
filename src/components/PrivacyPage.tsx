@@ -5,7 +5,7 @@ export function PrivacyPage() {
   const { navigate } = useStore();
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="reading-container py-8">
       <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-6">
         <button onClick={() => navigate({ name: 'home' })} className="hover:text-green-600 flex items-center gap-1">
           <Home className="w-3.5 h-3.5" /> Home
@@ -22,10 +22,10 @@ export function PrivacyPage() {
         <div className="space-y-5 text-sm leading-6 text-gray-700">
           <section><h2 className="font-bold text-gray-900">Information we use</h2><p>We use your name, email address, phone number, delivery details and order history to create your account, fulfill orders, handle payments and provide customer support.</p></section>
           <section><h2 className="font-bold text-gray-900">Who can access it</h2><p>Only authorised store staff can access the information needed to prepare, deliver and support your order. Administrative changes to products and orders are recorded for accountability.</p></section>
-          <section><h2 className="font-bold text-gray-900">How long we keep it</h2><p>We retain order and payment records only for as long as required for operations, tax, accounting and legal obligations. The store owner must set and follow a documented retention schedule before launch.</p></section>
+          <section><h2 className="font-bold text-gray-900">How long we keep it</h2><p>We retain order and payment records only for as long as required for operations, tax, accounting and legal obligations.</p></section>
           <section><h2 className="font-bold text-gray-900">Your choices</h2><p>You can ask about your account information or request erasure from My Account. Some order records may need to be retained where the law requires it. We will verify requests before taking action.</p></section>
-          <section><h2 className="font-bold text-gray-900">Contact</h2><p>For privacy questions, contact <a className="text-green-700 underline" href="mailto:privacy@freshcart.co.tz">privacy@freshcart.co.tz</a>.</p></section>
-          <p className="pt-3 border-t text-xs text-gray-500">This template must be reviewed and completed with the store’s legal contact details, retention schedule and payment providers before public launch.</p>
+          <section><h2 className="font-bold text-gray-900">Contact</h2><p>Manage your account information and submit a data-erasure request from My Account.</p></section>
+          
         </div>
       </div>
     </div>

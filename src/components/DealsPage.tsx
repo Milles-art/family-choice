@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import { useStore } from '../store';
-import { getDealProducts, deals } from '../data';
+import { getDealProducts, deals, categories } from '../data';
 import { ProductCard } from './ProductCard';
-import { Flame, ChevronRight, Home, Tag } from 'lucide-react';
+import { imageUrl, imageSet } from '../images';
+import { ChevronRight, Home } from 'lucide-react';
 
 export function DealsPage() {
   const { navigate } = useStore();
-  const dealProducts = getDealProducts();
+  const [category, setCategory] = useState('');
+  const [sort, setSort] = useState('relevance');
+  const offers = getDealProducts();
+  const dealProducts = offers.filter(product => !category || product.categoryId === category);
+  if (sort === 'price-low') dealProducts.sort((a,b) => a.price-b.price);
+  if (sort === 'discount') dealProducts.sort((a,b) => (1-b.price/(b.originalPrice || b.price))-(1-a.price/(a.originalPrice || a.price)));
+  const offerCategories = categories.filter(item => offers.some(product => product.categoryId === item.id));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="store-container deals-page py-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
         <button
@@ -21,17 +29,10 @@ export function DealsPage() {
         <span className="text-gray-900 font-medium">Today's Deals</span>
       </div>
 
-      {/* Hero banner */}
-      <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-3xl p-6 md:p-10 mb-8 text-white">
-        <div className="flex items-center gap-2 mb-2">
-          <Flame className="w-6 h-6" />
-          <span className="text-sm font-semibold uppercase tracking-wide">Limited Time</span>
-        </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-2">Today's Best Deals</h1>
-        <p className="text-white/90">
-          Save big on fresh groceries, premium meats, and household essentials
-        </p>
-      </div>
+      <section className="deals-intro" aria-labelledby="deals-title">
+        <h1 id="deals-title">Today's Deals</h1>
+        <p>Explore current offers on groceries and household essentials.</p>
+      </section>
 
       {/* Deal banners */}
       <div className="grid sm:grid-cols-3 gap-4 mb-8">
@@ -39,32 +40,35 @@ export function DealsPage() {
           <button
             key={deal.id}
             onClick={() => navigate({ name: 'catalog', categoryId: deal.categoryId })}
-            className={`relative h-32 rounded-2xl overflow-hidden bg-gradient-to-r ${deal.bgColor} text-white text-left p-5 flex flex-col justify-between hover:scale-[1.02] transition-transform`}
+            aria-label={`${deal.title}: ${deal.buttonText}`}
+            className="block aspect-[16/9] rounded-2xl overflow-hidden bg-white hover:scale-[1.02] transition-transform"
           >
-            <div>
-              <h3 className="font-bold text-lg leading-tight">{deal.title}</h3>
-              <p className="text-sm text-white/80">{deal.subtitle}</p>
-            </div>
-            <span className="text-sm font-semibold flex items-center gap-1">
-              {deal.buttonText} <ChevronRight className="w-4 h-4" />
-            </span>
             <img
-              src={deal.image}
+              src={imageUrl(categories.find(item => item.id === deal.categoryId)?.image ?? deal.image, 480)}
+              srcSet={imageSet(categories.find(item => item.id === deal.categoryId)?.image ?? deal.image)}
+              sizes="(min-width: 640px) 33vw, 100vw"
+              width={480}
+              height={480}
+              loading="lazy"
+              decoding="async"
               alt={deal.title}
-              className="absolute right-0 top-0 h-full w-1/3 object-cover opacity-30"
+              className="h-full w-full object-cover"
             />
           </button>
         ))}
       </div>
 
       {/* Deal products grid */}
-      <div className="flex items-center gap-2 mb-4">
-        <Tag className="w-5 h-5 text-red-500" />
-        <h2 className="text-xl font-bold text-gray-900">All Sale Items</h2>
-        <span className="text-sm text-gray-500">({dealProducts.length} items)</span>
+      <div className="deals-toolbar">
+        <div><h2>All sale items</h2><p role="status">{dealProducts.length} {dealProducts.length === 1 ? 'item' : 'items'}</p></div>
+        <div className="deals-controls">
+          <label>Category<select aria-label="Category" value={category} onChange={event => setCategory(event.target.value)}><option value="">All categories</option>{offerCategories.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+          <label>Sort by<select aria-label="Sort by" value={sort} onChange={event => setSort(event.target.value)}><option value="relevance">Catalogue order</option><option value="price-low">Price: low to high</option><option value="discount">Biggest discount</option></select></label>
+        </div>
       </div>
+      {!dealProducts.length && <div className="surface p-6 mb-6"><p>No sale items available in this category.</p><button className="button-secondary mt-3" onClick={() => setCategory('')}>Show all sale items</button></div>}
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="product-grid">
         {dealProducts.map((product) => (
           <ProductCard
             key={product.id}

@@ -34,6 +34,17 @@ export type CartItem = {
   quantity: number;
 };
 
+export type CheckoutDraft = {
+  deliveryInfo: {name:string;address:string;city:string;zip:string;phone:string;instructions:string};
+  deliveryOption: 'delivery'|'pickup';
+  timeSlot: string;
+  paymentMethod: string;
+  paymentProvider: string;
+  paymentReference: string;
+  requestId: string;
+  payerPhone?: string;
+};
+
 export type Recipe = {
   id: string;
   name: string;
@@ -63,4 +74,10 @@ export type Page =
   | { name: 'account' }
   | { name: 'recipes' }
   | { name: 'deals' }
-  | { name: 'privacy' };
+  | { name: 'new-arrivals' }
+  | { name: 'wishlist' }
+  | { name: 'info'; section: 'delivery' | 'how-it-works' | 'about' | 'help' }
+  | { name: 'privacy' }
+  | { name: 'track'; orderId?: number }
+  | { name: 'forgot-password' }
+  | { name: 'reset-password'; token: string; email: string };

@@ -5,7 +5,7 @@ export function ToastContainer() {
   const { toasts } = useStore();
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 items-center pointer-events-none">
+    <div role="status" aria-live="polite" aria-atomic="false" className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-32px)] max-w-lg flex flex-col gap-2 items-center pointer-events-none">
       {toasts.map((toast) => (
         <div
           key={toast.id}

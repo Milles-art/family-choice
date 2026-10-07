@@ -1,135 +1,56 @@
 import { useStore } from '../store';
-import { categories } from '../data';
-import { Leaf, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { Leaf, Phone, Mail, MapPin, MessageCircle, Globe, Clock } from 'lucide-react';
+import type { Page } from '../types';
+import { storeConfig } from '../storeConfig';
+
+const linkGroups: { title: string; links: { label: string; destination: Page }[] }[] = [
+  { title: 'Shop', links: [
+    { label: 'All groceries', destination: { name: 'catalog' } },
+    { label: 'Deals', destination: { name: 'deals' } },
+    { label: 'New arrivals', destination: { name: 'new-arrivals' } },
+    { label: 'Recipes', destination: { name: 'recipes' } },
+  ] },
+  { title: 'Help & information', links: [
+    { label: 'Help & contact', destination: { name: 'info', section: 'help' } },
+    { label: 'Delivery & pickup', destination: { name: 'info', section: 'delivery' } },
+    { label: 'How to order', destination: { name: 'info', section: 'how-it-works' } },
+    { label: 'About us', destination: { name: 'info', section: 'about' } },
+  ] },
+  { title: 'Your account', links: [
+    { label: 'Account & orders', destination: { name: 'account' } },
+    { label: 'Wishlist', destination: { name: 'wishlist' } },
+  ] },
+];
 
 export function Footer() {
   const { navigate } = useStore();
-
-  return (
-    <footer className="bg-gray-900 text-gray-400 mt-auto">
-      {/* Newsletter */}
-      <div className="border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 className="text-white text-lg font-bold">Stay in the loop</h3>
-            <p className="text-sm mt-1">Get exclusive deals and recipes delivered to your inbox</p>
-          </div>
-          <div className="flex gap-2 w-full md:w-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 md:w-64 px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-            <button className="px-5 py-2.5 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-colors whitespace-nowrap">
-              Subscribe
-            </button>
-          </div>
+  return <footer className="fc-footer mt-auto">
+    <div className="store-container">
+      <div className="fc-footer-grid">
+        <div className="fc-footer-brand">
+          <button className="fc-footer-home" onClick={() => navigate({ name: 'home' })} aria-label="FAMILY CHOICE SUPERMARKET home">
+            <Leaf size={25} aria-hidden="true"/><strong>FAMILY CHOICE SUPERMARKET</strong>
+          </button>
+          <p className="fc-footer-description">Everyday groceries and household essentials, in one place.</p>
+          <address className="fc-footer-contact" aria-label="Contact us">
+            <a href="tel:+255768641810"><Phone size={15} aria-hidden="true"/>+255 768 641 810</a>
+            <a href="https://wa.me/255768641810" target="_blank" rel="noopener noreferrer"><MessageCircle size={15} aria-hidden="true"/>Chat on WhatsApp</a>
+            <a href="mailto:info@familychoicesupermarket.co.tz"><Mail size={15} aria-hidden="true"/><span>info@familychoicesupermarket.co.tz</span></a>
+            <a href="https://familychoiceminimarket.co.tz"><Globe size={15} aria-hidden="true"/><span>familychoiceminimarket.co.tz</span></a>
+            {storeConfig.mapUrl ? <a href={storeConfig.mapUrl} target="_blank" rel="noopener noreferrer"><MapPin size={15} aria-hidden="true"/><span>{storeConfig.address || 'Find us on Google Maps'}</span></a> : <span><MapPin size={15} aria-hidden="true"/>{storeConfig.address || 'Dar es Salaam, Tanzania'}</span>}
+            {storeConfig.openingHours.length > 0 && <span><Clock size={15} aria-hidden="true"/><span>{storeConfig.openingHours.map(row => `${row.days}: ${row.hours}`).join(' · ')}</span></span>}
+          </address>
+          <p className="fc-footer-currency">All prices in TZS.</p>
         </div>
+        {linkGroups.map(group => <nav key={group.title} aria-label={`Footer ${group.title}`}>
+          <h2>{group.title}</h2>
+          <ul>{group.links.map(link => <li key={link.label}><button onClick={() => navigate(link.destination)}>{link.label}</button></li>)}</ul>
+        </nav>)}
       </div>
-
-      {/* Main footer */}
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center">
-                <Leaf className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">
-                Fresh<span className="text-green-500">Cart</span>
-              </span>
-            </div>
-            <p className="text-sm leading-relaxed mb-4">
-              Your Tanzanian online supermarket. Fresh groceries delivered to your door, same day.
-            </p>
-            <div className="flex gap-2">
-              {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <Icon className="w-4 h-4 text-white" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Categories */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-3">Shop</h4>
-            <ul className="space-y-2">
-              {categories.slice(0, 5).map((cat) => (
-                <li key={cat.id}>
-                  <button
-                    onClick={() => navigate({ name: 'catalog', categoryId: cat.id })}
-                    className="text-sm hover:text-green-400 transition-colors"
-                  >
-                    {cat.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-3">Company</h4>
-            <ul className="space-y-2">
-              {['About Us', 'Careers', 'Store Locator', 'Blog', 'Sustainability'].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-sm hover:text-green-400 transition-colors"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-3">Contact</h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2 text-sm">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>Dar es Salaam, Tanzania</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <Phone className="w-4 h-4 flex-shrink-0" />
-                <span>+255 700 000 000</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <Mail className="w-4 h-4 flex-shrink-0" />
-                <span>support@freshcart.co.tz</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div className="fc-footer-bottom">
+        <p>© {new Date().getFullYear()} FAMILY CHOICE SUPERMARKET. All rights reserved.</p>
+        <button onClick={() => navigate({ name: 'privacy' })}>Privacy notice</button>
       </div>
-
-      {/* Bottom bar */}
-      <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs">© 2026 FreshCart. All rights reserved.</p>
-          <div className="flex gap-4 text-xs">
-            <button className="hover:text-green-400 transition-colors" onClick={() => navigate({ name: 'privacy' })}>
-              Privacy Notice
-            </button>
-            <a href="#" className="hover:text-green-400 transition-colors" onClick={(e) => e.preventDefault()}>
-              Terms of Service
-            </a>
-            <a href="#" className="hover:text-green-400 transition-colors" onClick={(e) => e.preventDefault()}>
-              Cookie Policy
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+    </div>
+  </footer>;
 }

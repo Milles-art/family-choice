@@ -4,6 +4,7 @@ import type { Product } from '../types';
 import { Clock, Users, ChevronRight, Home, Plus, Check } from 'lucide-react';
 import { useState } from 'react';
 import { formatTzs } from '../currency';
+import { imageSet } from '../images';
 
 export function RecipesPage() {
   const { navigate, addToCart } = useStore();
@@ -25,7 +26,7 @@ export function RecipesPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="store-container fc-recipes-page py-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
         <button
@@ -39,15 +40,15 @@ export function RecipesPage() {
       </div>
 
       {/* Header */}
-      <div className="mb-8">
+      <div className="fc-recipe-heading mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Recipe Ideas</h1>
         <p className="text-gray-500">
-          Discover delicious meals and add all the ingredients to your cart with one click
+          Find mealtime inspiration and explore ingredients available in the current catalogue.
         </p>
       </div>
 
       {/* Recipe cards */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="fc-recipe-list">
         {recipes.map((recipe) => {
           const ingredients = recipe.productIds
             .map((id) => getProductById(id))
@@ -58,11 +59,17 @@ export function RecipesPage() {
           return (
             <div
               key={recipe.id}
-              className="bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all"
+              className="fc-recipe-detail"
             >
-              <div className="relative h-56 overflow-hidden">
+              <div className="fc-recipe-photo relative overflow-hidden">
                 <img
                   src={recipe.image}
+                  srcSet={imageSet(recipe.image)}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  width={960}
+                  height={640}
+                  loading="lazy"
+                  decoding="async"
                   alt={recipe.name}
                   className="w-full h-full object-cover"
                 />
@@ -70,7 +77,7 @@ export function RecipesPage() {
                   {formatTzs(totalPrice)}
                 </div>
               </div>
-              <div className="p-5">
+              <div className="fc-recipe-body p-5">
                 <h2 className="text-lg font-bold text-gray-900 mb-1">{recipe.name}</h2>
                 <p className="text-sm text-gray-500 mb-3">{recipe.description}</p>
 
@@ -85,7 +92,8 @@ export function RecipesPage() {
 
                 {/* Ingredients */}
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">Ingredients</h3>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-2">Available catalogue ingredients</h3>
+                  <p className="text-xs text-gray-600 mb-3">The amount above covers these catalogue items only. Other ingredients and pantry basics may be needed.</p>
                   <div className="space-y-1.5">
                     {ingredients.map((product) => (
                       <button
@@ -96,10 +104,10 @@ export function RecipesPage() {
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
+                          className="w-10 h-10 rounded-lg object-contain flex-shrink-0"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                          <p className="text-sm font-medium text-gray-900">
                             {product.name}
                           </p>
                           <p className="text-xs text-gray-500">{product.unit}</p>
@@ -113,7 +121,8 @@ export function RecipesPage() {
                 </div>
 
                 <button
-                  onClick={() => handleAddAll(recipe.id, recipe.productIds)}
+                  onClick={() => handleAddAll(recipe.id, ingredients.map(p => p.id))}
+                  disabled={!ingredients.length}
                   className={`w-full flex items-center justify-center gap-2 font-semibold py-3 rounded-xl transition-all ${
                     isAdded
                       ? 'bg-green-100 text-green-700'
@@ -126,7 +135,7 @@ export function RecipesPage() {
                     </>
                   ) : (
                     <>
-                      <Plus className="w-5 h-5" /> Add All Ingredients
+                      <Plus className="w-5 h-5" /> {ingredients.length ? 'Add Available Ingredients' : 'Ingredients currently unavailable'}
                     </>
                   )}
                 </button>

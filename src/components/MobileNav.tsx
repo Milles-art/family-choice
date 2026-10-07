@@ -12,7 +12,7 @@ export function MobileNav() {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 pb-[env(safe-area-inset-bottom)]">
+    <nav className="fc-mobile-nav md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 pb-[env(safe-area-inset-bottom)]">
       <div className="flex items-stretch justify-around h-14">
         {items.map((item) => (
           <button
@@ -25,7 +25,7 @@ export function MobileNav() {
             <div className="relative">
               <item.icon className="w-5 h-5" />
               {item.badge && item.badge > 0 ? (
-                <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold min-w-4 h-4 px-1 rounded-full flex items-center justify-center">
+                <span key={item.badge} className="fc-cart-badge absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold min-w-4 h-4 px-1 rounded-full flex items-center justify-center">
                   {item.badge}
                 </span>
               ) : null}

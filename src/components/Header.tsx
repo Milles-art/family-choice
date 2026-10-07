@@ -1,387 +1,94 @@
+import { useEffect, useRef, useState } from 'react';
+import { Heart, Leaf, Menu, Phone, Search, ShoppingCart, Truck, User, X } from 'lucide-react';
 import { useStore } from '../store';
-import { categories, searchProducts } from '../data';
-import {
-  ShoppingCart,
-  Search,
-  MapPin,
-  Menu,
-  X,
-  User,
-  Award,
-  ChevronDown,
-  Leaf,
-} from 'lucide-react';
-import { settings } from '../api';
-import { useState, useRef, useEffect } from 'react';
-import type { Product } from '../types';
+import { searchProducts } from '../data';
 import { formatTzs } from '../currency';
+import { settings } from '../api';
+import type { Page } from '../types';
+import { Overlay } from './Overlay';
 
+const links: { label: string; page: Page }[] = [
+  { label: 'Home', page: { name: 'home' } },
+  { label: 'About us', page: { name: 'info', section: 'about' } },
+  { label: 'Delivery Areas', page: { name: 'info', section: 'delivery' } },
+  { label: 'Help / Contact', page: { name: 'info', section: 'help' } },
+];
+const accountLinks: { label: string; page: Page }[] = [{label:'Account / Orders',page:{name:'account'}},{label:'Wishlist',page:{name:'wishlist'}}];
 export function Header() {
-  const { cartCount, setCartOpen, navigate, page, rewardsPoints } = useStore();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Product[]>([]);
-  const [showSearch, setShowSearch] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showCatMenu, setShowCatMenu] = useState(false);
-  const searchRef = useRef<HTMLDivElement>(null);
-
+  const { navigate, page, cartCount, setCartOpen, catalogVersion, catalogReady, settingsReady } = useStore();
+  const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    if (searchQuery.trim().length >= 1) {
-      setSearchResults(searchProducts(searchQuery).slice(0, 6));
-      setShowSearch(true);
-    } else {
-      setShowSearch(false);
-    }
-  }, [searchQuery]);
-
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-        setShowSearch(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  const isCurrent = (destination: Page) => page.name === destination.name && (page.name !== 'info' || destination.name !== 'info' || page.section === destination.section);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const searchTrigger = useRef<HTMLButtonElement>(null);
+  const searchInput = useRef<HTMLInputElement>(null);
+  useEffect(() => { if (panelOpen) searchInput.current?.focus(); }, [panelOpen]);
+  const [query, setQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [selected, setSelected] = useState(-1);
+  const [menu, setMenu] = useState<'account' | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const root = useRef<HTMLElement>(null);
+  const menuTrigger = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    const observer = new ResizeObserver(() => {
+      if (root.current) document.documentElement.style.setProperty('--header-height', `${root.current.getBoundingClientRect().height}px`);
+    });
+    if (root.current) observer.observe(root.current);
+    return () => observer.disconnect();
+  }, []);
+  void catalogVersion;
+  const results = searchProducts(query).slice(0, 6);
+  const go = (destination: Page) => { navigate(destination); setMenu(null); setMobileOpen(false); setSearchOpen(false); setPanelOpen(false); };
+  useEffect(() => {
+    const outside = (event: MouseEvent) => { if (!root.current?.contains(event.target as Node)) { setMenu(null); setSearchOpen(false); } };
+    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') { if (menu) menuTrigger.current?.focus(); else if (panelOpen) searchTrigger.current?.focus(); setMenu(null); setSearchOpen(false); setPanelOpen(false); } };
+    document.addEventListener('mousedown', outside); document.addEventListener('keydown', escape);
+    return () => { document.removeEventListener('mousedown', outside); document.removeEventListener('keydown', escape); };
+  }, [menu, panelOpen]);
+  const submit = () => { if (query.trim()) { go({ name: 'catalog', searchQuery: query.trim() }); setQuery(''); } };
+  const toggle = (name: 'account', trigger: HTMLButtonElement) => { menuTrigger.current = trigger; setMenu(menu === name ? null : name); };
+  return <>
+  <div className="fc-header-strip"><div className="store-container"><span><Truck size={15} aria-hidden="true"/>{settingsReady ? `Free delivery on groceries from ${formatTzs(settings.free_delivery_cents/100)}` : 'Delivery or pickup available at checkout'}</span><span className="fc-header-strip-right"><span>Prices in TZS</span><a href="tel:+255768641810"><Phone size={14} aria-hidden="true"/>+255 768 641 810</a></span></div></div>
+  <header ref={root} className={`fc-header ${scrolled ? 'is-scrolled ' : ''}sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm`}>
+    <div className="store-container">
+      <div className="header-row flex items-center gap-3 xl:gap-5 min-h-16 py-2">
+        <button className="xl:hidden w-11 h-11 flex items-center justify-center" aria-label="Open navigation menu" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5"/></button>
+        <button onClick={() => go({ name: 'home' })} className="flex items-center gap-2 shrink-0 text-left" aria-label="FAMILY CHOICE SUPERMARKET home"><span className="hidden sm:flex w-10 h-10 bg-green-600 rounded-xl items-center justify-center"><Leaf className="w-6 h-6 text-white" /></span><span className="brand-name">FAMILY CHOICE SUPERMARKET</span></button>
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate({ name: 'catalog', searchQuery: searchQuery.trim() });
-      setShowSearch(false);
-      setSearchQuery('');
-    }
-  };
+      <nav aria-label="Main navigation" className="hidden xl:flex flex-wrap flex-1 justify-center items-center gap-1 min-w-0" onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setMenu(null); }}>
+        <button className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'home' ? 'page' : undefined} onClick={() => go({name:'home'})}>Home</button>
+        <button className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'catalog' ? 'page' : undefined} onClick={() => go({name:'catalog'})}>Shop</button>
+        <button className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'deals' ? 'page' : undefined} onClick={() => go({name:'deals'})}>Deals</button>
+        {links.slice(1).map(item => <button key={item.label} aria-current={isCurrent(item.page) ? 'page' : undefined} className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" onClick={() => go(item.page)}>{item.label}</button>)}
+      </nav>
+        <div className="header-actions flex items-center gap-1 ml-auto shrink-0">
+          <button ref={searchTrigger} className="header-icon" aria-label={panelOpen ? "Close search" : "Search"} aria-expanded={panelOpen} aria-controls="header-search" onClick={() => {setPanelOpen(value => !value);setSearchOpen(true);setMenu(null);}}>{panelOpen ? <X className="w-5 h-5"/> : <Search className="w-5 h-5"/>}</button>
+          <div className="relative"><button aria-label="Account menu" aria-expanded={menu === 'account'} aria-controls="account-links" className="header-icon" onClick={e => toggle('account', e.currentTarget)}><User className="w-5 h-5"/></button>{menu === 'account' && <div id="account-links" className="absolute right-0 top-full w-48 surface shadow-xl p-2" onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget) && e.relatedTarget !== menuTrigger.current) setMenu(null); }}>{accountLinks.map(item => <button key={item.label} aria-current={isCurrent(item.page) ? 'page' : undefined} className="block w-full text-left p-2 hover:bg-green-50 rounded-lg" onClick={() => go(item.page)}>{item.label}</button>)}</div>}</div>
+          <button className="header-icon" aria-label="Wishlist" onClick={() => go({ name: 'wishlist' })}><Heart className="w-5 h-5"/></button>
+          <button className="header-icon relative text-green-700" aria-label={`Open cart, ${cartCount} items`} onClick={() => setCartOpen(true)}><ShoppingCart className="w-5 h-5"/>{cartCount > 0 && <span key={cartCount} className="fc-cart-badge absolute right-0 top-0 min-w-5 h-5 px-1 rounded-full bg-green-600 text-white text-[10px] font-bold flex items-center justify-center">{cartCount}</span>}</button>
 
-  const handleResultClick = (product: Product) => {
-    navigate({ name: 'product', productId: product.id });
-    setShowSearch(false);
-    setSearchQuery('');
-  };
-
-  const isActive = (name: string) => page.name === name;
-
-  return (
-    <>
-      {/* Top bar */}
-      <div className="bg-green-800 text-white text-xs py-1.5 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <MapPin className="w-3.5 h-3.5" />
-            <span>Delivering across Dar es Salaam, Tanzania</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span>Free delivery on orders over {formatTzs(settings.free_delivery_cents / 100)}</span>
-            <button className="hover:text-green-200 transition-colors">Help</button>
-            <button
-              onClick={() => navigate({ name: 'account' })}
-              className="hover:text-green-200 transition-colors"
-            >
-              My Account
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Main header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-3 md:gap-6 h-16">
-            {/* Logo */}
-            <button
-              onClick={() => navigate({ name: 'home' })}
-              className="flex items-center gap-2 flex-shrink-0"
-            >
-              <div className="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center">
-                <Leaf className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900 hidden sm:block">
-                Fresh<span className="text-green-600">Cart</span>
-              </span>
-            </button>
-
-            {/* Search */}
-            <div ref={searchRef} className="flex-1 relative max-w-xl hidden md:block">
-              <form onSubmit={handleSearchSubmit}>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => searchQuery && setShowSearch(true)}
-                    placeholder="Search for products, categories..."
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  />
-                </div>
-              </form>
-
-              {/* Search dropdown */}
-              {showSearch && searchResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden z-50">
-                  {searchResults.map((product) => (
-                    <button
-                      key={product.id}
-                      onClick={() => handleResultClick(product)}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 transition-colors text-left"
-                    >
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
-                          {product.name}
-                        </p>
-                        <p className="text-xs text-gray-500">{product.unit}</p>
-                      </div>
-                      <span className="text-sm font-bold text-green-600 flex-shrink-0">
-                        {formatTzs(product.price)}
-                      </span>
-                    </button>
-                  ))}
-                  <button
-                    onClick={handleSearchSubmit}
-                    className="w-full px-3 py-2.5 text-sm font-medium text-green-600 hover:bg-green-50 border-t border-gray-100"
-                  >
-                    See all results for "{searchQuery}"
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Right actions */}
-            <div className="flex items-center gap-2 md:gap-3 ml-auto">
-              {/* Rewards */}
-              <button
-                onClick={() => navigate({ name: 'account' })}
-                className="hidden lg:flex items-center gap-1.5 px-3 py-2 bg-amber-50 text-amber-700 rounded-xl hover:bg-amber-100 transition-colors"
-              >
-                <Award className="w-4 h-4" />
-                <span className="text-sm font-semibold">{rewardsPoints.toLocaleString()}</span>
-                <span className="text-xs text-amber-600">pts</span>
-              </button>
-
-              {/* Account */}
-              <button
-                onClick={() => navigate({ name: 'account' })}
-                className={`hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl transition-colors ${
-                  isActive('account')
-                    ? 'text-green-600 bg-green-50'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                <User className="w-5 h-5" />
-                <span className="text-sm font-medium">Account</span>
-              </button>
-
-              {/* Cart */}
-              <button
-                onClick={() => setCartOpen(true)}
-                className="relative flex items-center gap-1.5 px-3 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                <span className="text-sm font-semibold hidden sm:block">Cart</span>
-                {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-
-              {/* Mobile menu */}
-              <button
-                onClick={() => setShowMobileMenu(true)}
-                className="md:hidden p-2 text-gray-600"
-              >
-                <Menu className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-
-          {/* Category nav - desktop */}
-          <nav className="hidden md:flex items-center gap-1 h-11 -mt-1">
-            <div className="relative">
-              <button
-                onClick={() => setShowCatMenu(!showCatMenu)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-gray-700 hover:text-green-600 transition-colors"
-              >
-                <Menu className="w-4 h-4" />
-                All Categories
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              {showCatMenu && (
-                <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl py-2 min-w-[240px] z-50">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => {
-                        navigate({ name: 'catalog', categoryId: cat.id });
-                        setShowCatMenu(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-2 hover:bg-green-50 text-left transition-colors"
-                    >
-                      <span
-                        className="w-2 h-2 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: cat.color }}
-                      />
-                      <span className="text-sm text-gray-700">{cat.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="w-px h-5 bg-gray-200" />
-            <button
-              onClick={() => navigate({ name: 'deals' })}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                isActive('deals')
-                  ? 'text-red-600 bg-red-50'
-                  : 'text-gray-600 hover:text-red-500 hover:bg-red-50'
-              }`}
-            >
-              Today's Deals
-            </button>
-            <button
-              onClick={() => navigate({ name: 'recipes' })}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                isActive('recipes')
-                  ? 'text-green-600 bg-green-50'
-                  : 'text-gray-600 hover:text-green-600 hover:bg-green-50'
-              }`}
-            >
-              Recipes
-            </button>
-            <button
-              onClick={() => navigate({ name: 'catalog' })}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                isActive('catalog') && !('categoryId' in page)
-                  ? 'text-green-600 bg-green-50'
-                  : 'text-gray-600 hover:text-green-600 hover:bg-green-50'
-              }`}
-            >
-              All Products
-            </button>
-          </nav>
-        </div>
-      </header>
-
-      {/* Mobile menu drawer */}
-      {showMobileMenu && (
-        <div className="fixed inset-0 z-[60] md:hidden">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setShowMobileMenu(false)}
-          />
-          <div className="absolute right-0 top-0 bottom-0 w-72 bg-white shadow-2xl flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b border-gray-100">
-              <span className="font-bold text-gray-900">Menu</span>
-              <button onClick={() => setShowMobileMenu(false)} className="p-1">
-                <X className="w-5 h-5 text-gray-500" />
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-1">
-              <button
-                onClick={() => {
-                  navigate({ name: 'home' });
-                  setShowMobileMenu(false);
-                }}
-                className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 font-medium text-gray-700"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => {
-                  navigate({ name: 'deals' });
-                  setShowMobileMenu(false);
-                }}
-                className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-red-50 font-medium text-red-600"
-              >
-                Today's Deals
-              </button>
-              <button
-                onClick={() => {
-                  navigate({ name: 'recipes' });
-                  setShowMobileMenu(false);
-                }}
-                className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-green-50 font-medium text-gray-700"
-              >
-                Recipes
-              </button>
-              <button
-                onClick={() => {
-                  navigate({ name: 'account' });
-                  setShowMobileMenu(false);
-                }}
-                className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 font-medium text-gray-700"
-              >
-                My Account
-              </button>
-              <div className="pt-3 pb-1">
-                <span className="text-xs font-bold text-gray-400 uppercase px-3">
-                  Categories
-                </span>
-              </div>
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    navigate({ name: 'catalog', categoryId: cat.id });
-                    setShowMobileMenu(false);
-                  }}
-                  className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-gray-50 text-left"
-                >
-                  <span
-                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: cat.color }}
-                  />
-                  <span className="text-sm text-gray-700">{cat.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile search */}
-      <div className="md:hidden bg-white border-b border-gray-100 px-4 py-2">
-        <form onSubmit={handleSearchSubmit}>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search products..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+      {panelOpen && <div id="header-search" className="border-t py-3">
+        <form className="relative w-full max-w-3xl mx-auto" role="search" onSubmit={e => { e.preventDefault(); submit(); }}>
+          <label htmlFor="desktop-search" className="sr-only">Search products</label><Search aria-hidden="true" className="absolute left-3 top-3 w-5 h-5 text-gray-500" />
+          <input ref={searchInput} id="desktop-search" role="combobox" aria-autocomplete="list" aria-expanded={searchOpen && !!query.trim()} aria-controls="search-suggestions" aria-activedescendant={selected >= 0 ? `suggestion-${selected}` : undefined} value={query} placeholder="Search groceries and essentials" className="w-full pl-10 pr-3 py-3 rounded-xl border bg-gray-50" onChange={e => { setQuery(e.target.value); setSearchOpen(true); setSelected(-1); }} onFocus={() => setSearchOpen(true)} onKeyDown={e => {
+            if (e.key === 'ArrowDown') { e.preventDefault(); setSearchOpen(true); setSelected(value => Math.min(value + 1, results.length - 1)); }
+            if (e.key === 'ArrowUp') { e.preventDefault(); setSelected(value => Math.max(-1, value - 1)); }
+            if (e.key === 'Enter' && searchOpen && selected >= 0 && results[selected]) { e.preventDefault(); go({ name: 'product', productId: results[selected].id }); setQuery(''); }
+          }} />
+          {searchOpen && query.trim() && <div className="fc-search-suggestions absolute top-full mt-2 inset-x-0 surface shadow-xl overflow-hidden"><ul id="search-suggestions" role="listbox" aria-label="Product suggestions">{results.map((product, index) => <li key={product.id} id={`suggestion-${index}`} role="option" aria-selected={index === selected} className={index === selected ? 'bg-green-50' : ''}><button type="button" className="w-full flex items-center gap-3 p-3 text-left hover:bg-green-50" onClick={() => { go({ name: 'product', productId: product.id }); setQuery(''); }}><img src={product.image} alt="" width={44} height={44} className="w-11 h-11 object-contain"/><span className="flex-1 min-w-0 text-sm font-semibold">{product.name}<span className="block text-gray-500 font-normal">{product.unit}</span></span><strong className="text-sm">{formatTzs(product.price)}</strong></button></li>)}</ul>{!results.length && <p className="p-4 text-sm">{catalogReady ? 'No matching products. Try a category or another name.' : 'The catalogue is still loading.'}</p>}<div className="border-t flex justify-between p-2"><button type="button" className="text-green-700 px-2" onClick={submit}>View all results</button><button type="button" className="px-2 text-gray-600" onClick={() => { setQuery(''); setSearchOpen(false); }}>Clear search</button></div></div>}
         </form>
-        {showSearch && searchResults.length > 0 && (
-          <div className="mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-            {searchResults.map((product) => (
-              <button
-                key={product.id}
-                onClick={() => handleResultClick(product)}
-                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left"
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
-                />
-                <span className="text-sm font-medium text-gray-900 flex-1 truncate">
-                  {product.name}
-                </span>
-                <span className="text-sm font-bold text-green-600">
-                  {formatTzs(product.price)}
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </>
-  );
+      </div>}
+    </div>
+    {mobileOpen && <Overlay label="Navigation menu" onClose={() => setMobileOpen(false)} className="fixed inset-0 z-[60]"><div className="fc-backdrop absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)}/><div className="absolute right-0 inset-y-0 w-[min(340px,90vw)] bg-white shadow-2xl flex flex-col animate-slide-in-right"><div className="p-4 border-b flex items-center justify-between"><strong>FAMILY CHOICE SUPERMARKET</strong><button aria-label="Close navigation menu" onClick={() => setMobileOpen(false)} className="w-11 h-11 flex items-center justify-center"><X/></button></div><nav aria-label="Mobile navigation" className="overflow-y-auto p-4">{[links[0],{label:'Shop',page:{name:'catalog'} as Page},{label:'Deals',page:{name:'deals'} as Page},{label:'New Arrivals',page:{name:'new-arrivals'} as Page},...links.slice(1),...accountLinks,{label:'Recipes',page:{name:'recipes'} as Page}].map(item => <button key={item.label} aria-current={isCurrent(item.page) ? 'page' : undefined} className="block w-full p-3 text-left rounded-lg hover:bg-green-50 font-medium" onClick={() => go(item.page)}>{item.label}</button>)}</nav></div></Overlay>}
+  </header>
+  </>;
 }

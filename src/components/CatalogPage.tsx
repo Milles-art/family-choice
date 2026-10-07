@@ -5,11 +5,12 @@ import { ProductCard } from './ProductCard';
 import { SlidersHorizontal, X, ChevronRight, Home } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
 import { formatTzs } from '../currency';
+import { Overlay } from './Overlay';
 
 type SortOption = 'relevance' | 'price-low' | 'price-high' | 'rating' | 'discount';
 
 export function CatalogPage() {
-  const { page, navigate } = useStore();
+  const { page, navigate, catalogVersion } = useStore();
   const initialCategory = page.name === 'catalog' ? page.categoryId : undefined;
   const initialSearch = page.name === 'catalog' ? page.searchQuery : undefined;
 
@@ -17,7 +18,7 @@ export function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState(initialSearch || '');
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
   const [showFiltersOnly, setShowFiltersOnly] = useState(false);
-  const maximumPrice = Math.ceil(Math.max(...products.map((product) => product.price)) / 1000) * 1000;
+  const maximumPrice = Math.max(1000, Math.ceil(Math.max(0, ...products.map((product) => product.price)) / 1000) * 1000);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, maximumPrice]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -29,11 +30,9 @@ export function CatalogPage() {
   }, [page]);
 
   const filteredProducts = useMemo(() => {
-    let result: Product[] = searchQuery
-      ? searchProducts(searchQuery)
-      : selectedCategory
-      ? products.filter((p) => p.categoryId === selectedCategory)
-      : products;
+    void catalogVersion;
+    let result: Product[] = searchQuery ? searchProducts(searchQuery) : products;
+    if (selectedCategory) result = result.filter(p => p.categoryId === selectedCategory);
 
     result = result.filter(
       (p) => p.price >= priceRange[0] && p.price <= priceRange[1]
@@ -63,7 +62,7 @@ export function CatalogPage() {
     }
 
     return result;
-  }, [searchQuery, selectedCategory, sortBy, priceRange, selectedTags]);
+  }, [searchQuery, selectedCategory, sortBy, priceRange, selectedTags, catalogVersion]);
 
   const currentCategory = selectedCategory ? getCategoryById(selectedCategory) : undefined;
   const pageTitle = searchQuery
@@ -79,7 +78,7 @@ export function CatalogPage() {
   };
 
   const filterContent = (
-    <div className="space-y-6">
+    <div className="shop-filter-content space-y-6">
       {/* Categories */}
       <div>
         <h3 className="text-sm font-bold text-gray-900 mb-3">Categories</h3>
@@ -89,6 +88,7 @@ export function CatalogPage() {
               setSelectedCategory(undefined);
               setSearchQuery('');
             }}
+            aria-pressed={!selectedCategory}
             className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
               !selectedCategory
                 ? 'bg-green-50 text-green-700 font-semibold'
@@ -100,6 +100,7 @@ export function CatalogPage() {
           {categories.map((cat) => (
             <button
               key={cat.id}
+              aria-pressed={selectedCategory === cat.id}
               onClick={() => {
                 setSelectedCategory(cat.id);
                 setSearchQuery('');
@@ -129,6 +130,7 @@ export function CatalogPage() {
             <span>{formatTzs(priceRange[1])}</span>
           </div>
           <input
+            aria-label="Maximum product price"
             type="range"
             min="0"
             max={maximumPrice}
@@ -171,7 +173,7 @@ export function CatalogPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="store-container shop-page py-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
         <button
@@ -184,15 +186,15 @@ export function CatalogPage() {
         <span className="text-gray-900 font-medium">{pageTitle}</span>
       </div>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">{pageTitle}</h1>
-      <p className="text-sm text-gray-500 mb-6">
-        {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
-      </p>
+      <section className="shop-banner" aria-labelledby="shop-banner-title">
+        <img src="/images/hero/pantry-1280.webp" srcSet="/images/hero/pantry-640.webp 640w, /images/hero/pantry-1280.webp 1280w, /images/hero/pantry-1920.webp 1920w" sizes="(min-width: 1920px) 1824px, 100vw" width={1920} height={768} alt="" fetchPriority="high" decoding="async"/>
+        <div className="shop-banner-copy"><h2 id="shop-banner-title">Shop your everyday essentials</h2><p>Browse groceries, fresh produce and household essentials.</p></div>
+      </section>
 
-      <div className="flex gap-6">
+      <div className="shop-layout">
         {/* Sidebar filters - desktop */}
-        <aside className="hidden md:block w-60 flex-shrink-0">
-          <div className="sticky top-32 bg-white border border-gray-100 rounded-2xl p-5">
+        <aside className="shop-sidebar" aria-label="Catalogue filters">
+          <div className="shop-sidebar-panel bg-white border border-gray-100 rounded-2xl p-5">
             {filterContent}
           </div>
         </aside>
@@ -200,10 +202,12 @@ export function CatalogPage() {
         {/* Products grid */}
         <div className="flex-1 min-w-0">
           {/* Sort bar */}
-          <div className="flex items-center justify-between mb-4 gap-2">
+          <div className="shop-toolbar">
+            <div className="shop-result-title"><h1>{pageTitle}</h1><p>{filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found</p></div>
+            <div className="shop-toolbar-controls">
             <button
               onClick={() => setShowFiltersOnly(true)}
-              className="md:hidden flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700"
+              className="shop-filter-trigger flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700"
             >
               <SlidersHorizontal className="w-4 h-4" />
               Filters
@@ -211,6 +215,7 @@ export function CatalogPage() {
             <div className="flex items-center gap-2 ml-auto">
               <span className="text-sm text-gray-500 hidden sm:block">Sort by:</span>
               <select
+                aria-label="Sort products"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -221,6 +226,7 @@ export function CatalogPage() {
                 <option value="rating">Top Rated</option>
                 <option value="discount">Biggest Discount</option>
               </select>
+            </div>
             </div>
           </div>
 
@@ -238,7 +244,7 @@ export function CatalogPage() {
                   setSelectedCategory(undefined);
                   setSearchQuery('');
                   setSelectedTags([]);
-                  setPriceRange([0, 25]);
+                  setPriceRange([0, maximumPrice]);
                 }}
                 className="px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 transition-colors text-sm"
               >
@@ -246,7 +252,7 @@ export function CatalogPage() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="product-grid shop-product-grid">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -261,7 +267,7 @@ export function CatalogPage() {
 
       {/* Mobile filter drawer */}
       {showFiltersOnly && (
-        <div className="fixed inset-0 z-[60] md:hidden">
+        <Overlay label="Product filters" onClose={() => setShowFiltersOnly(false)} className="fixed inset-0 z-[60]">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => setShowFiltersOnly(false)}
@@ -269,7 +275,7 @@ export function CatalogPage() {
           <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[80vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
               <h2 className="font-bold text-gray-900">Filters</h2>
-              <button onClick={() => setShowFiltersOnly(false)} className="p-1">
+              <button aria-label="Close filters" onClick={() => setShowFiltersOnly(false)} className="p-1 w-11 h-11">
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
@@ -283,7 +289,7 @@ export function CatalogPage() {
               </button>
             </div>
           </div>
-        </div>
+        </Overlay>
       )}
     </div>
   );

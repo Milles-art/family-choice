@@ -1,0 +1,261 @@
+/* =========================================================================
+   polish.css — animation, micro-interactions and visual refinements.
+   Loaded LAST in main.tsx. Purely additive: delete this file and the
+   import to return to the previous look.
+   ========================================================================= */
+
+:root {
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+/* ---------- Page transition: new pages fade/slide in on route change ---------- */
+main > * { animation: page-in .45s var(--ease-out) backwards; }
+@keyframes page-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- Scroll reveal (driven by src/reveal.ts) ---------- */
+.js-reveal [data-reveal]:not([data-revealed]) { opacity: 0; }
+[data-reveal][data-revealed] { animation: reveal-up .7s var(--ease-out) var(--reveal-delay, 0ms) backwards; }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(26px); } }
+
+/* ---------- Announcement strip (above the sticky header) ---------- */
+.fc-header-strip { --fc-green: #075443; background: var(--fc-green); color: #fff; font-size: 12.5px; position: relative; z-index: 51; }
+.fc-header-strip > div { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 8px; }
+.fc-header-strip span, .fc-header-strip a { display: inline-flex; align-items: center; gap: 8px; }
+.fc-header-strip svg { color: #f7ce46; flex-shrink: 0; }
+.fc-header-strip a { min-height: 0; text-underline-offset: 3px; }
+.fc-header-strip a:hover { text-decoration: underline; }
+.fc-header-strip-right { display: inline-flex; align-items: center; gap: 20px; }
+@media (max-width: 1023px) { .fc-header-strip-right > span { display: none; } }
+@media (max-width: 767px) { .fc-header-strip { display: none; } }
+
+/* ---------- Header ---------- */
+.fc-header { transition: box-shadow .3s ease, background-color .3s ease; }
+.fc-header.is-scrolled { box-shadow: 0 6px 24px rgb(7 84 67 / 10%); }
+.fc-header .header-row { transition: min-height .3s var(--ease-out), padding .3s var(--ease-out); }
+@media (min-width: 768px) { .fc-header.is-scrolled .header-row { min-height: 72px; padding-block: 8px; } }
+
+/* animated underline for desktop nav (hover + current page) */
+.fc-header nav[aria-label='Main navigation'] button { transition: color .2s ease, background-color .2s ease; }
+.fc-header nav[aria-label='Main navigation'] button::after {
+  content: ''; position: absolute; left: 14px; right: 14px; bottom: 6px; height: 2px; border-radius: 2px;
+  background: #f7ce46; transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease-out);
+}
+.fc-header nav[aria-label='Main navigation'] button:hover::after,
+.fc-header nav[aria-label='Main navigation'] button[aria-current='page']::after { transform: scaleX(1); }
+.fc-header nav[aria-label='Main navigation'] button:hover { color: #075443; background: transparent; }
+.fc-header nav[aria-label='Main navigation'] button[aria-current='page'] { font-weight: 600; }
+
+.fc-header .header-icon { transition: background-color .2s ease, transform .2s var(--ease-spring); }
+.fc-header .header-icon:hover { transform: translateY(-1px) scale(1.06); }
+.fc-header .header-icon:active { transform: scale(.94); }
+
+/* brand mark: little wiggle on hover */
+.fc-header .header-row > button[aria-label$='home'] > span:first-child { transition: transform .4s var(--ease-spring); }
+.fc-header .header-row > button[aria-label$='home']:hover > span:first-child { transform: rotate(-12deg) scale(1.06); }
+
+/* cart badge pops every time the count changes (element is re-keyed in Header.tsx) */
+.fc-cart-badge { animation: badge-pop .45s var(--ease-spring); }
+@keyframes badge-pop { 0% { transform: scale(.2); } 60% { transform: scale(1.35); } 100% { transform: scale(1); } }
+
+/* search panel + account dropdown + mobile drawer */
+.fc-header #header-search { animation: panel-down .28s var(--ease-out); transform-origin: top; }
+@keyframes panel-down { from { opacity: 0; transform: translateY(-8px); } }
+.fc-header #account-links { animation: pop-in .2s var(--ease-out); transform-origin: top right; }
+@keyframes pop-in { from { opacity: 0; transform: translateY(-6px) scale(.96); } }
+.fc-backdrop { animation: fade-in .25s ease; backdrop-filter: blur(2px); }
+@keyframes fade-in { from { opacity: 0; } }
+.fc-search-suggestions { animation: pop-in .18s var(--ease-out); transform-origin: top; }
+
+/* ---------- Buttons ---------- */
+.button-primary, .button-secondary { transition: background-color .2s ease, color .2s ease, transform .2s var(--ease-out), box-shadow .25s ease, border-color .2s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .button-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgb(7 84 67 / 22%); }
+  .button-secondary:hover { transform: translateY(-2px); border-color: #075443; }
+}
+.button-primary:active, .button-secondary:active { transform: translateY(0) scale(.98); box-shadow: none; }
+.button-primary svg { transition: transform .25s var(--ease-out); }
+.button-primary:hover svg { transform: translateX(3px); }
+
+/* arrow links ("View all", "Shop all") */
+.fc-text-button svg, .lower-link svg { transition: transform .25s var(--ease-out); }
+.fc-text-button:hover svg, .lower-link:hover svg { transform: translateX(4px); }
+
+/* ---------- Hero ---------- */
+.hero-backdrops img { transition: opacity .9s ease; }
+.hero-backdrops img.is-active { animation: hero-zoom 7s ease-out forwards; }
+@keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+
+/* hero copy re-mounts per slide (key in HeroSlideshow.tsx), so these replay each time */
+.hero-copy > * { animation: hero-in .7s var(--ease-out) backwards; }
+.hero-copy > :nth-child(1) { animation-delay: .00s; }
+.hero-copy > :nth-child(2) { animation-delay: .08s; }
+.hero-copy > :nth-child(3) { animation-delay: .16s; }
+.hero-copy > :nth-child(4) { animation-delay: .24s; }
+@keyframes hero-in { from { opacity: 0; transform: translateY(22px); } }
+
+.hero-benefits span { transition: transform .25s var(--ease-out); }
+.hero-benefits span:hover { transform: translateY(-2px); }
+.fc-slide-controls span { transition: width .35s var(--ease-out), background-color .25s ease; }
+.fc-slide-controls button:hover span { background: #ffffffc0; }
+.fc-slide-controls button[aria-pressed=true]:hover span { background: var(--fc-yellow, #f7ce46); }
+
+/* ---------- Category circles ---------- */
+.fc-category { transition: transform .3s var(--ease-out); }
+.fc-category img { transition: transform .4s var(--ease-spring), outline-color .25s ease, box-shadow .3s ease; outline: 3px solid transparent; outline-offset: 4px; }
+.fc-category span { transition: color .2s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .fc-category:hover { transform: translateY(-4px); }
+  .fc-category:hover img { transform: scale(1.06); box-shadow: 0 12px 24px rgb(7 84 67 / 18%); outline-color: #f7ce46; }
+  .fc-category:hover span { color: #075443; }
+}
+.fc-category:active img { transform: scale(.96); }
+
+/* ---------- Section headings: small accent bar ---------- */
+.fc-section-heading h2, .lower-section-heading h2 { position: relative; padding-bottom: 12px; }
+.fc-section-heading h2::after, .lower-section-heading h2::after {
+  content: ''; position: absolute; left: 0; bottom: 0; width: 44px; height: 4px; border-radius: 4px; background: #f7ce46;
+  transition: width .5s var(--ease-out);
+}
+[data-reveal][data-revealed] h2::after { animation: bar-grow .8s var(--ease-out) .2s backwards; }
+@keyframes bar-grow { from { width: 0; } }
+
+/* ---------- Product cards ---------- */
+.product-card { transition: transform .3s var(--ease-out), box-shadow .3s ease, border-color .25s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgb(7 84 67 / 13%); border-color: #b6cfc1; }
+}
+.fc-card-media { overflow: hidden; }
+.fc-card-media img { transition: transform .5s var(--ease-out), filter .3s ease, opacity .3s ease; }
+@media (hover: hover) and (pointer: fine) { .product-card:hover .fc-card-media img { transform: scale(1.07); } }
+.product-card.is-oos .fc-card-media img { filter: grayscale(1); opacity: .5; }
+
+.fc-badge { box-shadow: 0 4px 10px rgb(7 84 67 / 25%); animation: badge-drop .5s var(--ease-spring) backwards; transform-origin: top left; }
+@keyframes badge-drop { from { opacity: 0; transform: scale(.5) rotate(-8deg); } }
+
+.fc-add-btn { transition: background-color .2s ease, transform .2s var(--ease-spring), box-shadow .25s ease; }
+@media (hover: hover) and (pointer: fine) { .fc-add-btn:not(:disabled):hover { transform: scale(1.08); box-shadow: 0 6px 14px rgb(7 84 67 / 28%); } }
+.fc-add-btn:not(:disabled):active { transform: scale(.92); }
+.fc-add-btn.is-added { animation: add-pulse .5s var(--ease-spring); background: #0a7a5f; }
+.fc-add-btn.is-added svg { animation: check-in .4s var(--ease-spring); }
+@keyframes add-pulse { 0% { transform: scale(1); } 40% { transform: scale(1.2); } 100% { transform: scale(1); } }
+@keyframes check-in { from { transform: scale(0) rotate(-90deg); } }
+
+.fc-heart { transition: transform .2s var(--ease-spring), background-color .2s ease, border-color .2s ease; }
+@media (hover: hover) and (pointer: fine) { .fc-heart:hover { transform: scale(1.08); border-color: #fca5a5; } }
+.fc-heart.is-on svg { animation: heart-pop .5s var(--ease-spring); }
+@keyframes heart-pop { 0% { transform: scale(1); } 35% { transform: scale(1.5); } 100% { transform: scale(1); } }
+
+/* ---------- Services strip + recipe cards ---------- */
+.lower-service { transition: transform .3s var(--ease-out); }
+.lower-service > svg { transition: transform .4s var(--ease-spring); }
+@media (hover: hover) and (pointer: fine) {
+  .lower-service:hover { transform: translateY(-3px); }
+  .lower-service:hover > svg { transform: scale(1.18) rotate(-6deg); }
+}
+.lower-recipe { transition: transform .3s var(--ease-out), box-shadow .3s ease; }
+.lower-recipe-image img { transition: transform .6s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .lower-recipe:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgb(7 84 67 / 12%); }
+  .lower-recipe:hover .lower-recipe-image img { transform: scale(1.06); }
+}
+
+/* ---------- How it works (new home section) ---------- */
+.fc-steps { background: #075443; color: #fff; }
+.fc-steps-inner { padding-block: 56px; }
+.fc-page .fc-steps h2 { color: #fff; }
+.fc-steps-sub { color: #cfe4da; margin-top: 10px; font-size: 15px; }
+.fc-steps-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 32px; counter-reset: step; position: relative; }
+.fc-step { position: relative; background: #ffffff12; border: 1px solid #ffffff26; border-radius: 16px; padding: 28px 24px; transition: transform .3s var(--ease-out), background-color .3s ease, border-color .3s ease; }
+.fc-step-num { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #f7ce46; color: #075443; font-weight: 800; font-size: 18px; margin-bottom: 18px; transition: transform .4s var(--ease-spring); }
+.fc-page .fc-steps h3 { font-family: var(--fc-display); font-size: 1.35rem; color: #fff; }
+.fc-step p { color: #d6e9e0; font-size: 14.5px; line-height: 1.65; margin-top: 8px; }
+.fc-steps-cta { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+.fc-page .fc-steps .button-primary { background: #f7ce46; color: #075443; }
+.fc-steps .fc-steps-link { color: #fff; border: 1px solid #ffffff55; background: transparent; border-radius: 9px; padding: 12px 22px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: background-color .2s ease; }
+.fc-steps .fc-steps-link:hover { background: #ffffff1c; }
+@media (hover: hover) and (pointer: fine) {
+  .fc-step:hover { transform: translateY(-5px); background: #ffffff1e; border-color: #f7ce4699; }
+  .fc-step:hover .fc-step-num { transform: scale(1.12) rotate(-8deg); }
+}
+@media (max-width: 767px) {
+  .fc-steps-inner { padding-block: 40px; }
+  .fc-steps-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+  .fc-step { padding: 22px 20px; display: grid; grid-template-columns: 44px 1fr; column-gap: 16px; }
+  .fc-step-num { margin-bottom: 0; grid-row: span 2; }
+}
+
+/* ---------- Footer ---------- */
+.fc-footer li button { position: relative; transition: color .2s ease, transform .2s var(--ease-out); }
+.fc-footer li button:hover { transform: translateX(4px); text-decoration: none; }
+.fc-footer-contact a { transition: color .2s ease, transform .2s var(--ease-out); }
+.fc-footer-contact a:hover { transform: translateX(3px); text-decoration: none; }
+.fc-footer-home svg { transition: transform .4s var(--ease-spring); }
+.fc-footer-home:hover svg { transform: rotate(-14deg) scale(1.12); }
+
+/* ---------- Back-to-top ---------- */
+.fc-top { position: fixed; right: 16px; bottom: 80px; z-index: 45; width: 46px; height: 46px; min-height: 46px; border-radius: 50%;
+  background: #075443; color: #fff; display: grid; place-items: center; box-shadow: 0 8px 22px rgb(7 84 67 / 35%);
+  opacity: 0; transform: translateY(16px) scale(.8); pointer-events: none; transition: opacity .3s ease, transform .35s var(--ease-spring), background-color .2s ease; }
+.fc-top.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+.fc-top:hover { background: #063e32; transform: translateY(-3px); }
+@media (min-width: 768px) { .fc-top { right: 28px; bottom: 28px; } }
+
+/* ---------- Toasts ---------- */
+.animate-toast-in { border-left: 4px solid #f7ce46; animation: toast-bounce .45s var(--ease-spring) !important; }
+@keyframes toast-bounce { from { opacity: 0; transform: translateY(18px) scale(.94); } }
+
+/* ---------- Cart + mobile nav ---------- */
+.fc-mobile-nav button { transition: color .2s ease, transform .2s var(--ease-spring); }
+.fc-mobile-nav button:active { transform: scale(.92); }
+.fc-mobile-nav .fc-cart-badge { background: #075443; }
+
+/* ---------- Skeleton: smooth shimmer instead of a blunt pulse ---------- */
+.skeleton { background: linear-gradient(100deg, #e4eae0 30%, #f1f5ef 50%, #e4eae0 70%); background-size: 220% 100%; animation: shimmer 1.4s linear infinite; }
+@keyframes shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+
+/* ---------- Form focus polish ---------- */
+.fc-page input:not([type=checkbox]):not([type=radio]), .fc-page select, .fc-page textarea { transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.fc-page input:focus, .fc-page select:focus, .fc-page textarea:focus { box-shadow: 0 0 0 4px rgb(7 84 67 / 12%); }
+
+/* ---------- Reduced motion: switch every new effect off ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js-reveal [data-reveal]:not([data-revealed]) { opacity: 1; }
+  .hero-backdrops img.is-active { animation: none; }
+  .fc-step:hover, .product-card:hover, .lower-recipe:hover, .fc-category:hover, .button-primary:hover, .button-secondary:hover { transform: none; }
+  .fc-top { transition: opacity .2s ease; transform: none; }
+}
+
+/* ---------- WhatsApp button (floating + cart) ---------- */
+.fc-whatsapp { position: fixed; right: 16px; bottom: 80px; z-index: 46; height: 52px; min-width: 52px; padding: 0 14px; border-radius: 26px; background: #25d366; color: #fff; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 14px; box-shadow: 0 8px 22px rgb(37 211 102 / 40%); transition: transform .25s var(--ease-spring), box-shadow .25s ease; animation: wa-in .6s var(--ease-spring) 1.2s backwards; }
+.fc-whatsapp span { display: none; }
+.fc-whatsapp:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 12px 28px rgb(37 211 102 / 50%); }
+@keyframes wa-in { from { opacity: 0; transform: translateY(20px) scale(.6); } }
+@media (min-width: 768px) { .fc-whatsapp { right: 28px; bottom: 28px; padding: 0 20px 0 16px; } .fc-whatsapp span { display: inline; } }
+/* stack back-to-top above the WhatsApp button */
+.fc-top { bottom: 144px; }
+@media (min-width: 768px) { .fc-top { bottom: 92px; } }
+.fc-cart-whatsapp { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 46px; border: 1.5px solid #25d366; color: #128c4a; border-radius: 12px; font-weight: 600; font-size: 14px; transition: background-color .2s ease, color .2s ease; }
+.fc-cart-whatsapp:hover { background: #25d366; color: #fff; }
+
+/* ---------- Quantity stepper on product cards ---------- */
+.fc-stepper { display: inline-flex; align-items: center; min-width: 0; height: 44px; border: 1.5px solid #075443; border-radius: 12px; overflow: hidden; background: #fff; animation: pop-in .2s var(--ease-out); }
+.fc-stepper button { width: 32px; min-height: 44px; display: grid; place-items: center; color: #075443; transition: background-color .15s ease; }
+.fc-stepper button:hover:not(:disabled) { background: #e8f3ef; }
+.fc-stepper span { min-width: 22px; text-align: center; font-weight: 700; font-size: 14px; }
+
+/* ---------- Delivery area checker ---------- */
+.fc-area-checker { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; margin-block: 8px 48px; padding: 32px; background: #e8f3ef; border-radius: 16px; }
+.fc-area-checker p { color: var(--muted); margin-top: 8px; }
+.fc-area-input { position: relative; }
+.fc-area-input svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #075443; }
+.fc-area-input input { width: 100%; padding-left: 42px; background: #fff; border: 1px solid #b6cfc1; border-radius: 10px; }
+.fc-area-result { min-height: 28px; margin-top: 14px; }
+.fc-area-result p { display: flex; gap: 10px; align-items: flex-start; margin: 0; animation: pop-in .2s var(--ease-out); }
+.fc-area-result .is-yes { color: #075443; }
+.fc-area-result .is-no { color: #92400e; }
+.fc-area-result a { text-decoration: underline; font-weight: 600; }
+@media (max-width: 767px) { .fc-area-checker { grid-template-columns: 1fr; gap: 20px; padding: 22px; } }

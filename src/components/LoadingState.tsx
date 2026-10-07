@@ -1,0 +1,3 @@
+export function SectionSkeleton({ cards = 6, label = 'Loading content' }: { cards?: number; label?: string }) {
+  return <div role="status" aria-label={label} className="space-y-5"><span className="sr-only">{label}…</span><div className="skeleton h-8 w-48 rounded-lg" /><div className="product-grid">{Array.from({ length: cards }, (_, i) => <div key={i} aria-hidden="true" className="surface p-3 space-y-3"><div className="skeleton aspect-square rounded-xl"/><div className="skeleton h-5 rounded"/><div className="skeleton h-5 w-2/3 rounded"/><div className="skeleton h-11 rounded"/></div>)}</div></div>;
+}
