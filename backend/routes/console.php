@@ -3,6 +3,9 @@
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('selcom:reconcile')->everyMinute()->withoutOverlapping(15);
 
 Artisan::command('freshcart:admin {email}', function () {
     $user = User::where('email', $this->argument('email'))->first();
