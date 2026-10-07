@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { CheckCircle2, ExternalLink, Loader2, MessageCircle, RefreshCw, Smartphone, XCircle } from 'lucide-react';
 import type { Order } from '../api';
 import { formatTzs } from '../currency';
-import { getPaymentStatus, networks, normalizeStatus, normalizeTzPhone, phoneHint, retryPayment, type MobileNetwork, type PaymentStatus } from '../payments';
+import { MOCK, getPaymentStatus, networks, normalizeStatus, normalizeTzPhone, phoneHint, retryPayment, type MobileNetwork, type PaymentStatus } from '../payments';
 import { whatsappLink } from '../storeConfig';
 import { MobilePaymentFields } from './MobilePaymentFields';
 
 const POLL_MS = 4000;
 const WINDOW_S = 180;
-const RESEND_S = 30;
+const RESEND_S = 45;
 
 type Props = {
   order: Order;
@@ -41,13 +41,18 @@ export function PaymentWaiting({ order, network = '', phone = '', alreadySent, o
   useEffect(() => {
     if (phase !== 'waiting') return;
     let stopped = false;
+    let checking = false;
     const check = async () => {
+      if (checking || stopped || document.hidden) return;
+      checking = true;
       try {
         const result = await getPaymentStatus(order.id);
         if (stopped) return;
-        if (result.payment_status === 'paid') { stopped = true; paid.current({ ...order, payment_status: 'paid' }); }
+        if (result.payment_status === 'paid') { stopped = true; paid.current({ ...order, ...result, payment_status: 'paid' }); }
         else if (result.payment_status !== 'pending') { stopped = true; setMessage(result.message ?? ''); setPhase(result.payment_status === 'expired' ? 'expired' : 'failed'); }
-      } catch { /* network blip: keep trying until the timer ends */ }
+        else setMessage(result.message ?? order.payment_message ?? '');
+      } catch { if (!stopped) setMessage('Unable to check payment right now. Your order is saved; we will try again.'); }
+      finally { checking = false; }
     };
     const poll = window.setInterval(() => void check(), POLL_MS);
     const clock = window.setInterval(() => {
@@ -81,7 +86,8 @@ export function PaymentWaiting({ order, network = '', phone = '', alreadySent, o
   const ss = String(left % 60).padStart(2, '0');
   const help = <a className="fc-pay-help" href={whatsappLink(`Hello, I need help paying for order ${order.number}.`)} target="_blank" rel="noopener noreferrer"><MessageCircle size={16} aria-hidden="true"/>Need help? Chat on WhatsApp</a>;
 
-  return <section className="fc-pay-panel" aria-live="polite" aria-labelledby="pay-title">
+  return <section className="fc-pay-panel" aria-labelledby="pay-title">
+    {MOCK && order.number.startsWith('FC-DEMO-') && <p role="status"><strong>Demo only — no money is charged and no order is sent to the store.</strong></p>}
     {phase === 'compose' && <>
       <Smartphone size={34} aria-hidden="true"/>
       <h2 id="pay-title">Pay {formatTzs(order.total_cents / 100)} with mobile money</h2>
@@ -94,7 +100,8 @@ export function PaymentWaiting({ order, network = '', phone = '', alreadySent, o
     {phase === 'waiting' && <>
       <div className="fc-pulse" aria-hidden="true"><Smartphone size={34}/></div>
       <h2 id="pay-title">Check your phone</h2>
-      <p>We sent a payment request{label ? <> to your <strong>{label}</strong> account</> : ''}{ph ? <> on <strong>{ph}</strong></> : ''}. Enter your PIN to approve <strong>{formatTzs(order.total_cents / 100)}</strong>.</p>
+      <p>Payment requested{label ? <> from your <strong>{label}</strong> account</> : ''}{ph ? <> on <strong>{ph}</strong></> : ''}. If a prompt arrives, enter your PIN on your phone to approve <strong>{formatTzs(order.total_cents / 100)}</strong>.</p>
+      {message && <p role="status">{message}</p>}
       <p className="fc-pay-timer" role="timer"><Loader2 className="fc-spin" size={16} aria-hidden="true"/>Waiting for confirmation · {mm}:{ss}</p>
       <ol className="fc-pay-steps"><li>Look for the payment pop-up or SMS on your phone.</li><li>Enter your mobile-money PIN.</li><li>Wait here. This page updates by itself.</li></ol>
       {order.payment_url && <a className="button-secondary" href={order.payment_url}><ExternalLink size={16} aria-hidden="true"/>Open the payment page instead</a>}

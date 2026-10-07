@@ -58,8 +58,8 @@ export async function placeOrder(payload: Record<string, unknown>, mockTotalCent
   return order;
 }
 
-export async function getPaymentStatus(orderId: number): Promise<{ payment_status: PaymentStatus; message?: string }> {
-  if (MOCK) {
+export async function getPaymentStatus(orderId: number): Promise<{ payment_status: PaymentStatus; message?: string; confirmation_email_sent?: boolean; confirmation_email?: string }> {
+  if (MOCK && mockStore.has(orderId)) {
     const entry = mockStore.get(orderId);
     if (!entry) return { payment_status: 'pending' };
     if (Date.now() - entry.started < MOCK_DELAY_MS) return { payment_status: 'pending' };
@@ -67,13 +67,13 @@ export async function getPaymentStatus(orderId: number): Promise<{ payment_statu
     entry.order.payment_status = 'paid'; entry.order.status = 'processing';
     return { payment_status: 'paid' };
   }
-  const r = await api<{ payment_status: string; message?: string }>(`/orders/${orderId}/payment-status`);
-  return { payment_status: normalizeStatus(r.payment_status), message: r.message };
+  const r = await api<{ payment_status: string; message?: string; confirmation_email_sent?: boolean; confirmation_email?: string }>(`/orders/${orderId}/payment-status`);
+  return { ...r, payment_status: normalizeStatus(r.payment_status) };
 }
 
 /** Asks the server to (re)send the payment prompt. May return a hosted payment page URL instead. */
 export async function retryPayment(orderId: number, body: { network: MobileNetwork; phone: string }): Promise<{ payment_url?: string }> {
-  if (MOCK) {
+  if (MOCK && mockStore.has(orderId)) {
     const entry = mockStore.get(orderId);
     if (entry) { entry.started = Date.now(); entry.phone = body.phone; entry.order.payment_status = 'pending'; }
     await new Promise(r => setTimeout(r, 400));

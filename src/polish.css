@@ -246,6 +246,17 @@ main > * { animation: page-in .45s var(--ease-out) backwards; }
 .fc-stepper button { width: 32px; min-height: 44px; display: grid; place-items: center; color: #075443; transition: background-color .15s ease; }
 .fc-stepper button:hover:not(:disabled) { background: #e8f3ef; }
 .fc-stepper span { min-width: 22px; text-align: center; font-weight: 700; font-size: 14px; }
+.fc-heart { flex-shrink: 0; }
+.fc-stepper button { flex: 1 1 32px; min-width: 24px; }
+.fc-whatsapp[inert], .fc-top[inert], .fc-toasts[inert] { visibility: hidden; }
+@media (max-width: 767px) {
+  .fc-toasts { bottom: calc(208px + env(safe-area-inset-bottom)); }
+  .fc-whatsapp { bottom: calc(80px + env(safe-area-inset-bottom)); }
+  .fc-top { bottom: calc(144px + env(safe-area-inset-bottom)); }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .fc-toasts { bottom: 156px; }
+}
 
 /* ---------- Delivery area checker ---------- */
 .fc-area-checker { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; margin-block: 8px 48px; padding: 32px; background: #e8f3ef; border-radius: 16px; }

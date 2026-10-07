@@ -21,11 +21,11 @@ export function ForgotPasswordPage() {
     const email = String(new FormData(e.currentTarget).get('email') ?? '').trim();
     setBusy(true); setError('');
     try { await api('/forgot-password', 'POST', { email }); setSent(true); }
-    catch (err) { if (err instanceof ApiError && err.status === 422) setSent(true); else setError(err instanceof Error ? err.message : 'Could not send the request.'); }
+    catch (err) { setError(err instanceof Error ? err.message : 'Could not send the request.'); }
     finally { setBusy(false); }
   }
   return <Shell title="Forgot password">
-    {sent ? <><MailCheck size={40} aria-hidden="true"/><h1>Check your email</h1><p>If an account exists for that address, we have sent a link to reset your password. The link works for a limited time. Check your spam folder if you do not see it.</p><button className="button-primary mt-4" onClick={() => navigate({ name: 'account' })}>Back to sign in</button></>
+    {sent ? <><MailCheck size={40} aria-hidden="true"/><h1>Check your email</h1><p>If an account exists for that address, a password reset link will be sent. The link works for a limited time. Check your spam folder if you do not see it.</p><button className="button-primary mt-4" onClick={() => navigate({ name: 'account' })}>Back to sign in</button></>
     : <form onSubmit={e => void submit(e)} className="space-y-4"><KeyRound size={36} aria-hidden="true"/><h1>Forgot your password?</h1><p>Enter your account email and we will send you a reset link.</p><FormField name="email" label="Email address" type="email" required autoComplete="email"/>{error && <p role="alert" className="text-red-700">{error}</p>}<button className="button-primary" disabled={busy}>{busy ? 'Sending…' : 'Send reset link'}</button><button type="button" className="block text-green-700 underline" onClick={() => navigate({ name: 'account' })}>Back to sign in</button></form>}
   </Shell>;
 }
@@ -52,6 +52,6 @@ export function ResetPasswordPage({ token, email }: { token: string; email: stri
   if (!token || !email) return <Shell title="Reset password"><h1>This link is not valid</h1><p>Request a new password reset link and open the newest email.</p><button className="button-primary mt-4" onClick={() => navigate({ name: 'forgot-password' })}>Request a new link</button></Shell>;
   return <Shell title="Reset password">
     {done ? <><CheckCircle2 size={40} aria-hidden="true"/><h1>Password updated</h1><p>You can now sign in with your new password.</p><button className="button-primary mt-4" onClick={() => navigate({ name: 'account' })}>Sign in</button></>
-    : <form onSubmit={e => void submit(e)} className="space-y-4"><KeyRound size={36} aria-hidden="true"/><h1>Choose a new password</h1><p>For <strong>{email}</strong></p><FormField name="password" label="New password (8+ characters)" type="password" required minLength={8} maxLength={128} autoComplete="new-password" error={fieldErrors.password}/><FormField name="confirm" label="Confirm new password" type="password" required minLength={8} maxLength={128} autoComplete="new-password" error={fieldErrors.confirm}/>{error && <p role="alert" className="text-red-700">{error}</p>}{error.toLowerCase().includes('token') && <button type="button" className="block text-green-700 underline" onClick={() => navigate({ name: 'forgot-password' })}>Request a new link</button>}<button className="button-primary" disabled={busy}>{busy ? 'Saving…' : 'Update password'}</button></form>}
+    : <form onSubmit={e => void submit(e)} className="space-y-4"><KeyRound size={36} aria-hidden="true"/><h1>Choose a new password</h1><p>For <strong>{email}</strong></p><FormField name="password" label="New password (8+ characters)" type="password" required minLength={8} maxLength={128} autoComplete="new-password" error={fieldErrors.password}/><FormField name="confirm" label="Confirm new password" type="password" required minLength={8} maxLength={128} autoComplete="new-password" error={fieldErrors.confirm}/>{error && <p role="alert" className="text-red-700">{error}</p>}{(fieldErrors.token || error.toLowerCase().includes('token')) && <button type="button" className="block text-green-700 underline" onClick={() => navigate({ name: 'forgot-password' })}>Request a new link</button>}<button className="button-primary" disabled={busy}>{busy ? 'Saving…' : 'Update password'}</button></form>}
   </Shell>;
 }

@@ -6,7 +6,7 @@ import { formatTzs } from '../currency';
 import { LottieAnimation } from './LottieAnimation';
 import { MobilePaymentFields } from './MobilePaymentFields';
 import { PaymentWaiting } from './PaymentWaiting';
-import { networks, normalizeTzPhone, phoneHint, placeOrder, selcomAvailable, type MobileNetwork } from '../payments';
+import { MOCK, networks, normalizeTzPhone, phoneHint, placeOrder, selcomAvailable, type MobileNetwork } from '../payments';
 import {
   ArrowLeft,
   ArrowRight,
@@ -123,7 +123,7 @@ export function CheckoutPage() {
         const payload = {requestId,items:cart.map(i=>({productId:i.product.id,quantity:i.quantity})),delivery:deliveryInfo,deliveryOption,timeSlot,paymentMethod,paymentProvider:selcom?network:paymentProvider,paymentReference:selcom?'':paymentReference,...(selcom?{payerPhone:normalizeTzPhone(payerPhone)}:{})};
         const order = selcom ? await placeOrder(payload, normalTotalCents) : await api<Order>('/orders','POST',payload);
         setConfirmedOrder(order); clearCart();
-        if (selcom) { setStep('paying'); showToast('Order saved. Approve the payment on your phone.'); }
+        if (selcom) { setStep('paying'); showToast(MOCK ? 'Demo order created. No money will be charged.' : 'Order saved. Check your phone and payment status.'); }
         else { setStep('confirmation'); showToast(paymentMethod === 'mobile_money' ? 'Order received! Your mobile-money payment is awaiting confirmation.' : 'Order received! Payment is due on delivery or pickup.'); }
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Unable to place order.');
@@ -145,7 +145,7 @@ export function CheckoutPage() {
   };
 
   if (step === 'paying' && confirmedOrder) {
-    return <div className="max-w-2xl mx-auto px-4 py-10"><PaymentWaiting order={confirmedOrder} network={network} phone={payerPhone} alreadySent onPaid={order => { setConfirmedOrder(order); setStep('confirmation'); showToast('Payment received. Thank you!'); }} onTrack={() => navigate({ name: 'track', orderId: confirmedOrder.id })}/></div>;
+    return <div className="max-w-2xl mx-auto px-4 py-10"><PaymentWaiting order={confirmedOrder} network={network} phone={payerPhone} alreadySent onPaid={order => { setConfirmedOrder(order); setStep('confirmation'); showToast(MOCK ? 'Demo payment completed. No money charged.' : 'Payment received. Thank you!'); }} onTrack={() => navigate({ name: 'track', orderId: confirmedOrder.id })}/></div>;
   }
 
   if (step === 'confirmation') {
@@ -153,7 +153,8 @@ export function CheckoutPage() {
       <div className="max-w-2xl mx-auto px-4 py-10">
         <div className="bg-white border border-gray-100 rounded-3xl p-8 text-center">
           <LottieAnimation animation="orderConfirmed" label="Order confirmed" loop={false} className="w-28 h-28 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{confirmedOrder?.number.startsWith('FC-DEMO-') ? 'Demo completed' : 'Order Confirmed!'}</h1>
+          {confirmedOrder?.number.startsWith('FC-DEMO-') && <p role="status">Demo only — no money charged and no order submitted to the store.</p>}
           <p className="text-gray-500 mb-6">
             Your order has been saved. {paymentMethod === 'selcom' ? 'Your mobile-money payment was received.' : paymentMethod === 'mobile_money' ? 'Your mobile-money payment is awaiting confirmation.' : 'Payment is due on delivery or pickup.'}
           </p>

@@ -1,6 +1,6 @@
 import type { Product } from './types';
 export type Customer = { id: number; name: string; email: string; is_admin?: boolean };
-export type Order = { id: number; number: string; status: string; payment_status: string; payment_method?: string; payment_details?: {provider?:string;reference?:string}; payment_url?: string; confirmation_email_sent?: boolean; confirmation_email?: string; total_cents: number; time_slot: string; created_at: string; delivery?: {name:string;phone:string;address?:string;city?:string;instructions?:string}; delivery_option?:string; items: { id: number; name: string; quantity: number; price_cents: number }[] };
+export type Order = { id: number; number: string; status: string; payment_status: string; payment_method?: string; payment_details?: {provider?:string;reference?:string}; payment_url?: string; payment_message?: string; confirmation_email_sent?: boolean; confirmation_email?: string; total_cents: number; time_slot: string; created_at: string; delivery?: {name:string;phone:string;address?:string;city?:string;instructions?:string}; delivery_option?:string; items: { id: number; name: string; quantity: number; price_cents: number }[] };
 let csrf = '';
 export class ApiError extends Error {
  constructor(message: string, public errors: Record<string,string[]> = {}, public status = 0) { super(message); this.name = 'ApiError'; }

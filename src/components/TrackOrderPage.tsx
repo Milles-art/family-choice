@@ -22,13 +22,13 @@ export function TrackOrderPage() {
   }, []);
   useEffect(() => { void load(); const timer = window.setInterval(() => void load(), 15000); return () => window.clearInterval(timer); }, [load]);
 
-  const order = orders ? [...orders].sort((a, b) => b.created_at.localeCompare(a.created_at)).find(o => !wanted || o.id === wanted) ?? orders[0] : undefined;
+  const order = orders ? [...orders].sort((a, b) => b.created_at.localeCompare(a.created_at)).find(o => !wanted || o.id === wanted) : undefined;
   const crumb = <nav className="fc-breadcrumb" aria-label="Breadcrumb"><button onClick={() => navigate({ name: 'home' })}>Home</button><ChevronRight size={14} aria-hidden="true"/><span aria-current="page">Track order</span></nav>;
 
   if (signedOut) return <div className="store-container fc-track">{crumb}<div className="surface p-6"><h1>Track your order</h1><p className="my-3">Please sign in to see your order status.</p><button className="button-primary" onClick={() => navigate({ name: 'account' })}>Sign in</button></div></div>;
   if (!orders && !error) return <div className="store-container fc-track">{crumb}<SectionSkeleton cards={2} label="Loading your order"/></div>;
   if (error && !orders) return <div className="store-container fc-track">{crumb}<div className="surface p-6"><p role="alert">{error}</p><button className="button-primary mt-3" onClick={() => void load()}>Try again</button></div></div>;
-  if (!order) return <div className="store-container fc-track">{crumb}<div className="surface p-6"><h1>No orders yet</h1><p className="my-3">Your orders will appear here after checkout.</p><button className="button-primary" onClick={() => navigate({ name: 'catalog' })}>Browse groceries</button></div></div>;
+  if (!order) return <div className="store-container fc-track">{crumb}<div className="surface p-6"><h1>{wanted ? 'Order not found' : 'No orders yet'}</h1><p className="my-3">{wanted ? 'This order is not available in your account. Check the order link or sign in to the account used at checkout.' : 'Your orders will appear here after checkout.'}</p><button className="button-primary" onClick={() => navigate({ name: 'catalog' })}>Browse groceries</button></div></div>;
 
   const pickup = order.delivery_option === 'pickup';
   const steps = [
@@ -43,6 +43,8 @@ export function TrackOrderPage() {
 
   return <div className="store-container fc-track">
     {crumb}
+    {order.number.startsWith('FC-DEMO-') && <p role="status">Demo order only — not submitted to the store and no money charged.</p>}
+    {error && <p role="alert">{error} <button className="fc-link-button" onClick={() => void load()}>Try again</button></p>}
     <div className="fc-track-head"><div><h1>Order {order.number}</h1><p>Placed {new Date(order.created_at).toLocaleDateString('en-TZ', { day: 'numeric', month: 'long', year: 'numeric' })} · {formatTzs(order.total_cents / 100)}</p></div><button className="fc-link-button" onClick={() => void load()}><RefreshCw size={15} aria-hidden="true"/>Refresh</button></div>
 
     <ol className="fc-timeline" aria-label="Order progress">{steps.map((step, i) => <li key={step.key} className={i < current ? 'is-done' : i === current ? 'is-current' : ''} aria-current={i === current ? 'step' : undefined}><span className="fc-timeline-dot">{i < current ? <CheckCircle2 size={20} aria-hidden="true"/> : <step.icon size={20} aria-hidden="true"/>}</span><span className="fc-timeline-label">{step.label}</span></li>)}</ol>
