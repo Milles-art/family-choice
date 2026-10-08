@@ -8,5 +8,5 @@ class OrderItem extends Model
 {
     public $timestamps = false;
 
-    protected $guarded = [];
+    protected $fillable = ['order_id', 'product_id', 'name', 'image', 'quantity', 'price_cents'];
 }

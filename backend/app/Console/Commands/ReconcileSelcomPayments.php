@@ -22,11 +22,17 @@ class ReconcileSelcomPayments extends Command
             return self::SUCCESS;
         }
         $checked = 0;
-        PaymentAttempt::whereHas('order', fn ($query) => $query->where('payment_method', 'selcom')->where('payment_status', '!=', 'paid'))
-            ->where(fn ($query) => $query->whereNull('provider_status')->orWhereNotIn('provider_status', ['EXPIRED', 'CANCELLED', 'USERCANCELLED']))
-            ->where(fn ($query) => $query->whereNull('last_checked_at')->orWhere('last_checked_at', '<=', now()->subMinute()))
+        PaymentAttempt::whereHas('order', fn ($query) => $query->where('payment_method', 'selcom')->where('payment_status', '!=', 'paid')->where('status', '!=', 'cancelled'))
             ->orderBy('id')->chunkById(50, function ($attempts) use ($payments, &$checked) {
                 foreach ($attempts as $attempt) {
+                    $age = $attempt->created_at->diffInMinutes(now());
+                    if ($age >= max(1, (int) config('services.selcom.reconcile_hours', 48)) * 60) {
+                        $changed = \App\Models\Order::whereKey($attempt->order_id)->whereNull('reconciliation_stopped_at')->update(['reconciliation_stopped_at' => now()]);
+                        if ($changed) \Illuminate\Support\Facades\Log::warning('Payment reconciliation stopped; staff review needed', ['order_id' => $attempt->order_id]);
+                        continue;
+                    }
+                    $interval = $age < 15 ? 1 : ($age < 360 ? 10 : 60);
+                    if ($attempt->last_checked_at && $attempt->last_checked_at->gt(now()->subMinutes($interval))) continue;
                     try {
                         $payments->verify($attempt);
                     } catch (SelcomException) {

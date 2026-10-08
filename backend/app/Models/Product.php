@@ -10,7 +10,7 @@ class Product extends Model
 
     protected $keyType = 'string';
 
-    protected $guarded = [];
+    protected $fillable = ['id', 'details', 'price_cents', 'stock'];
 
     protected $casts = ['details' => 'array'];
 

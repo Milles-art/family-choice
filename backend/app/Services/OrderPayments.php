@@ -31,6 +31,7 @@ class OrderPayments
             // checkout request returns this saved order without another wallet push.
             $attempt = DB::transaction(function () use ($order, $network, $phone) {
                 $current = Order::whereKey($order->id)->lockForUpdate()->firstOrFail();
+                $this->assertActive($current);
                 if ($current->selcom_order_id || $current->payment_status === 'paid') {
                     return null;
                 }
@@ -45,6 +46,7 @@ class OrderPayments
 
     private function newAttempt(Order $order, string $network, string $phone): PaymentAttempt
     {
+        $this->assertActive($order);
         $attempt = PaymentAttempt::create(['order_id' => $order->id, 'selcom_order_id' => 'FC'.Str::upper(Str::random(24))]);
         $order->update(['selcom_order_id' => $attempt->selcom_order_id, 'payment_status' => 'pending',
             'payment_channel' => $network, 'masked_payer_phone' => substr($phone, 0, 3).'*****'.substr($phone, -4),
@@ -72,6 +74,7 @@ class OrderPayments
 
     private function push(Order $order, PaymentAttempt $attempt, string $phone): void
     {
+        $this->assertActive($order->fresh());
         $attempt->update(['wallet_transaction_id' => 'FC'.Str::upper(Str::random(24)), 'last_prompt_at' => now()]);
         $response = $this->selcom->walletPayment($attempt, $phone);
         if (! in_array(strtoupper($response['result']), ['SUCCESS', 'PENDING', 'INPROGRESS'], true)) {
@@ -100,6 +103,9 @@ class OrderPayments
             throw new SelcomException('Payment verification did not match this order. Contact the store before retrying.');
         }
         $status = self::status($data['payment_status']);
+        if (!in_array(strtoupper($data['payment_status']), ['PAID', 'COMPLETED', 'PENDING', 'INPROGRESS', 'FAILED', 'REJECTED', 'DECLINED', 'CANCELLED', 'USERCANCELLED', 'CANCELED', 'CANCEL', 'EXPIRED'], true)) {
+            throw new SelcomException('Payment status is ambiguous. Try again later.');
+        }
         if ($status === 'paid' && (! is_string($data['reference'] ?? null) || $data['reference'] === ''
             || ! is_string($data['transid'] ?? null) || $data['transid'] === '')) {
             throw new SelcomException('Payment verification is incomplete. Contact the store.');
@@ -121,6 +127,10 @@ class OrderPayments
                 default => 'Waiting for verified payment confirmation.',
             }];
             if ($status === 'paid') {
+                if ($current->status === 'cancelled') {
+                    $changes['payment_message'] = 'Paid after cancellation: staff review/refund needed';
+                    \Illuminate\Support\Facades\Log::warning('Paid after cancellation: staff review/refund needed', ['order_id' => $current->id]);
+                }
                 $changes += ['paid_at' => now(), 'payment_reference' => substr($data['reference'], 0, 100),
                     'payment_transaction_id' => substr($data['transid'], 0, 100),
                     'payment_channel' => substr((string) ($data['channel'] ?? $current->payment_channel), 0, 50), 'payment_url' => null];
@@ -135,6 +145,7 @@ class OrderPayments
     {
         $acquired = Cache::lock('order-payment:'.$order->id, 90)->get(function () use ($order, $network, $phone) {
             $order->refresh();
+            $this->assertActive($order);
             if ($order->payment_status === 'paid') {
                 throw ValidationException::withMessages(['payment' => 'This order is already paid.']);
             }
@@ -200,5 +211,10 @@ class OrderPayments
         if (! $acquired) {
             throw ValidationException::withMessages(['payment' => 'A payment request is already being checked. Try again shortly.']);
         }
+    }
+
+    private function assertActive(Order $order): void
+    {
+        if ($order->status === 'cancelled') throw ValidationException::withMessages(['payment' => 'This order is cancelled. No payment can be requested.']);
     }
 }

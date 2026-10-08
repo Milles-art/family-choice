@@ -3,6 +3,7 @@
 return [
 
     'selcom' => [
+        'reconcile_hours' => (int) env('SELCOM_RECONCILE_HOURS', 48),
         'enabled' => env('SELCOM_ENABLED', false),
         'base_url' => env('SELCOM_BASE_URL', ''),
         'vendor' => env('SELCOM_VENDOR', ''),

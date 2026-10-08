@@ -25,7 +25,7 @@ class StoreController extends Controller
 
     public function register(Request $r)
     {
-        $data = $r->validate(['name' => 'required|string|max:100', 'email' => 'required|email|max:255|unique:users', 'password' => 'required|string|min:8|max:128', 'privacyConsent' => 'accepted']);
+        $data = $r->validate(['name' => 'required|string|max:100', 'email' => 'required|email|max:255|unique:users', 'password' => ['required', 'string', 'max:128', \Illuminate\Validation\Rules\Password::defaults()], 'privacyConsent' => 'accepted']);
         $user = new User(['name' => $data['name'], 'email' => $data['email'], 'password' => Hash::make($data['password'])]);
         $user->forceFill(['privacy_consented_at' => now()])->save();
         Auth::login($user);
@@ -97,6 +97,10 @@ class StoreController extends Controller
             if ($existing) {
                 return $existing;
             }
+            $open = Order::where('user_id', $r->user()->id)->where('payment_status', '!=', 'paid')->whereNotIn('status', ['cancelled', 'delivered'])->count();
+            if ($open >= max(1, (int) config('store.max_open_orders'))) {
+                throw ValidationException::withMessages(['orders' => 'You have reached the limit for open unpaid orders. Complete or cancel an existing order before placing another.']);
+            }
             $lines = [];
             $subtotal = 0;
             $requested = collect($d['items'])->sortBy('productId');
@@ -139,25 +143,38 @@ class StoreController extends Controller
 
     private function admin(Request $r): void
     {
-        abort_unless($r->user()->is_admin, 403);
+        abort_unless($r->user()->is_admin && $r->user()->email_verified_at, 403);
+        $allowed = config('store.admin_allowed_ips');
+        abort_if($allowed && !\Symfony\Component\HttpFoundation\IpUtils::checkIp($r->ip(), $allowed), 403);
     }
 
     public function adminOrders(Request $r)
     {
         $this->admin($r);
 
-        return Order::with('items')->latest()->get();
+        return Order::with('items')->latest()->get()->map(fn ($order) => [...$order->toArray(), 'needs_review' => $order->status === 'cancelled' && $order->payment_status === 'paid']);
     }
 
     public function updateOrder(Request $r, Order $order)
     {
         $this->admin($r);
-        $d = $r->validate(['status' => 'sometimes|in:pending,processing,out_for_delivery,delivered', 'payment_status' => 'sometimes|in:unpaid,paid']);
+        $d = $r->validate(['status' => 'sometimes|in:pending,processing,out_for_delivery,delivered,cancelled', 'payment_status' => 'sometimes|in:unpaid,paid']);
         if ($order->payment_method === 'selcom' && array_key_exists('payment_status', $d)) {
             throw ValidationException::withMessages(['payment_status' => 'Selcom payments must be verified by the payment provider.']);
         }
         $before = $order->only(['status', 'payment_status']);
-        $order->update($d);
+        // Do not wrap provider verification in a transaction that refusal rolls back.
+        if (($d['status'] ?? '') === 'cancelled') {
+                if (isset($d['payment_status'])) throw ValidationException::withMessages(['payment_status' => 'Cancel and payment updates must be separate.']);
+                app(\App\Services\OrderCancellation::class)->cancel($order, 'Administrator cancellation');
+        } else {
+            DB::transaction(function () use ($order, $d) {
+                $current = Order::whereKey($order->id)->lockForUpdate()->firstOrFail();
+                if ($current->status === 'cancelled') throw ValidationException::withMessages(['status' => 'Cancelled orders cannot be changed.']);
+                $current->update($d);
+            });
+        }
+        $order->refresh();
         $this->audit($r, 'order.updated', 'order', (string) $order->id, $before, $order->only(['status', 'payment_status']));
 
         return $order->load('items');
@@ -172,6 +189,12 @@ class StoreController extends Controller
         $this->audit($r, 'product.updated', 'product', (string) $product->id, $before, $product->only(['price_cents', 'stock']));
 
         return $product->storefront();
+    }
+
+    public function cancelOrder(Request $r, Order $order, \App\Services\OrderCancellation $cancellation)
+    {
+        abort_unless($order->user_id === $r->user()->id, 404);
+        return $cancellation->cancel($order, 'Customer cancellation', true)->load('items');
     }
 
     public function requestErasure(Request $r)

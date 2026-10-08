@@ -6,15 +6,23 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('selcom:reconcile')->everyMinute()->withoutOverlapping(15);
+Schedule::command('orders:expire-unpaid')->everyFiveMinutes()->withoutOverlapping(15);
 
-Artisan::command('freshcart:admin {email}', function () {
+Artisan::command('freshcart:admin {email} {--existing}', function () {
+    if (!$this->option('existing')) {
+        $this->error('Use freshcart:admin:create for a new account. Promotion requires --existing and owner confirmation.');
+        return 1;
+    }
     $user = User::where('email', $this->argument('email'))->first();
     if (! $user) {
-        $this->error('Register this account in the storefront first.');
+        $this->error('Existing account not found. Use freshcart:admin:create.');
 
         return 1;
     }
-    $user->forceFill(['is_admin' => true])->save();
+    $this->line('Account: '.$user->name.'; created: '.$user->created_at.'; orders: '.\App\Models\Order::where('user_id', $user->id)->count());
+    if ($user->privacy_consented_at) $this->warn('This account was created through public registration. Verify the owner before promotion.');
+    if (!$this->confirm('Have you verified this account belongs to the intended administrator?', false)) return 1;
+    $user->forceFill(['is_admin' => true, 'email_verified_at' => now()])->save();
     $this->info('Administrator access granted.');
 });
 
