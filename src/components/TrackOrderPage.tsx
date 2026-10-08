@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CheckCircle2, ChevronRight, ClipboardCheck, MessageCircle, Package, RefreshCw, ShoppingBag, Truck } from 'lucide-react';
-import { ApiError, type Order } from '../api';
+import { api, ApiError, type Order } from '../api';
 import { useStore } from '../store';
 import { formatTzs } from '../currency';
 import { listOrders, normalizeStatus } from '../payments';
@@ -15,6 +15,7 @@ export function TrackOrderPage() {
   const [signedOut, setSignedOut] = useState(false);
   const [error, setError] = useState('');
   const [paying, setPaying] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
 
   const load = useCallback(async () => {
     try { setOrders(await listOrders()); setError(''); setSignedOut(false); }
@@ -39,7 +40,15 @@ export function TrackOrderPage() {
   ];
   const current = steps.findIndex(step => step.key === order.status);
   const payStatus = normalizeStatus(order.payment_status);
-  const owesOnline = order.payment_method === 'selcom' && payStatus !== 'paid';
+  const cancelled = order.status === 'cancelled';
+  const owesOnline = !cancelled && order.payment_method === 'selcom' && payStatus !== 'paid';
+  const cancel = async () => {
+    if (!window.confirm('Cancel this order? Its reserved stock will be released.')) return;
+    setCancelling(true);
+    try { await api(`/orders/${order.id}/cancel`, 'POST'); await load(); }
+    catch (e) { setError(e instanceof Error ? e.message : 'Could not cancel the order.'); }
+    finally { setCancelling(false); }
+  };
 
   return <div className="store-container fc-track">
     {crumb}
@@ -47,7 +56,9 @@ export function TrackOrderPage() {
     {error && <p role="alert">{error} <button className="fc-link-button" onClick={() => void load()}>Try again</button></p>}
     <div className="fc-track-head"><div><h1>Order {order.number}</h1><p>Placed {new Date(order.created_at).toLocaleDateString('en-TZ', { day: 'numeric', month: 'long', year: 'numeric' })} · {formatTzs(order.total_cents / 100)}</p></div><button className="fc-link-button" onClick={() => void load()}><RefreshCw size={15} aria-hidden="true"/>Refresh</button></div>
 
-    <ol className="fc-timeline" aria-label="Order progress">{steps.map((step, i) => <li key={step.key} className={i < current ? 'is-done' : i === current ? 'is-current' : ''} aria-current={i === current ? 'step' : undefined}><span className="fc-timeline-dot">{i < current ? <CheckCircle2 size={20} aria-hidden="true"/> : <step.icon size={20} aria-hidden="true"/>}</span><span className="fc-timeline-label">{step.label}</span></li>)}</ol>
+    {!cancelled && <ol className="fc-timeline" aria-label="Order progress">{steps.map((step, i) => <li key={step.key} className={i < current ? 'is-done' : i === current ? 'is-current' : ''} aria-current={i === current ? 'step' : undefined}><span className="fc-timeline-dot">{i < current ? <CheckCircle2 size={20} aria-hidden="true"/> : <step.icon size={20} aria-hidden="true"/>}</span><span className="fc-timeline-label">{step.label}</span></li>)}</ol>}
+    {cancelled && <p className="fc-track-note" role="status">Cancelled{payStatus === 'paid' ? ' · Paid after cancellation: staff review/refund needed.' : ' · Reserved stock has been released.'}</p>}
+    {order.status === 'pending' && payStatus !== 'paid' && <button className="button-secondary" disabled={cancelling} onClick={() => void cancel()}>{cancelling ? 'Cancelling…' : 'Cancel order'}</button>}
     {current < 0 && <p className="fc-track-note">Status: {order.status.replace(/_/g, ' ')}</p>}
 
     {owesOnline && !paying && <div className="fc-pay-banner" role="status"><div><strong>{payStatus === 'pending' ? 'Payment not completed yet' : 'Payment was not completed'}</strong><p>Your order is saved. Complete the mobile-money payment to confirm it.</p></div><button className="button-primary" onClick={() => setPaying(true)}>Pay now</button></div>}
