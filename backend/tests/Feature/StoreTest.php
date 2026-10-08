@@ -10,12 +10,12 @@ use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, \Tests\CreatesTestProducts;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->createTestProducts();
     }
 
     private function payload(): array
@@ -25,13 +25,14 @@ class StoreTest extends TestCase
 
     public function test_catalog_comes_from_database(): void
     {
-        $this->getJson('/api/products')->assertOk()->assertJsonCount(39)->assertJsonPath('0.price', 5200);
+        $this->getJson('/api/products')->assertOk()->assertJsonCount(2)->assertJsonFragment(['id' => 'p1', 'price' => 5200]);
     }
 
     public function test_registration_sign_in_and_logout(): void
     {
         $this->postJson('/api/register', ['name' => 'Customer', 'email' => 'customer@example.test', 'password' => 'password123', 'privacyConsent' => true])->assertCreated()->assertJsonMissingPath('password')->assertJsonPath('is_admin', false);
         $this->getJson('/api/me')->assertOk();
+        $this->assertNotNull(User::where('email', 'customer@example.test')->firstOrFail()->privacy_consented_at);
         $this->postJson('/api/logout')->assertNoContent();
         $this->postJson('/api/login', ['email' => 'customer@example.test', 'password' => 'wrong'])->assertUnprocessable();
         $this->postJson('/api/login', ['email' => 'customer@example.test', 'password' => 'password123'])->assertOk();
@@ -40,6 +41,24 @@ class StoreTest extends TestCase
     public function test_checkout_requires_sign_in(): void
     {
         $this->postJson('/api/orders', $this->payload())->assertUnauthorized();
+    }
+
+    public function test_api_responses_prevent_caching_and_content_sniffing(): void
+    {
+        $this->getJson('/api/products')->assertOk()
+            ->assertHeader('X-Content-Type-Options', 'nosniff')
+            ->assertHeader('X-Frame-Options', 'DENY');
+        $response = $this->actingAs(User::factory()->create())->getJson('/api/orders')->assertOk();
+        $this->assertStringContainsString('no-store', $response->headers->get('Cache-Control'));
+        $this->assertStringContainsString('private', $response->headers->get('Cache-Control'));
+    }
+
+    public function test_registration_requires_consent_and_cannot_grant_admin(): void
+    {
+        $payload = ['name' => 'Customer', 'email' => 'consent@example.test', 'password' => 'password123', 'is_admin' => true];
+        $this->postJson('/api/register', $payload)->assertUnprocessable();
+        $payload['privacyConsent'] = true;
+        $this->postJson('/api/register', $payload)->assertCreated()->assertJsonPath('is_admin', false);
     }
 
     public function test_checkout_uses_server_prices_and_persists_order(): void
@@ -130,5 +149,22 @@ class StoreTest extends TestCase
         $this->getJson('/api/admin/orders')->assertJsonCount(1);
         $this->patchJson('/api/admin/orders/'.$o->json('id'), ['status' => 'delivered', 'payment_status' => 'paid'])->assertOk()->assertJsonPath('status','delivered');
         $this->assertDatabaseCount('admin_audits', 2);
+    }
+
+    public function test_removed_community_endpoints_are_unavailable(): void
+    {
+        $this->getJson('/api/impact')->assertNotFound();
+        $this->actingAs(User::factory()->create())->getJson('/api/impact/me')->assertNotFound();
+        $this->postJson('/api/impact/contributions', [])->assertNotFound();
+        $this->getJson('/api/admin/impact')->assertNotFound();
+    }
+
+    public function test_legacy_contribution_payload_cannot_add_charges(): void
+    {
+        $payload = $this->payload();
+        $payload['impactContribution'] = ['kind' => 'fixed', 'amountCents' => 100000];
+        $this->actingAs(User::factory()->create())->postJson('/api/orders', $payload)
+            ->assertCreated()->assertJsonPath('total_cents', 1727200);
+        $this->assertDatabaseCount('community_contributions', 0);
     }
 }

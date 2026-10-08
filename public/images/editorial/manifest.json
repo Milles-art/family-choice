@@ -1,0 +1,452 @@
+[
+  {
+    "name": "category-fruits-vegetables",
+    "original": "Fresh produce in a market basket-1.webp",
+    "source_bytes": 295600,
+    "variants": [
+      {
+        "file": "category-fruits-vegetables-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 26512
+      },
+      {
+        "file": "category-fruits-vegetables-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 80182
+      },
+      {
+        "file": "category-fruits-vegetables-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 142052
+      }
+    ]
+  },
+  {
+    "name": "category-meat-poultry",
+    "original": "Raw chicken breasts on stainless steel tray-2.webp",
+    "source_bytes": 154708,
+    "variants": [
+      {
+        "file": "category-meat-poultry-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 11152
+      },
+      {
+        "file": "category-meat-poultry-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 32524
+      },
+      {
+        "file": "category-meat-poultry-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 62048
+      }
+    ]
+  },
+  {
+    "name": "category-dairy-eggs",
+    "original": "Milk, eggs, and cheese in soft daylight-3.webp",
+    "source_bytes": 110800,
+    "variants": [
+      {
+        "file": "category-dairy-eggs-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 10966
+      },
+      {
+        "file": "category-dairy-eggs-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 28546
+      },
+      {
+        "file": "category-dairy-eggs-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 51262
+      }
+    ]
+  },
+  {
+    "name": "category-frozen-foods",
+    "original": "Frozen peas and vanilla ice cream-4.webp",
+    "source_bytes": 221024,
+    "variants": [
+      {
+        "file": "category-frozen-foods-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 16886
+      },
+      {
+        "file": "category-frozen-foods-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 53040
+      },
+      {
+        "file": "category-frozen-foods-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 98318
+      }
+    ]
+  },
+  {
+    "name": "category-bakery",
+    "original": "Brown Bread and Rolls on Linen-5.webp",
+    "source_bytes": 365026,
+    "variants": [
+      {
+        "file": "category-bakery-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 26290
+      },
+      {
+        "file": "category-bakery-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 88204
+      },
+      {
+        "file": "category-bakery-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 171210
+      }
+    ]
+  },
+  {
+    "name": "category-pantry-staples",
+    "original": "Rice, beans, and lentils-6.webp",
+    "source_bytes": 258398,
+    "variants": [
+      {
+        "file": "category-pantry-staples-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 23490
+      },
+      {
+        "file": "category-pantry-staples-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 69086
+      },
+      {
+        "file": "category-pantry-staples-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 117536
+      }
+    ]
+  },
+  {
+    "name": "promotion-pantry-essentials",
+    "original": "Rice, Beans, Flour, and Oil-7.webp",
+    "source_bytes": 130144,
+    "variants": [
+      {
+        "file": "promotion-pantry-essentials-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 12258
+      },
+      {
+        "file": "promotion-pantry-essentials-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 36620
+      },
+      {
+        "file": "promotion-pantry-essentials-1440.webp",
+        "width": 1440,
+        "height": 810,
+        "bytes": 64032
+      }
+    ]
+  },
+  {
+    "name": "category-household-essentials",
+    "original": "Cleaning Supplies on a White Counter-8.webp",
+    "source_bytes": 106678,
+    "variants": [
+      {
+        "file": "category-household-essentials-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 8724
+      },
+      {
+        "file": "category-household-essentials-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 26644
+      },
+      {
+        "file": "category-household-essentials-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 48292
+      }
+    ]
+  },
+  {
+    "name": "category-beverages",
+    "original": "Orange juice, water, and hibiscus drinks-9.webp",
+    "source_bytes": 172982,
+    "variants": [
+      {
+        "file": "category-beverages-320.webp",
+        "width": 320,
+        "height": 320,
+        "bytes": 12372
+      },
+      {
+        "file": "category-beverages-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 39756
+      },
+      {
+        "file": "category-beverages-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 75512
+      }
+    ]
+  },
+  {
+    "name": "about-store-exterior-concept",
+    "original": "Modest Tanzania Neighborhood Supermarket-10.webp",
+    "source_bytes": 213312,
+    "variants": [
+      {
+        "file": "about-store-exterior-concept-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 22444
+      },
+      {
+        "file": "about-store-exterior-concept-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 67694
+      },
+      {
+        "file": "about-store-exterior-concept-1440.webp",
+        "width": 1440,
+        "height": 810,
+        "bytes": 121744
+      }
+    ]
+  },
+  {
+    "name": "promotion-weekly-shopping",
+    "original": "Overhead bag of bread, eggs, and fruit-11.webp",
+    "source_bytes": 156090,
+    "variants": [
+      {
+        "file": "promotion-weekly-shopping-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 16570
+      },
+      {
+        "file": "promotion-weekly-shopping-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 46346
+      },
+      {
+        "file": "promotion-weekly-shopping-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 81762
+      }
+    ]
+  },
+  {
+    "name": "about-team-produce-concept",
+    "original": "Family Choice staff arranging fresh produce-12.webp",
+    "source_bytes": 166962,
+    "variants": [
+      {
+        "file": "about-team-produce-concept-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 26642
+      },
+      {
+        "file": "about-team-produce-concept-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 63840
+      },
+      {
+        "file": "about-team-produce-concept-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 103302
+      }
+    ]
+  },
+  {
+    "name": "about-store-interior-concept",
+    "original": "Clean Tanzanian supermarket interior-13.webp",
+    "source_bytes": 256334,
+    "variants": [
+      {
+        "file": "about-store-interior-concept-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 30188
+      },
+      {
+        "file": "about-store-interior-concept-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 87830
+      },
+      {
+        "file": "about-store-interior-concept-1440.webp",
+        "width": 1440,
+        "height": 810,
+        "bytes": 149818
+      }
+    ]
+  },
+  {
+    "name": "promotion-fresh-produce",
+    "original": "Fresh produce packed with care-14.webp",
+    "source_bytes": 105650,
+    "variants": [
+      {
+        "file": "promotion-fresh-produce-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 12244
+      },
+      {
+        "file": "promotion-fresh-produce-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 32494
+      },
+      {
+        "file": "promotion-fresh-produce-1440.webp",
+        "width": 1440,
+        "height": 810,
+        "bytes": 55242
+      }
+    ]
+  },
+  {
+    "name": "delivery-home-handover-concept",
+    "original": "Friendly Grocery Delivery at Home-15.webp",
+    "source_bytes": 119318,
+    "variants": [
+      {
+        "file": "delivery-home-handover-concept-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 16146
+      },
+      {
+        "file": "delivery-home-handover-concept-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 39986
+      },
+      {
+        "file": "delivery-home-handover-concept-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 68602
+      }
+    ]
+  },
+  {
+    "name": "recipe-beef-pepper-stir-fry",
+    "original": "Beef and bell pepper stir-fry-19.webp",
+    "source_bytes": 214502,
+    "variants": [
+      {
+        "file": "recipe-beef-pepper-stir-fry-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 26256
+      },
+      {
+        "file": "recipe-beef-pepper-stir-fry-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 74534
+      },
+      {
+        "file": "recipe-beef-pepper-stir-fry-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 133374
+      }
+    ]
+  },
+  {
+    "name": "recipe-eggs-toast-tomato",
+    "original": "Everyday breakfast_ eggs, toast, and tomato-20.webp",
+    "source_bytes": 205202,
+    "variants": [
+      {
+        "file": "recipe-eggs-toast-tomato-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 26470
+      },
+      {
+        "file": "recipe-eggs-toast-tomato-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 71750
+      },
+      {
+        "file": "recipe-eggs-toast-tomato-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 122114
+      }
+    ]
+  },
+  {
+    "name": "recipe-tropical-fruit-dessert",
+    "original": "Fresh Tropical Fruit Bowl-21.webp",
+    "source_bytes": 152588,
+    "variants": [
+      {
+        "file": "recipe-tropical-fruit-dessert-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 19150
+      },
+      {
+        "file": "recipe-tropical-fruit-dessert-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 51430
+      },
+      {
+        "file": "recipe-tropical-fruit-dessert-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 90232
+      }
+    ]
+  }
+]

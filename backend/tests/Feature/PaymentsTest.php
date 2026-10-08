@@ -28,12 +28,12 @@ use Tests\TestCase;
 
 class PaymentsTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, \Tests\CreatesTestProducts;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->createTestProducts();
         Queue::fake();
         Http::preventStrayRequests();
         config()->set('services.selcom', ['enabled' => true, 'base_url' => 'https://selcom.example.test',

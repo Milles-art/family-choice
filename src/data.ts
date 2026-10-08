@@ -100,7 +100,7 @@ export const recipes: Recipe[] = [
     description: 'Tender ribeye steak with colorful bell peppers in a savory sauce. Ready in 25 minutes.',
     prepTime: '25 min',
     servings: 4,
-    productIds: ['p15', 'p2', 'p4'],
+    productIds: [],
   },
   {
     id: 'r2',
@@ -109,7 +109,7 @@ export const recipes: Recipe[] = [
     description: 'Scrambled eggs, toast and tomato for a simple start to the day.',
     prepTime: '15 min',
     servings: 2,
-    productIds: ['p11', 'p22'],
+    productIds: [],
   },
   {
     id: 'r3',
@@ -118,7 +118,7 @@ export const recipes: Recipe[] = [
     description: 'A bowl of mango, pineapple, banana and watermelon for a fresh fruit dessert.',
     prepTime: '10 min',
     servings: 2,
-    productIds: ['p1', 'p8', 'p7'],
+    productIds: [],
   },
 ];
 

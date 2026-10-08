@@ -21,3 +21,11 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Reproducible Laravel storefront output; source assets live in public/.
+/backend/public/assets/
+/backend/public/images/
+/backend/public/fonts/
+
+# Browser screenshots are local verification output, not source files.
+/artifacts/**/*.png

@@ -120,6 +120,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       return [];
     }
   });
+  useEffect(() => {
+    if (!catalogResource.data) return;
+    const available = new Set(catalogResource.data.map(product => product.id));
+    setWishlistIds(previous => previous.filter(id => available.has(id)));
+    setRecentlyViewed(previous => previous.filter(id => available.has(id)));
+  }, [catalogResource.data]);
   const [rewardsPoints] = useState<number>(() => {
     try {
       const saved = localStorage.getItem(REWARDS_KEY);

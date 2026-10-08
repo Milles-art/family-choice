@@ -73,9 +73,9 @@ export function RecipesPage() {
                   alt={recipe.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-xl px-3 py-1.5 text-sm font-bold text-gray-900">
+                {ingredients.length > 0 && <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-xl px-3 py-1.5 text-sm font-bold text-gray-900">
                   {formatTzs(totalPrice)}
-                </div>
+                </div>}
               </div>
               <div className="fc-recipe-body p-5">
                 <h2 className="text-lg font-bold text-gray-900 mb-1">{recipe.name}</h2>
@@ -93,7 +93,7 @@ export function RecipesPage() {
                 {/* Ingredients */}
                 <div className="mb-4">
                   <h3 className="text-sm font-semibold text-gray-900 mb-2">Available catalogue ingredients</h3>
-                  <p className="text-xs text-gray-600 mb-3">The amount above covers these catalogue items only. Other ingredients and pantry basics may be needed.</p>
+                  <p className="text-xs text-gray-600 mb-3">{ingredients.length ? 'The amount above covers these catalogue items only. Other ingredients and pantry basics may be needed.' : 'Catalogue ingredients will be available after the real products are added.'}</p>
                   <div className="space-y-1.5">
                     {ingredients.map((product) => (
                       <button

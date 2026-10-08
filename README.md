@@ -6,7 +6,7 @@ React/TypeScript storefront with a Laravel 12 database backend. The current desi
 
 - Redesigned homepage, information, recipe, account, cart and checkout presentation; preserved Shop catalogue, product cards, product details and shopping controls.
 - All 21 supplied images as responsive WebP assets, with original image backups and locally hosted fonts. Existing hero photographs rotate every four seconds.
-- All 39 original products seeded into the database.
+- The live catalogue starts empty, ready for real supplier products. Automated tests create two generic test-only items; the old sample catalogue is deleted.
 - Cookie/session registration, login and logout; CSRF protection; authentication throttling.
 - Saved customer orders, order history and owner-only order tracking.
 - Optional Selcom wallet payments, disabled until configured; verified callbacks and background reconciliation.
@@ -23,6 +23,8 @@ React/TypeScript storefront with a Laravel 12 database backend. The current desi
 PHP 8.2 or newer with PDO, SQLite (or MySQL), mbstring, XML/DOM, tokenizer, ctype, fileinfo, curl and OpenSSL; Composer; Node.js 20 or newer; npm.
 
 ## Local setup
+
+The current local installation uses XAMPP MariaDB, with existing SQLite data preserved. See [XAMPP database setup and recovery](docs/XAMPP-MYSQL-SETUP.md). The fresh-install steps below are for a new installation only; do not regenerate an existing application key or reseed an existing store.
 
 Run from the project root:
 
