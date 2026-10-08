@@ -90,6 +90,15 @@ class HardeningTest extends TestCase
         $this->assertSame(100, Product::find('p1')->stock);
     }
 
+    public function test_admin_paid_selcom_refusal_keeps_verified_payment(): void
+    {
+        $order = $this->order(); $this->selcom($order, 'PAID');
+        $this->actingAs(User::factory()->create(['is_admin' => true]));
+        $this->patchJson('/api/admin/orders/'.$order->id, ['status' => 'cancelled'])->assertUnprocessable();
+        $this->assertSame('paid', $order->fresh()->payment_status);
+        $this->assertSame(98, Product::find('p1')->stock);
+    }
+
     public function test_selcom_unknown_or_unavailable_never_cancels(): void
     {
         $order = $this->order();
@@ -243,6 +252,12 @@ class HardeningTest extends TestCase
         for ($i = 0; $i < 5; $i++) $this->postJson('/api/forgot-password', ['email' => 'none@example.test'])->assertOk();
         $this->postJson('/api/forgot-password', ['email' => 'none@example.test'])->assertStatus(429);
         $this->withHeaders(['X-Forwarded-For' => '192.0.2.11'])->postJson('/api/forgot-password', ['email' => 'none@example.test'])->assertOk();
+        for ($i = 0; $i < 10; $i++) $this->postJson('/api/login', ['email' => 'proxy-login@example.test', 'password' => 'incorrect'])->assertUnprocessable();
+        $this->postJson('/api/login', ['email' => 'proxy-login@example.test', 'password' => 'incorrect'])->assertStatus(429);
+        $this->withHeaders(['X-Forwarded-For' => '192.0.2.12'])->postJson('/api/login', ['email' => 'proxy-login@example.test', 'password' => 'incorrect'])->assertUnprocessable();
+        for ($i = 0; $i < 60; $i++) $this->postJson('/api/selcom/webhook', ['order_id' => 'none'])->assertStatus(503);
+        $this->postJson('/api/selcom/webhook', ['order_id' => 'none'])->assertStatus(429);
+        $this->withHeaders(['X-Forwarded-For' => '192.0.2.13'])->postJson('/api/selcom/webhook', ['order_id' => 'none'])->assertStatus(503);
         config()->set('store.trusted_proxies', '');
         $this->withHeaders(['X-Forwarded-For' => '198.51.100.12', 'X-Forwarded-Proto' => 'https'])->getJson('http://localhost/api/test-ip')->assertJsonPath('ip', '127.0.0.1')->assertJsonPath('secure', false);
     }
@@ -273,5 +288,21 @@ class HardeningTest extends TestCase
         $before = User::count();
         $this->artisan('store:preflight')->expectsOutput('Run a queue worker and scheduler; confirm their health on the host.')->assertFailed();
         $this->assertSame($before, User::count());
+    }
+
+    public function test_registration_limiter_and_safe_templates_and_schedule(): void
+    {
+        for ($i = 0; $i < 5; $i++) $this->postJson('/api/register', ['email' => 'rate@example.test'])->assertUnprocessable();
+        $this->postJson('/api/register', ['email' => 'RATE@example.test'])->assertStatus(429);
+        $this->postJson('/api/register', ['email' => 'other-rate@example.test'])->assertUnprocessable();
+        $this->assertStringStartsWith('# LOCAL DEVELOPMENT ONLY.', file_get_contents(base_path('.env.example')));
+        $production = file_get_contents(base_path('.env.production.example'));
+        foreach (['APP_ENV=production', 'APP_DEBUG=false', 'LOG_LEVEL=warning', 'DB_PASSWORD=', 'QUEUE_CONNECTION=database', 'SESSION_SECURE_COOKIE=true'] as $setting) $this->assertStringContainsString($setting, $production);
+        $static = file_get_contents(public_path('.htaccess'));
+        foreach (['X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'Permissions-Policy'] as $header) $this->assertStringContainsString($header, $static);
+        $this->assertStringContainsString('const RESEND_S = 45;', file_get_contents(base_path('../src/components/PaymentWaiting.tsx')));
+        $events = app(\Illuminate\Console\Scheduling\Schedule::class)->events();
+        $expiry = collect($events)->first(fn ($event) => str_contains($event->command ?? '', 'orders:expire-unpaid'));
+        $this->assertNotNull($expiry); $this->assertTrue($expiry->withoutOverlapping); $this->assertSame('*/5 * * * *', $expiry->expression);
     }
 }
