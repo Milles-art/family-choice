@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { settings } from '../api';
 import { useStore } from '../store';
 import { formatTzs } from '../currency';
@@ -30,7 +31,16 @@ export function CartPanel() {
     settingsReady,
   } = useStore();
 
-  if (!cartOpen) return null;
+  const [present, setPresent] = useState(cartOpen);
+  useEffect(() => {
+    if (cartOpen) { setPresent(true); return; }
+    if (!present) return;
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 220;
+    const timer = window.setTimeout(() => setPresent(false), duration);
+    return () => window.clearTimeout(timer);
+  }, [cartOpen, present]);
+
+  if (!cartOpen && !present) return null;
 
   const whatsappMessage = `Hello FAMILY CHOICE SUPERMARKET, I would like to order:\n${cart.map(item => `- ${item.quantity} x ${item.product.name} (${item.product.unit})`).join('\n')}\nSubtotal: ${formatTzs(cartSubtotal)}\nPlease confirm availability and delivery.`;
 
@@ -39,10 +49,10 @@ export function CartPanel() {
   const progress = freeDeliveryThreshold > 0 ? Math.min(100, (cartSubtotal / freeDeliveryThreshold) * 100) : 100;
 
   return (
-    <Overlay label="Your shopping cart" onClose={() => setCartOpen(false)} className="fc-cart fixed inset-0 z-[70] flex justify-end">
+    <Overlay label="Your shopping cart" onClose={() => setCartOpen(false)} className={`fc-cart fixed inset-0 z-[70] flex justify-end ${!cartOpen ? 'is-closing' : ''}`}>
       <div className="absolute inset-0 bg-black/40" onClick={() => setCartOpen(false)} />
 
-      <div className="fc-cart-sheet relative w-full max-w-md bg-white h-full flex flex-col shadow-2xl animate-slide-in-right">
+      <div className="fc-cart-sheet relative w-full max-w-md bg-white h-full flex flex-col shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-100">
           <div className="flex items-center gap-2">

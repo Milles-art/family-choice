@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: { host: '127.0.0.1', proxy: { '/api': 'http://127.0.0.1:8000' } },
+  server: { host: '127.0.0.1', allowedHosts: ['terminal.local'], proxy: { '/api': 'http://127.0.0.1:8000' } },
   preview: { host: '127.0.0.1' },
   resolve: {
     alias: {
