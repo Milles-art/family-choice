@@ -1,3 +1,5 @@
+import { PageSeo } from './components/PageSeo';
+import { StoreLink } from './components/StoreLink';
 import { StoreProvider, useStore } from './store';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -25,20 +27,14 @@ import { StoreInfoPage } from './components/StoreInfoPage';
 import { SectionSkeleton } from './components/LoadingState';
 import { useEffect, useRef } from 'react';
 
-const BRAND = 'FAMILY CHOICE SUPERMARKET';
-function pageTitle(page: ReturnType<typeof useStore>['page']) {
-  const names: Record<string, string> = { catalog: 'Shop groceries', product: 'Product details', checkout: 'Checkout', cart: 'Checkout', account: 'My account', deals: 'Deals', 'new-arrivals': 'New arrivals', wishlist: 'Wishlist', recipes: 'Recipes', privacy: 'Privacy notice', track: 'Track order', 'forgot-password': 'Forgot password', 'reset-password': 'Reset password' };
-  const info: Record<string, string> = { about: 'About us', delivery: 'Delivery areas', help: 'Help & contact', 'how-it-works': 'How it works' };
-  const label = page.name === 'info' ? info[page.section] : names[page.name];
-  return label ? `${label} | ${BRAND}` : `${BRAND} | Groceries delivered in Tanzania`;
-}
-
 function PageContent() {
   const { page, catalogReady, catalogError, retryCatalog } = useStore();
   const needsCatalog = ['catalog', 'product', 'deals', 'new-arrivals', 'wishlist', 'recipes'].includes(page.name);
   if (needsCatalog && !catalogReady) return <div className="store-container py-8">{catalogError ? <div className="surface p-6"><h1 className="text-2xl font-bold">The catalogue is unavailable</h1><p role="alert" className="my-3">{catalogError}</p><button className="button-primary" onClick={retryCatalog}>Retry catalogue</button></div> : <SectionSkeleton />}</div>;
 
   switch (page.name) {
+    case 'not-found':
+      return <div className="store-container py-12"><h1 className="text-3xl font-bold">Page not found</h1><p className="my-4">This page could not be found.</p><StoreLink to={{name:'catalog'}} className="button-primary">Browse the shop</StoreLink></div>;
     case 'home':
       return <HomePage />;
     case 'catalog':
@@ -80,11 +76,11 @@ function AppShell() {
   const previousPage = useRef(page);
   useEffect(() => {
     if (previousPage.current !== page) { main.current?.focus({ preventScroll: true }); previousPage.current = page; }
-    document.title = pageTitle(page);
   }, [page]);
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <a className="skip-link" href="#main-content">Skip to main content</a>
+      <PageSeo />
       <Header />
       <main ref={main} id="main-content" tabIndex={-1} className={`flex-1 pb-16 md:pb-0 ${['catalog','product','deals','new-arrivals','wishlist'].includes(page.name) ? '' : `fc-page fc-page-${page.name}`}`}>
         {catalogReady && catalogError && <div className="store-container py-3" role="status">Catalogue refresh failed. Displaying the last loaded products. <button className="underline" onClick={retryCatalog}>Retry</button></div>}

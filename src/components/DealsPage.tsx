@@ -35,7 +35,7 @@ export function DealsPage() {
       </section>
 
       {/* Deal banners */}
-      <div className="grid sm:grid-cols-3 gap-4 mb-8">
+      <div className="deals-category-photos grid sm:grid-cols-3 gap-4 mb-8">
         {deals.map((deal) => (
           <button
             key={deal.id}

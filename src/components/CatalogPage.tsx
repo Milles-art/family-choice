@@ -1,9 +1,10 @@
+import { StoreLink } from './StoreLink';
 import { useStore } from '../store';
 import { categories, products, getCategoryById, searchProducts } from '../data';
 import type { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { SlidersHorizontal, X, ChevronRight, Home } from 'lucide-react';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { formatTzs } from '../currency';
 import { Overlay } from './Overlay';
 
@@ -20,7 +21,20 @@ export function CatalogPage() {
   const [showFiltersOnly, setShowFiltersOnly] = useState(false);
   const maximumPrice = Math.max(1000, Math.ceil(Math.max(0, ...products.map((product) => product.price)) / 1000) * 1000);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, maximumPrice]);
+  const previousMaximum = useRef(maximumPrice);
+  useEffect(() => {
+    const previous = previousMaximum.current;
+    setPriceRange(range => range[1] === previous ? [range[0], maximumPrice] : range);
+    previousMaximum.current = maximumPrice;
+  }, [maximumPrice]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [pageNumber, setPageNumber] = useState(page.name === 'catalog' ? page.pageNumber ?? 1 : 1);
+  useEffect(() => { if(page.name === 'catalog') setPageNumber(page.pageNumber ?? 1); }, [page]);
+  const pageSize = 24;
+  const resetPage = () => {
+    setPageNumber(1);
+    if (page.name === 'catalog' && (page.pageNumber ?? 1) > 1) navigate({...page, pageNumber:1});
+  };
 
   useEffect(() => {
     if (page.name === 'catalog') {
@@ -63,6 +77,14 @@ export function CatalogPage() {
 
     return result;
   }, [searchQuery, selectedCategory, sortBy, priceRange, selectedTags, catalogVersion]);
+  const pageCount = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
+  const currentPage = Math.min(pageNumber, pageCount);
+  const pageStart = (currentPage - 1) * pageSize;
+  const changePage = (next: number) => {
+    setPageNumber(next);
+    navigate({name:'catalog',categoryId:selectedCategory || undefined,searchQuery:searchQuery || undefined,pageNumber:next});
+    requestAnimationFrame(() => document.getElementById('catalog-results')?.focus());
+  };
 
   const currentCategory = selectedCategory ? getCategoryById(selectedCategory) : undefined;
   const pageTitle = searchQuery
@@ -72,6 +94,7 @@ export function CatalogPage() {
     : 'All Products';
 
   const toggleTag = (tag: string) => {
+    resetPage();
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
@@ -83,28 +106,20 @@ export function CatalogPage() {
       <div>
         <h3 className="text-sm font-bold text-gray-900 mb-3">Categories</h3>
         <div className="space-y-1">
-          <button
-            onClick={() => {
-              setSelectedCategory(undefined);
-              setSearchQuery('');
-            }}
-            aria-pressed={!selectedCategory}
-            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+          <StoreLink to={{name:'catalog'}}
+            aria-current={!selectedCategory ? 'page' : undefined}
+            className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
               !selectedCategory
                 ? 'bg-green-50 text-green-700 font-semibold'
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
             All Products
-          </button>
+          </StoreLink>
           {categories.map((cat) => (
-            <button
-              key={cat.id}
-              aria-pressed={selectedCategory === cat.id}
-              onClick={() => {
-                setSelectedCategory(cat.id);
-                setSearchQuery('');
-              }}
+            <StoreLink
+              key={cat.id} to={{name:'catalog', categoryId:cat.id}}
+              aria-current={selectedCategory === cat.id ? 'page' : undefined}
               className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
                 selectedCategory === cat.id
                   ? 'bg-green-50 text-green-700 font-semibold'
@@ -116,7 +131,7 @@ export function CatalogPage() {
                 style={{ backgroundColor: cat.color }}
               />
               {cat.name}
-            </button>
+            </StoreLink>
           ))}
         </div>
       </div>
@@ -136,7 +151,7 @@ export function CatalogPage() {
             max={maximumPrice}
             step="1000"
             value={priceRange[1]}
-            onChange={(e) => setPriceRange([0, parseInt(e.target.value, 10)])}
+            onChange={(e) => { resetPage(); setPriceRange([0, parseInt(e.target.value, 10)]); }}
             className="w-full accent-green-600"
           />
         </div>
@@ -203,7 +218,7 @@ export function CatalogPage() {
         <div className="flex-1 min-w-0">
           {/* Sort bar */}
           <div className="shop-toolbar">
-            <div className="shop-result-title"><h1>{pageTitle}</h1><p>{filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found</p></div>
+            <div className="shop-result-title" id="catalog-results" tabIndex={-1}><h1>{pageTitle}</h1><p aria-live="polite">{filteredProducts.length ? `Showing ${pageStart + 1}–${Math.min(pageStart + pageSize, filteredProducts.length)} of ${filteredProducts.length} products` : '0 products found'}</p></div>
             <div className="shop-toolbar-controls">
             <button
               onClick={() => setShowFiltersOnly(true)}
@@ -217,7 +232,7 @@ export function CatalogPage() {
               <select
                 aria-label="Sort products"
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                onChange={(e) => {resetPage(); setSortBy(e.target.value as SortOption);}}
                 className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="relevance">Relevance</option>
@@ -245,6 +260,7 @@ export function CatalogPage() {
                   setSearchQuery('');
                   setSelectedTags([]);
                   setPriceRange([0, maximumPrice]);
+                  navigate({name:'catalog'});
                 }}
                 className="px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 transition-colors text-sm"
               >
@@ -253,7 +269,7 @@ export function CatalogPage() {
             </div>
           ) : (
             <div className="product-grid shop-product-grid">
-              {filteredProducts.map((product) => (
+              {filteredProducts.slice(pageStart, pageStart + pageSize).map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
@@ -262,6 +278,11 @@ export function CatalogPage() {
               ))}
             </div>
           )}
+          {pageCount > 1 && <nav aria-label="Product pagination" className="flex flex-wrap items-center justify-center gap-2 mt-8">
+            <button className="w-11 h-11 rounded-lg border bg-white disabled:opacity-40" aria-label="Previous product page" disabled={currentPage === 1} onClick={() => changePage(currentPage - 1)}>‹</button>
+            {Array.from({length: pageCount}, (_, i) => i + 1).filter(n => n === 1 || n === pageCount || Math.abs(n - currentPage) <= 1).map((n, i, visible) => <span key={n} className="flex items-center gap-2">{i > 0 && n - visible[i - 1] > 1 && <span aria-hidden="true">…</span>}<button aria-label={`Product page ${n}`} aria-current={n === currentPage ? 'page' : undefined} onClick={() => changePage(n)} className={`w-11 h-11 rounded-lg border ${n === currentPage ? 'bg-green-700 text-white border-green-700' : 'bg-white text-gray-700'}`}>{n}</button></span>)}
+            <button className="w-11 h-11 rounded-lg border bg-white disabled:opacity-40" aria-label="Next product page" disabled={currentPage === pageCount} onClick={() => changePage(currentPage + 1)}>›</button>
+          </nav>}
         </div>
       </div>
 
@@ -272,7 +293,7 @@ export function CatalogPage() {
             className="absolute inset-0 bg-black/40"
             onClick={() => setShowFiltersOnly(false)}
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[80vh] flex flex-col">
+          <div className="mobile-filter-sheet absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[80vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
               <h2 className="font-bold text-gray-900">Filters</h2>
               <button aria-label="Close filters" onClick={() => setShowFiltersOnly(false)} className="p-1 w-11 h-11">

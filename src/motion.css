@@ -1,0 +1,136 @@
+/* =========================================================================
+   motion.css — premium motion layer for Family Choice Supermarket
+   Additive: does not modify the existing design system or shop pages.
+   Loaded LAST in main.tsx.
+   ========================================================================= */
+
+/* ---------- Custom cursor (desktop only) ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .fc-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle, rgba(22, 101, 52, 0.35) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: width 0.2s ease, height 0.2s ease, opacity 0.3s ease,
+      background-color 0.2s ease;
+    mix-blend-mode: screen;
+  }
+  .fc-cursor.is-visible {
+    opacity: 1;
+  }
+  .fc-cursor.is-hover {
+    width: 64px;
+    height: 64px;
+    background: rgba(22, 101, 52, 0.12);
+  }
+
+  .fc-cursor-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 6px 14px;
+    background: #166534;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 999px;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -130%);
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .fc-cursor-label.is-visible {
+    opacity: 1;
+    transform: translate(-50%, -140%);
+  }
+}
+
+/* ---------- WhatsApp pulse (stops after first interaction) ---------- */
+.fc-whatsapp-pulse {
+  animation: fc-whatsapp-pulse 2.5s infinite ease-in-out;
+}
+@keyframes fc-whatsapp-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.55);
+  }
+}
+.fc-whatsapp-pulse.is-interacted {
+  animation: none;
+}
+
+/* ---------- Hero entrance stagger ---------- */
+.fc-hero-reveal {
+  opacity: 0;
+  transform: translateY(34px);
+}
+.fc-hero-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fc-hero-up 0.8s var(--ease-out, cubic-bezier(.2, .7, .2, 1)) backwards;
+}
+@keyframes fc-hero-up {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Category card hover lift ---------- */
+.fc-cat-card {
+  transition: transform 0.35s var(--ease-spring, cubic-bezier(.34, 1.56, .64, 1)),
+    box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.fc-cat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(23, 43, 34, 0.08);
+  border-color: #22c55e;
+}
+.fc-cat-card:hover .fc-cat-icon {
+  transform: scale(1.15);
+  color: #22c55e;
+}
+.fc-cat-icon {
+  transition: transform 0.35s var(--ease-spring, cubic-bezier(.34, 1.56, .64, 1)),
+    color 0.3s ease;
+}
+
+/* ---------- Respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fc-cursor,
+  .fc-cursor-label {
+    display: none !important;
+  }
+  .fc-whatsapp-pulse {
+    animation: none !important;
+  }
+  .fc-cat-card,
+  .fc-cat-icon {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .fc-hero-reveal.is-visible {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -22,7 +22,7 @@ export function NewArrivalsPage() {
           <Sparkles className="w-5 h-5" /> Just added
         </div>
         <h1 className="text-3xl md:text-4xl font-bold mb-2">New arrivals</h1>
-        <p className="text-green-50 max-w-xl">Explore the latest products added to FAMILY CHOICE SUPERMARKET, ready for delivery in Dar es Salaam.</p>
+        <p className="text-green-50 max-w-xl">Explore the latest products added to FAMILY CHOICE SUPERMARKET, available for delivery in Morogoro or pickup at our store.</p>
       </section>
 
       {arrivals.length ? (

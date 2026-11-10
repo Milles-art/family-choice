@@ -1,0 +1,67 @@
+/* Photographs remain unfiltered. Keep layers above the neutral fallback,
+   and retain the previous photograph while the next slide loads. */
+.fc-home .hero-slideshow { background: #f7f5ef; }
+.fc-home .hero-backdrops { z-index: 0; }
+.fc-home .hero-inner { position: relative; z-index: 1; }
+.fc-home .hero-backdrops img { animation: none; transition: opacity 250ms ease; }
+
+@media (max-width: 767px) {
+  .fc-header .header-row { min-height: 68px; gap: 8px; padding-block: 10px; }
+  .fc-header .header-row > button:first-child,
+  .fc-header .header-icon { width: 44px; height: 44px; min-width: 44px; flex-shrink: 0; }
+  .fc-header .brand-home { flex: 1 1 auto; min-width: 0; max-width: 190px; }
+  .fc-header .brand-logo { width: 100%; height: auto; }
+  .fc-header .header-actions { gap: 0; }
+
+  .fc-home .hero-slideshow { background: #fff; border: 1px solid #e0e7e2; }
+  .fc-home .hero-backdrops { position: relative; inset: auto; aspect-ratio: 5 / 2; }
+  .fc-home .hero-backdrops img { object-fit: contain; object-position: center; }
+  .fc-home .hero-inner { min-height: 0; padding: 22px 20px; gap: 0; }
+  .fc-home .hero-copy { width: 100%; max-width: none; margin: 0; }
+  .fc-home .hero-copy > * { animation: none; }
+  .fc-home .hero-topic { margin-bottom: 14px; font-size: 12px; padding: 5px 10px; }
+  .fc-home .hero-copy h1 { min-height: 3.36em; font-size: clamp(1.85rem, 7.8vw, 2.75rem); line-height: 1.12; letter-spacing: -.035em; text-shadow: none; }
+  .fc-home .hero-description { min-height: 6.4em; margin-block: 14px 20px; max-width: none; font-size: 15px; line-height: 1.6; text-shadow: none; }
+  .fc-home .hero-copy .button-primary,
+  .fc-home .hero-copy .button-secondary { min-height: 44px; padding: 10px 14px; font-size: 14px; }
+  .fc-home .hero-bottom { margin-top: 20px; }
+  .fc-home .hero-benefits { display: flex; flex-wrap: wrap; font-size: 12px; text-shadow: none; gap: 8px 16px; }
+
+  .shop-banner { min-height: 0; background: #fff; border: 1px solid #e0e7e2; }
+  .shop-banner > img { position: relative; inset: auto; display: block; height: auto; width: 100%; aspect-ratio: 5 / 2; object-fit: contain; object-position: center; }
+  .shop-banner-copy { min-height: 0; width: 100%; max-width: none; padding: 20px; }
+  .shop-page .shop-banner h2 { max-width: none; font-size: 1.6rem; }
+  .shop-banner p { max-width: none; font-size: 15px; }
+
+  .fc-mobile-nav button { min-height: 56px; color: #465d51; }
+  .fc-mobile-nav button[aria-current="page"] { color: #166534; }
+  .fc-mobile-nav button > span:not(.absolute) { font-size: 12px; }
+  main input:not([type="checkbox"]):not([type="radio"]),
+  main select, main textarea, .fc-header input { font-size: 16px; }
+  .fc-search-suggestions { max-height: min(60dvh, 480px); overflow-y: auto; }
+  .product-detail-photo { aspect-ratio: auto; height: 260px; padding: 12px; }
+  .product-detail .grid.md\:grid-cols-2 { gap: 24px; }
+  .mobile-filter-sheet { max-height: 85dvh; padding-bottom: env(safe-area-inset-bottom); }
+  .mobile-filter-sheet > .overflow-y-auto { min-height: 0; overscroll-behavior: contain; }
+  .fc-cart-sheet > div:first-child { background: #fff; color: #123d29; }
+  .fc-cart-sheet > div:first-child h2,
+  .fc-cart-sheet > div:first-child svg,
+  .fc-cart-sheet > div:first-child span { color: #123d29; }
+  .fc-cart-sheet > div:first-child h2 { font-size: 22px; }
+  .fc-cart-sheet button[aria-label="Close cart"],
+  .fc-cart-sheet button[aria-label$="from cart"] { min-width: 44px; min-height: 44px; }
+  .fc-cart-sheet > div:last-child { padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
+  .contact-photo { aspect-ratio: 16 / 10; }
+  .fc-whatsapp { min-height: 44px; height: 44px; min-width: 44px; width: 44px; right: 12px; }
+  .fc-page { overflow-wrap: break-word; }
+}
+
+@media (max-width: 639px) {
+  .deals-category-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .deals-category-photos > button { aspect-ratio: 4 / 3; }
+  .deals-category-photos img { object-fit: contain; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fc-home .hero-backdrops img { transition: none; }
+}

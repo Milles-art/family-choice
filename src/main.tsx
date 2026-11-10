@@ -10,7 +10,10 @@ import './about.css';
 import './contact.css';
 import './delivery.css';
 import './polish.css';
+import './motion.css';
 import './payments.css';
+import './footer.css';
+import './mobile.css';
 import { initReveal } from './reveal';
 
 initReveal();
@@ -21,3 +24,4 @@ root.render(
     <App />
   </StrictMode>
 );
+import './light-adaptation.css';

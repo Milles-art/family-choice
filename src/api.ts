@@ -14,4 +14,4 @@ export async function api<T>(path: string, method = 'GET', body?: unknown): Prom
 }
 export const loadProducts = () => api<Product[]>('/products');
 
-export const settings = {currency:'TZS', tax_rate:0.18, delivery_cents:500000, free_delivery_cents:7500000, mobile_money_enabled:false, selcom_enabled:false, mobile_money_instructions:''};
+export const settings = {currency:'TZS', tax_rate:0.18, delivery_cents:500000, free_delivery_cents:0, mobile_money_enabled:false, selcom_enabled:false, mobile_money_instructions:''};

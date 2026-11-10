@@ -1,4 +1,3 @@
-import { settings } from '../api';
 import { useStore } from '../store';
 import { formatTzs } from '../currency';
 import { LottieAnimation } from './LottieAnimation';
@@ -11,7 +10,6 @@ import {
   Trash2,
   ShoppingBag,
   Tag,
-  Truck,
   ArrowRight,
   MessageCircle,
 } from 'lucide-react';
@@ -27,16 +25,13 @@ export function CartPanel() {
     cartSavings,
     cartCount,
     navigate,
-    settingsReady,
   } = useStore();
 
   if (!cartOpen) return null;
 
   const whatsappMessage = `Hello FAMILY CHOICE SUPERMARKET, I would like to order:\n${cart.map(item => `- ${item.quantity} x ${item.product.name} (${item.product.unit})`).join('\n')}\nSubtotal: ${formatTzs(cartSubtotal)}\nPlease confirm availability and delivery.`;
 
-  const freeDeliveryThreshold = settings.free_delivery_cents / 100;
-  const remainingForFree = Math.max(0, freeDeliveryThreshold - cartSubtotal);
-  const progress = freeDeliveryThreshold > 0 ? Math.min(100, (cartSubtotal / freeDeliveryThreshold) * 100) : 100;
+  const requiresConfirmation = cart.some(item => item.product.orderable === false || item.product.stockStatus === 'unverified');
 
   return (
     <Overlay label="Your shopping cart" onClose={() => setCartOpen(false)} className="fc-cart fixed inset-0 z-[70] flex justify-end">
@@ -83,30 +78,6 @@ export function CartPanel() {
           </div>
         ) : (
           <>
-            {/* Free delivery progress */}
-            {settingsReady && <div className="px-4 py-3 bg-green-50 border-b border-green-100">
-              {remainingForFree > 0 ? (
-                <p className="text-sm text-green-800">
-                  Add{' '}
-                  <span className="font-bold">
-                    {formatTzs(remainingForFree)}
-                  </span>{' '}
-                  more for FREE delivery!
-                </p>
-              ) : (
-                <p className="text-sm text-green-800 font-semibold flex items-center gap-1.5">
-                  <Truck className="w-4 h-4" />
-                  You've unlocked FREE delivery!
-                </p>
-              )}
-              <div className="mt-2 h-1.5 bg-green-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-green-600 rounded-full transition-all duration-500"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>}
-
             {/* Cart items */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {cart.map((item) => (
@@ -116,7 +87,8 @@ export function CartPanel() {
                 >
                   <img
                     src={item.product.image}
-                    alt={item.product.name}
+                    alt={item.product.imageAlt ?? item.product.name}
+                    width={64} height={64} loading="lazy" decoding="async"
                     className="w-16 h-16 rounded-lg object-contain flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
@@ -184,7 +156,7 @@ export function CartPanel() {
                 </span>
               </div>
               <p className="text-xs text-gray-400">
-                Delivery and taxes calculated at checkout
+                {requiresConfirmation ? 'Store prices approved. Availability must be confirmed before ordering or payment.' : 'Delivery and taxes calculated at checkout'}
               </p>
               <button
                 onClick={() => {

@@ -41,20 +41,32 @@ Artisan::command('freshcart:products:import {path : JSON catalog file with price
         return 1;
     }
 
+    $ids = [];
     foreach ($products as $item) {
-        if (! is_array($item) || ! isset($item['id'], $item['name'], $item['price']) || ! is_numeric($item['price']) || $item['price'] < 1) {
+        if (! is_array($item) || ! isset($item['id'], $item['name'], $item['price']) || ! is_numeric($item['price']) || ! is_finite((float) $item['price']) || $item['price'] < 1 || isset($ids[$item['id']]) || (isset($item['stock']) && (!is_int($item['stock']) || $item['stock'] < 0))) {
             $this->error('Each product requires an id, name and whole-TSh price of at least 1.');
 
             return 1;
         }
+        $ids[$item['id']] = true;
+        if (str_starts_with($item['id'], 'FC-') && (!preg_match('~^/images/products/[a-z0-9-]+\.webp$~', $item['image'] ?? '') || (!is_file(public_path(ltrim($item['image'] ?? '', '/'))) && !is_file(base_path('../public'.($item['image'] ?? '')))))) {
+            $this->error('Missing or invalid supplied WebP: '.$item['id']);
+            return 1;
+        }
     }
 
-    foreach ($products as $item) {
-        Product::updateOrCreate(
-            ['id' => $item['id']],
-            ['details' => $item, 'price_cents' => (int) round($item['price'] * 100), 'stock' => $item['stock'] ?? 100]
-        );
-    }
+    \Illuminate\Support\Facades\DB::transaction(function () use ($products) {
+        foreach ($products as $item) {
+            $existing = Product::whereKey($item['id'])->lockForUpdate()->first();
+            // A later confirmed inventory must survive a rerun of an older source.
+            if (in_array($item['stockStatus'] ?? '', ['unverified', 'available'], true) && ($existing?->details['stockStatus'] ?? '') === 'confirmed') {
+                foreach (['stockStatus', 'orderable', 'priceType'] as $field) $item[$field] = $existing->details[$field] ?? $item[$field] ?? null;
+                $item['stock'] = $existing->stock;
+                $item['price'] = $existing->price_cents / 100;
+            }
+            Product::updateOrCreate(['id' => $item['id']], ['details' => $item, 'price_cents' => (int) round($item['price'] * 100), 'stock' => $item['stock'] ?? $existing?->stock ?? 0]);
+        }
+    });
 
     $this->info(count($products).' products imported.');
 })->purpose('Import a Tanzania Shilling catalog without overwriting source code');

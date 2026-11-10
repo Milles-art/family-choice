@@ -4,6 +4,7 @@ import type { Product } from '../types';
 import { formatTzs } from '../currency';
 import { ProductCard } from './ProductCard';
 import { ProductImage } from './ProductImage';
+import { ProductPriceNote } from './ProductPriceNote';
 import { settings } from '../api';
 import {
   ArrowLeft,
@@ -69,7 +70,7 @@ export function ProductDetail() {
     : 0;
 
   return (
-    <div className="form-container py-6">
+    <div className="product-detail form-container py-6">
       {/* Breadcrumb */}
       <button
         onClick={() => navigate({ name: 'catalog', categoryId: product.categoryId })}
@@ -82,10 +83,11 @@ export function ProductDetail() {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Image */}
         <div className="relative">
-          <div className="aspect-square rounded-3xl overflow-hidden bg-gray-50">
+          <div className="product-detail-photo aspect-square rounded-3xl overflow-hidden bg-gray-50">
             <ProductImage key={product.image}
               src={product.image}
-              alt={product.name}
+              alt={product.imageAlt ?? product.name}
+              width={product.imageWidth ?? 640} height={product.imageHeight ?? 640}
               className="w-full h-full object-contain"
             />
           </div>
@@ -111,12 +113,12 @@ export function ProductDetail() {
           </h1>
 
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <div className="flex items-center gap-1">
+            {product.reviews > 0 && <><div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
               <span className="text-sm font-semibold text-gray-700">{product.rating}</span>
             </div>
-            <span className="text-sm text-gray-400">{product.reviews} reviews</span>
-            {product.inStock ? (
+            <span className="text-sm text-gray-400">{product.reviews} reviews</span></>}
+            {product.stockStatus === 'unverified' ? <span className="text-sm text-gray-600">Availability requires confirmation</span> : product.inStock ? (
               <span className="flex items-center gap-1 text-sm text-green-600 font-medium">
                 <Check className="w-4 h-4" /> In Stock
               </span>
@@ -143,6 +145,7 @@ export function ProductDetail() {
               </>
             )}
             <span className="text-sm text-gray-500">{product.unit}</span>
+            <ProductPriceNote product={product} />
           </div>
 
           {/* Nutrition */}
@@ -184,7 +187,7 @@ export function ProductDetail() {
             </div>
             <button
               onClick={handleAdd}
-              disabled={!product.inStock || quantity > remainingStock}
+              disabled={(!product.inStock && product.stockStatus !== 'unverified') || quantity > remainingStock}
               className={`flex-1 flex items-center justify-center gap-2 font-semibold py-3 rounded-xl transition-all ${
                 added
                   ? 'bg-green-100 text-green-700'
@@ -207,9 +210,9 @@ export function ProductDetail() {
           {/* Trust badges */}
           <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-100">
             {[
-              { icon: Truck, label: settingsReady ? `Free delivery over ${formatTzs(settings.free_delivery_cents / 100)}` : 'Check delivery fees at checkout' },
+              { icon: Truck, label: settingsReady ? `Delivery ${formatTzs(settings.delivery_cents / 100)}` : 'Check delivery fees at checkout' },
               { icon: RefreshCw, label: 'Review your order before checkout' },
-              { icon: Shield, label: 'Server-verified order pricing' },
+              { icon: Shield, label: product.orderable === false ? 'Confirm availability before ordering' : 'Review your total at checkout' },
             ].map((badge) => (
               <div key={badge.label} className="flex flex-col items-center text-center gap-1">
                 <badge.icon className="w-5 h-5 text-green-600" />

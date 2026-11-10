@@ -12,11 +12,12 @@ export function MobileNav() {
   ];
 
   return (
-    <nav className="fc-mobile-nav md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 pb-[env(safe-area-inset-bottom)]">
+    <nav aria-label="Mobile shortcuts" className="fc-mobile-nav md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 pb-[env(safe-area-inset-bottom)]">
       <div className="flex items-stretch justify-around h-14">
         {items.map((item) => (
           <button
             key={item.label}
+            aria-current={item.active ? 'page' : undefined}
             onClick={item.action}
             className={`flex flex-col items-center justify-center gap-0.5 flex-1 relative transition-colors ${
               item.active ? 'text-green-600' : 'text-gray-400'

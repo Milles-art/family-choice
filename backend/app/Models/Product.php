@@ -16,6 +16,7 @@ class Product extends Model
 
     public function storefront(): array
     {
-        return array_merge($this->details, ['id' => $this->id, 'price' => $this->price_cents / 100, 'inStock' => $this->stock > 0, 'stock' => $this->stock]);
+        $status = $this->details['stockStatus'] ?? '';
+        return array_merge($this->details, ['id' => $this->id, 'price' => $this->price_cents / 100, 'inStock' => $status === 'available' || $this->stock > 0, 'stock' => in_array($status, ['available', 'unverified'], true) ? null : $this->stock]);
     }
 }

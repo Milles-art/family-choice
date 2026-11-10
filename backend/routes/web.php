@@ -3,6 +3,7 @@
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\StorefrontController;
 use App\Services\SelcomService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,5 @@ Route::prefix('api')->group(function () {
         Route::patch('/admin/products/{product}', [StoreController::class, 'updateProduct'])->middleware('throttle:admin');
     });
 });
-Route::get('/{path?}', fn () => response()->file(public_path('index.html')))->where('path', '^(?!api(?:/|$)).*');
+Route::get('/sitemap.xml', [StorefrontController::class, 'sitemap']);
+Route::get('/{path?}', [StorefrontController::class, 'page'])->where('path', '^(?!api(?:/|$)).*');

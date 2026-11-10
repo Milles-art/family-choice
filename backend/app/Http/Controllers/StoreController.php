@@ -20,7 +20,7 @@ class StoreController extends Controller
 {
     public function products()
     {
-        return Product::latest()->get()->map(fn ($p) => $p->storefront());
+        return Product::latest()->get()->map(fn ($p) => \Illuminate\Support\Arr::except($p->storefront(), ['priceProvenance', 'availabilitySource']));
     }
 
     public function register(Request $r)
@@ -102,22 +102,28 @@ class StoreController extends Controller
                 throw ValidationException::withMessages(['orders' => 'You have reached the limit for open unpaid orders. Complete or cancel an existing order before placing another.']);
             }
             $lines = [];
+            $untrackedStockIds = [];
             $subtotal = 0;
             $requested = collect($d['items'])->sortBy('productId');
             foreach ($requested as $item) {
                 $p = Product::whereKey($item['productId'])->lockForUpdate()->firstOrFail();
-                if ($p->stock < $item['quantity']) {
+                if (($p->details['orderable'] ?? true) === false || ($p->details['stockStatus'] ?? '') === 'unverified') {
+                    throw ValidationException::withMessages(['items' => ($p->details['name'] ?? $p->id).' requires confirmed store pricing and availability before ordering.']);
+                }
+                $stockTracked = ($p->details['stockStatus'] ?? '') !== 'available';
+                if ($stockTracked && $p->stock < $item['quantity']) {
                     throw ValidationException::withMessages(['items' => ($p->details['name'] ?? $p->id).' has insufficient stock.']);
                 }
                 $subtotal += $p->price_cents * $item['quantity'];
                 $lines[] = ['product_id' => $p->id, 'name' => $p->details['name'], 'image' => $p->details['image'], 'quantity' => $item['quantity'], 'price_cents' => $p->price_cents];
-                $p->decrement('stock', $item['quantity']);
+                if ($stockTracked) $p->decrement('stock', $item['quantity']);
+                else $untrackedStockIds[] = $p->id;
             }
-            $fee = $d['deliveryOption'] === 'pickup' || $subtotal >= config('store.free_delivery_cents') ? 0 : config('store.delivery_cents');
+            $fee = $d['deliveryOption'] === 'pickup' ? 0 : config('store.delivery_cents');
             $tax = (int) round($subtotal * config('store.tax_rate'));
             $normalTotal = $subtotal + $fee + $tax;
             $order = Order::create(['user_id' => $r->user()->id, 'request_id' => $d['requestId'], 'number' => 'FC-'.strtoupper(Str::random(12)),
-                'delivery' => $d['delivery'], 'delivery_option' => $d['deliveryOption'], 'time_slot' => $d['timeSlot'],
+                'delivery' => array_merge($d['delivery'], ['stock_untracked_ids' => $untrackedStockIds]), 'delivery_option' => $d['deliveryOption'], 'time_slot' => $d['timeSlot'],
                 'payment_method' => $d['paymentMethod'],
                 'payment_status' => $d['paymentMethod'] === 'selcom' ? 'pending' : 'unpaid',
                 'payment_details' => $d['paymentMethod'] === 'mobile_money' ? ['provider' => $d['paymentProvider'], 'reference' => $d['paymentReference']] : null,
@@ -185,6 +191,9 @@ class StoreController extends Controller
         $this->admin($r);
         $d = $r->validate(['price_cents' => 'sometimes|integer|min:1|max:10000000', 'stock' => 'sometimes|integer|min:0|max:1000000']);
         $before = $product->only(['price_cents', 'stock']);
+        if (array_key_exists('stock', $d)) {
+            $product->details = array_merge($product->details, ['stockStatus' => 'confirmed']);
+        }
         $product->update($d);
         $this->audit($r, 'product.updated', 'product', (string) $product->id, $before, $product->only(['price_cents', 'stock']));
 

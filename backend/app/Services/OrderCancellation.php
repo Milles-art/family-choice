@@ -36,6 +36,7 @@ class OrderCancellation
                 if ($pendingOnly && $current->status !== 'pending') $this->refuse('Only pending orders can be cancelled from your account.');
                 if (!$current->stock_restored_at) {
                     foreach ($current->items()->orderBy('product_id')->get() as $item) {
+                        if (in_array($item->product_id, $current->delivery['stock_untracked_ids'] ?? [], true)) continue;
                         $product = Product::whereKey($item->product_id)->lockForUpdate()->firstOrFail();
                         $product->increment('stock', $item->quantity);
                     }

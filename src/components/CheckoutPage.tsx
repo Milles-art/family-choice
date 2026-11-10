@@ -2,6 +2,7 @@ import { useStore } from '../store';
 import { useEffect, useState } from 'react';
 import { api, ApiError, settings, type Order } from '../api';
 import { FormField } from './FormField';
+import { storeConfig } from '../storeConfig';
 import { formatTzs } from '../currency';
 import { LottieAnimation } from './LottieAnimation';
 import { MobilePaymentFields } from './MobilePaymentFields';
@@ -27,7 +28,7 @@ export function CheckoutPage() {
   const [deliveryInfo, setDeliveryInfo] = useState(checkoutDraft?.deliveryInfo ?? {
     name: '',
     address: '',
-    city: '',
+    city: 'Morogoro',
     zip: '',
     phone: '',
     instructions: '',
@@ -48,6 +49,10 @@ export function CheckoutPage() {
   },[deliveryInfo,deliveryOption,timeSlot,paymentMethod,paymentProvider,paymentReference,payerPhone,requestId,step,setCheckoutDraft]);
 
   useEffect(() => { document.getElementById('checkout-step')?.focus({preventScroll:true}); }, [step]);
+  useEffect(() => {
+    if (!settingsReady) return;
+    if ((paymentMethod === 'selcom' && !selcomAvailable()) || (paymentMethod === 'mobile_money' && !settings.mobile_money_enabled)) setPaymentMethod('cash');
+  }, [settingsReady, paymentMethod]);
 
   if (cart.length === 0 && step !== 'confirmation' && step !== 'paying') {
     return (
@@ -68,8 +73,7 @@ export function CheckoutPage() {
   }
 
   const network = (networks.some(item => item.id === paymentProvider) ? paymentProvider : '') as MobileNetwork | '';
-  const subtotalCents = Math.round(cartSubtotal * 100);
-  const deliveryFee = deliveryOption === 'pickup' || subtotalCents >= settings.free_delivery_cents ? 0 : settings.delivery_cents / 100;
+  const deliveryFee = deliveryOption === 'pickup' ? 0 : settings.delivery_cents / 100;
   const tax = Math.round(cartSubtotal * 100 * settings.tax_rate) / 100;
   const total = cartSubtotal + deliveryFee + tax;
   const normalTotalCents = Math.round(total * 100);
@@ -93,6 +97,10 @@ export function CheckoutPage() {
   const currentStepIndex = steps.findIndex((s) => s.id === step);
 
   const handleNext = async () => {
+    if (cart.some(item => item.product.orderable === false || item.product.stockStatus === 'unverified')) {
+      setError('Availability must be confirmed by the store before ordering or payment.');
+      return;
+    }
     setError('');
     setFieldErrors({});
     if (step === 'delivery') {
@@ -212,6 +220,7 @@ export function CheckoutPage() {
       </button>
 
       <div className="fc-checkout-heading"><h1 className="text-2xl font-bold text-gray-900 mb-6">Checkout</h1><p>A few details, then your next shop is sorted.</p></div>
+      {cart.some(item => item.product.orderable === false || item.product.stockStatus === 'unverified') && <p role="status" className="surface p-4 mb-5 text-gray-800">Availability must be confirmed by FAMILY CHOICE SUPERMARKET before ordering or payment. Your basket is saved; contact the store to confirm these items.</p>}
       {!settingsReady && <div className="surface p-4 mb-5" role="status">{settingsError || 'Loading delivery fees and tax settings…'}{settingsError && <button className="underline ml-3" onClick={retrySettings}>Retry settings</button>}</div>}
       <p id="checkout-step" tabIndex={-1} className="text-sm text-green-800 font-semibold mb-4">Step {currentStepIndex + 1} of 4 · {steps[currentStepIndex]?.label}</p>
 
@@ -291,6 +300,7 @@ export function CheckoutPage() {
                   <FormField id="delivery-phone" label="Phone number" type="tel" autoComplete="tel" required value={deliveryInfo.phone} error={fieldErrors.phone} onChange={e => setDeliveryInfo({...deliveryInfo,phone:e.target.value})}/>
                 </div>
                 {deliveryOption === 'delivery' && <>
+                  <p className="text-sm text-gray-600">Delivery is available in Morogoro only. {storeConfig.deliveryTiming}</p>
                   <FormField id="delivery-address" label="House, street and landmark" autoComplete="street-address" required value={deliveryInfo.address} error={fieldErrors.address} onChange={e => setDeliveryInfo({...deliveryInfo,address:e.target.value})}/>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <FormField id="delivery-city" label="Region / city" autoComplete="address-level2" required value={deliveryInfo.city} error={fieldErrors.city} onChange={e => setDeliveryInfo({...deliveryInfo,city:e.target.value})}/>
@@ -303,8 +313,8 @@ export function CheckoutPage() {
                   <div className="bg-gray-50 rounded-xl p-4 flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">FAMILY CHOICE SUPERMARKET Dar es Salaam</p>
-                      <p className="text-sm text-gray-500">Dar es Salaam, Tanzania</p>
+                      <p className="text-sm font-semibold text-gray-900">FAMILY CHOICE SUPERMARKET</p>
+                      <p className="text-sm text-gray-500">{storeConfig.address}</p>
                       <p className="text-xs text-gray-400 mt-1">Pickup arrangements are confirmed by the store.</p>
                     </div>
                   </div>
@@ -347,11 +357,12 @@ export function CheckoutPage() {
             {step === 'payment' && (
               <div className="space-y-4">
                 <h2 className="font-bold text-gray-900 text-lg mb-1">Payment Method</h2>
+                {!settingsReady ? <p role="status">Loading available payment methods…</p> : !selcomAvailable() && !settings.mobile_money_enabled && <p className="rounded-xl border bg-gray-50 p-4 text-sm text-gray-700">Pay when your order is delivered or collected. Online payment is currently unavailable. Placing an order does not charge you.</p>}
                 <div className="space-y-3">
                   {[
                     { id: 'cash', label: 'Cash on Delivery / Pickup', icon: ShoppingBag },
                     ...(selcomAvailable() ? [{ id: 'selcom', label: 'Pay now with mobile money', icon: Smartphone }] : []),
-                    ...(settings.mobile_money_enabled ? [{ id: 'mobile_money', label: 'Mobile Money', icon: CreditCard }] : []),
+                    ...(settings.mobile_money_enabled ? [{ id: 'mobile_money', label: 'Manual mobile-money payment · store verification required', icon: CreditCard }] : []),
                   ].map((method) => (
                     <button
                       key={method.id}
@@ -405,7 +416,7 @@ export function CheckoutPage() {
                     </p>
                     {deliveryOption === 'delivery' && (
                       <p className="text-sm text-gray-600">
-                        {deliveryInfo.address || 'Your delivery address'}, {deliveryInfo.city || 'Dar es Salaam'}, {deliveryInfo.zip || 'Tanzania'}
+                        {deliveryInfo.address || 'Your delivery address'}, {deliveryInfo.city || 'Morogoro'}, {deliveryInfo.zip || 'Tanzania'}
                       </p>
                     )}
                     <p className="text-sm text-gray-600 mt-1">
@@ -457,7 +468,7 @@ export function CheckoutPage() {
               </button>
               <button
                 onClick={handleNext}
-                disabled={busy || !settingsReady || !catalogReady}
+                disabled={busy || !settingsReady || !catalogReady || cart.some(item => item.product.orderable === false || item.product.stockStatus === 'unverified')}
                 className="flex items-center gap-1.5 bg-green-600 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-green-700 transition-colors text-sm"
               >
                 {busy ? 'Saving order…' : step === 'review' ? (paymentMethod === 'selcom' ? 'Place Order & Pay' : 'Place Order') : 'Continue'}
@@ -485,7 +496,7 @@ export function CheckoutPage() {
               <div className="flex justify-between">
                 <span className="text-gray-500">Delivery</span>
                 <span className="font-semibold text-gray-900">
-                  {deliveryFee === 0 ? 'FREE' : formatTzs(deliveryFee)}
+                  {deliveryOption === 'pickup' ? 'Pickup · no delivery charge' : formatTzs(deliveryFee)}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -497,11 +508,6 @@ export function CheckoutPage() {
                 <span className="font-bold text-green-600 text-lg">{formatTzs((confirmedOrder?.total_cents ?? normalTotalCents) / 100)}</span>
               </div>
             </div> : <p className="text-sm text-gray-600">Totals will appear after delivery and tax settings load.</p>}
-            {settingsReady && deliveryFee > 0 && (
-              <p className="text-xs text-green-600 bg-green-50 rounded-lg p-2">
-                Add {formatTzs(settings.free_delivery_cents / 100 - cartSubtotal)} more for free delivery!
-              </p>
-            )}
           </details>
         </div>
       </div>
