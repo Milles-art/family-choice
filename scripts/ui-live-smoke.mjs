@@ -1,0 +1,6 @@
+import {createRequire} from 'node:module';import fs from 'node:fs';
+const require=createRequire(import.meta.url);const {chromium}=require('C:/Users/DIGITAL STAR/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const browser=await chromium.launch({headless:true,channel:'msedge'});const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[],consoleErrors=[];page.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text());});page.on('pageerror',e=>errors.push(e.message));
+await page.route('**/api/**',route=>{if(route.request().method()!=='GET')return route.abort();return route.continue();});
+await page.goto('http://127.0.0.1:8000',{waitUntil:'domcontentloaded',timeout:60000});await page.getByRole('heading',{name:'Good food. A fresh start.'}).waitFor({timeout:60000});await page.locator('.product-card').first().waitFor({timeout:60000});
+await page.screenshot({path:'artifacts/ui/live-laravel-preview.png'});const result={liveReadOnly:true,brand:await page.locator('.brand-name').textContent(),cards:await page.locator('.product-card').count(),errors,consoleErrors};fs.writeFileSync('artifacts/ui/live-smoke.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));await browser.close();

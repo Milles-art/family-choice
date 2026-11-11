@@ -1,0 +1,2341 @@
+{
+  "sourceRows": 250,
+  "uniqueProducts": 247,
+  "duplicateAliases": {
+    "FC-058": "FC-056",
+    "FC-059": "FC-057",
+    "FC-223": "FC-195"
+  },
+  "retailerListed": 171,
+  "planningEstimates": 76,
+  "storeApprovedPrices": 247,
+  "stockUnverified": 0,
+  "issues": [
+    {
+      "id": "FC-051",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-052",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-053",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; pictured box reads 3 bags of 85g / 255g, listing says 297g; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-054",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-055",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer reference; assistant-created TZS estimate; Tanzania stock unverified"
+    },
+    {
+      "id": "FC-064",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Assistant planning estimate TZS; packaging from Kenyan retailer; Tanzania city stock unverified"
+    },
+    {
+      "id": "FC-074",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock and delivery not verified"
+    },
+    {
+      "id": "FC-096",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Pizzarella Mozzarella Cheese (Roomeys, weight unverified)"
+    },
+    {
+      "id": "FC-096",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Assistant-created TZS planning estimate per pictured pack; weight unverified"
+    },
+    {
+      "id": "FC-097",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; retailer says cheddar, reference is American processed cheese; exact variant price unverified"
+    },
+    {
+      "id": "FC-104",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer listed price; actual 16ltr replaces original 5L candidate; city stock unverified"
+    },
+    {
+      "id": "FC-107",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; listing says 300ml; reference pack volume is not clearly legible; confirm before import"
+    },
+    {
+      "id": "FC-114",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; assortment listing shown as Apple flavour; variant stock unverified"
+    },
+    {
+      "id": "FC-126",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Beef Stir Fry per Kg"
+    },
+    {
+      "id": "FC-126",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified; price per kg, tray photo illustrative, printed tray weight/date not current stock"
+    },
+    {
+      "id": "FC-127",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Beef Mince per Kg"
+    },
+    {
+      "id": "FC-127",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified; price per kg, tray photo illustrative, printed tray weight/date not current stock"
+    },
+    {
+      "id": "FC-128",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Interchick Frozen Chicken Liver (retailer lists Fresh Liver 500g)"
+    },
+    {
+      "id": "FC-128",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified; photo shows Interchick chicken liver, replaces original generic beef-liver candidate; pack weight unconfirmed"
+    },
+    {
+      "id": "FC-129",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-131",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified; price per kg, tray photo illustrative, printed tray weight/date not current stock"
+    },
+    {
+      "id": "FC-132",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Chicken Breast Boneless per Kg"
+    },
+    {
+      "id": "FC-132",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified; price per kg, tray photo illustrative, printed tray weight/date not current stock"
+    },
+    {
+      "id": "FC-135",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Alpha Beef Vienna Sausages 500grm"
+    },
+    {
+      "id": "FC-137",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified; listing says Nile perch slice, image shows fillets; supplier identity must be confirmed"
+    },
+    {
+      "id": "FC-140",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-141",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-142",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-143",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-145",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo shows 2 litres, listing says 1 litre; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-146",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-147",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-151",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-152",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified; retailer price per muffin, reference shows four; price not for four-pack"
+    },
+    {
+      "id": "FC-153",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-160",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Nutella Jars 350 grm"
+    },
+    {
+      "id": "FC-166",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer reference; assistant-created TZS estimate, local stock unverified; estimate PER 50g packet, manufacturer sells 24x50g; image shows one 50g pack"
+    },
+    {
+      "id": "FC-167",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "MUNAWAR CASHEWNUTS UNSALTED 500GRMS"
+    },
+    {
+      "id": "FC-170",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from retailer listing in pack/quantity/brand or is incomplete; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-175",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-176",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-180",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer pack reference; Tanzania/city availability unverified; price is an assistant-created TZS planning estimate, NOT a retrieved market price"
+    },
+    {
+      "id": "FC-182",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from retailer listing in pack/quantity/brand or is incomplete; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-200",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo shows 50 sheets but listing says 80; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-202",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Imported branded candle replaces plain six-candle candidate; confirm import/shipping charges and availability"
+    },
+    {
+      "id": "FC-204",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from listing in quantity/variant/type; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-206",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from listing in quantity/variant/type; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-212",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from listing in quantity/variant/type; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-213",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; box reads 25m x 30cm but listing says 25x30cm; confirm listed unit with retailer"
+    },
+    {
+      "id": "FC-218",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from retailer listing in pack/quantity/brand or is incomplete; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-219",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from retailer listing in pack/quantity/brand or is incomplete; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-222",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; baby oil replaces proposed baby lotion"
+    },
+    {
+      "id": "FC-226",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Philips Avent Natural Feeding Bottle (listing: 260ml)"
+    },
+    {
+      "id": "FC-232",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer reference; assistant-created TZS estimate, local stock unverified"
+    },
+    {
+      "id": "FC-235",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Big Plantain (Ndzi)"
+    },
+    {
+      "id": "FC-236",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Branded flour replaces raw Bambara nuts candidate; confirm pictured brand and pack weight; assistant TZS estimate per pictured pack; city stock unverified"
+    },
+    {
+      "id": "FC-237",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Manufacturer reference; assistant-created TZS estimate, local stock unverified"
+    },
+    {
+      "id": "FC-239",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "MK Amaranth Powder Mchicha (pictured jar)"
+    },
+    {
+      "id": "FC-239",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Amaranth powder replaces dried leaf candidate; low resolution reference, confirm brand and weight; assistant TZS estimate per pictured pack; city stock unverified"
+    },
+    {
+      "id": "FC-240",
+      "issue": "Pack size needs confirmation",
+      "documented_product": "Sayur & Herba Dried Sweet Potato Leaves (pictured pack)"
+    },
+    {
+      "id": "FC-240",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Dried sweet potato leaves replace dried cowpea leaves candidate; low resolution reference, confirm brand and weight; assistant TZS estimate per pictured pack; city stock unverified"
+    },
+    {
+      "id": "FC-243",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retailer reference; city stock unverified"
+    },
+    {
+      "id": "FC-246",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Kenyan retailer packaging; assistant-created TZS estimate; local stock unverified"
+    },
+    {
+      "id": "FC-249",
+      "issue": "Source identity/pack/price discrepancy needs review",
+      "source_note": "Retail online listed price; branch stock not verified; photo differs from listing in quantity/variant/type; listed price is NOT verified for pictured pack"
+    },
+    {
+      "id": "FC-196",
+      "issue": "Pictured Repair & Protect shampoo differs from 2-in-1 candidate; approved price must be reconciled with actual product"
+    }
+  ],
+  "images": [
+    {
+      "id": "FC-001",
+      "canonicalId": "FC-001",
+      "source": "fc-001-tomatoes.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "011601c7822e6bb1b6994497345d7206ebfc446f29f409f97f0d6a366d52c043"
+    },
+    {
+      "id": "FC-002",
+      "canonicalId": "FC-002",
+      "source": "fc-002-red-onions.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "91e3f2629f7de9118db0d72c389b0981d7e05b43e5c1473092776454d9d51e35"
+    },
+    {
+      "id": "FC-003",
+      "canonicalId": "FC-003",
+      "source": "fc-003-white-onions.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ddfec940d9a64e923e619d8014b6d84908a27db9d7feb4ce7990c8cfff841fb7"
+    },
+    {
+      "id": "FC-004",
+      "canonicalId": "FC-004",
+      "source": "fc-004-potatoes.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "775aa5c84bb99db6414f7bd416a344872c4483ccb4fa02b423529a0154deacc3"
+    },
+    {
+      "id": "FC-005",
+      "canonicalId": "FC-005",
+      "source": "fc-005-sweet-potatoes.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1c6087baa785dd0ac2cc172ccf92fd8065803f833bde812e27959e15f637707c"
+    },
+    {
+      "id": "FC-006",
+      "canonicalId": "FC-006",
+      "source": "fc-006-cassava.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1592939c8a784844096af81240a3238d9de52379f4e7850abc20ecc169879e7b"
+    },
+    {
+      "id": "FC-007",
+      "canonicalId": "FC-007",
+      "source": "fc-007-carrots.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0bea2fc9fdaebb04272019a8d430d490921b5fa96758422dca4e76bd9c4e08f3"
+    },
+    {
+      "id": "FC-008",
+      "canonicalId": "FC-008",
+      "source": "fc-008-cabbage.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "abb3013054b36464e94016b3c3526eb321f4689cfb43b3f75a1bb7da8436935a"
+    },
+    {
+      "id": "FC-009",
+      "canonicalId": "FC-009",
+      "source": "fc-009-sukuma-wiki-collard-greens.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "580bfb1abd44bea6e0687b7a170f93e797c67879eb65e3d9293251b409b15204"
+    },
+    {
+      "id": "FC-010",
+      "canonicalId": "FC-010",
+      "source": "fc-010-mchicha-amaranth-leaves.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4d6da14225a7b2df1bf289aac59c965062ae988e37b0644d050bb51dd4724e85"
+    },
+    {
+      "id": "FC-011",
+      "canonicalId": "FC-011",
+      "source": "fc-011-spinach.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "690dae07a368c4e60f78d1aa84323a5c27f76176b959cf548a4c9352bac467b5"
+    },
+    {
+      "id": "FC-012",
+      "canonicalId": "FC-012",
+      "source": "fc-012-lettuce.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b2bcf19ac51c75b6710af43f81bd31df5e02c81338ec9ad3bea91a6f99abd6a0"
+    },
+    {
+      "id": "FC-013",
+      "canonicalId": "FC-013",
+      "source": "fc-013-cucumber.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "92f90d8eb25c9fde8d80808a4c5c0ad9e3d64a38ac203ac804ed3aae3bcfe269"
+    },
+    {
+      "id": "FC-014",
+      "canonicalId": "FC-014",
+      "source": "fc-014-eggplant.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1a303cb29b18324e51aa4b5a5d4070f24356cc22523dcac29ffb7af96c3d449b"
+    },
+    {
+      "id": "FC-015",
+      "canonicalId": "FC-015",
+      "source": "fc-015-green-bell-peppers.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7758047833b99c74eb5f02cf514501c883a648e6f8c9e2630dfcde5877e19202"
+    },
+    {
+      "id": "FC-016",
+      "canonicalId": "FC-016",
+      "source": "fc-016-okra.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "64fdf6eefcd40eceaba5d0096606452ed20e8323d76a6d81066453c5550c1250"
+    },
+    {
+      "id": "FC-017",
+      "canonicalId": "FC-017",
+      "source": "fc-017-fresh-chillies.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a7c3ef5683a4cbcbb15a73201424cf56e52e6bf97bfd58dfa315101816e28de3"
+    },
+    {
+      "id": "FC-018",
+      "canonicalId": "FC-018",
+      "source": "fc-018-garlic.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "299f866e240d0133949a680e776db121695ed07f3c88638912726a875de3f819"
+    },
+    {
+      "id": "FC-019",
+      "canonicalId": "FC-019",
+      "source": "fc-019-ginger.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e0bfb712a8de3b779e4694fd0e0f87ee9081f0b98295ef208dc12ff6b178e6b8"
+    },
+    {
+      "id": "FC-020",
+      "canonicalId": "FC-020",
+      "source": "fc-020-fresh-coriander.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "180306e224022d0c8faed9675d5ac733bf3ed6dad9eda4bef8d450db3ed3c125"
+    },
+    {
+      "id": "FC-021",
+      "canonicalId": "FC-021",
+      "source": "fc-021-avocado.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "875df5d434f39cbba37b23843c240f177d89e57457ecdc8a2cce7575f980132e"
+    },
+    {
+      "id": "FC-022",
+      "canonicalId": "FC-022",
+      "source": "fc-022-bananas.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "25285adf7bd14d2d1e304ec56ca51e1b80e27a1de7025f6a53bb2317b2a9bd3b"
+    },
+    {
+      "id": "FC-023",
+      "canonicalId": "FC-023",
+      "source": "fc-023-mangoes.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d6a32038d018cff818b99a6ecbe4635a815591f3084a2ed3538ae04c3f9a6e8f"
+    },
+    {
+      "id": "FC-024",
+      "canonicalId": "FC-024",
+      "source": "fc-024-oranges.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0737521016dc7fc3571fdcac5664f551c77f9b8e9d2e3459f38bcd8b73ab018e"
+    },
+    {
+      "id": "FC-025",
+      "canonicalId": "FC-025",
+      "source": "fc-025-pineapple.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cf6959c1426a4036621bfde9aa3e66231b4a833666c68618850bbdb2568d4d92"
+    },
+    {
+      "id": "FC-026",
+      "canonicalId": "FC-026",
+      "source": "fc-026-watermelon.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d7bdf97926b241e76c019976f4968ca9e9e5b49581d64cbe2a3fabac609fbac4"
+    },
+    {
+      "id": "FC-027",
+      "canonicalId": "FC-027",
+      "source": "fc-027-papaya.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8b5547dc64eaa64ab5cb0fe6a588f831975ab8d679e8a05437f59650fae2756f"
+    },
+    {
+      "id": "FC-028",
+      "canonicalId": "FC-028",
+      "source": "fc-028-lemons.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b98dd34c5ef542087a374c6eba0bd824dc129c6de29591528031e171bd6201d6"
+    },
+    {
+      "id": "FC-029",
+      "canonicalId": "FC-029",
+      "source": "fc-029-limes.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "aa67cfa9850610d86de692317e422a99f2365121cae8d1bea1ab6af6efef3a07"
+    },
+    {
+      "id": "FC-030",
+      "canonicalId": "FC-030",
+      "source": "fc-030-coconut.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "95e8e4e2dcce8dd8b354ce711c6e60e5797e63d7bfc7c076c17f73eef4188545"
+    },
+    {
+      "id": "FC-031",
+      "canonicalId": "FC-031",
+      "source": "fc-031-mkata-super-sembe-2kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e4c7149291b935beecec9ecde1f70acc31c941db9f4b5304f3716f189a3dba4e"
+    },
+    {
+      "id": "FC-032",
+      "canonicalId": "FC-032",
+      "source": "fc-032-kcc-unga-wa-dona-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3a145fb8c129159b55737fdc561281d90fe7044463872b1196855aad0da1beef"
+    },
+    {
+      "id": "FC-033",
+      "canonicalId": "FC-033",
+      "source": "fc-033-azam-plain-wheat-flour-2kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4379f04e4d66ac5f4be7fa2375caf15accd6ee743ba382b3a2549259bc5be59a"
+    },
+    {
+      "id": "FC-034",
+      "canonicalId": "FC-034",
+      "source": "fc-034-azam-self-raising-flour-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8d734726f0c2fa6af8f611da2aafed625030519445b09ae6ebe013542a162906"
+    },
+    {
+      "id": "FC-035",
+      "canonicalId": "FC-035",
+      "source": "fc-035-famila-pure-wimbi-porridge-flour-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "9878ae7cbb6c983051b192c07da22cb06a8c4be229c9abea11a2381ab9428ee1"
+    },
+    {
+      "id": "FC-036",
+      "canonicalId": "FC-036",
+      "source": "fc-036-hl-mtama-mweupe-sorghum-flour-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8f2c4ef04e15c0276fa2916717e4ceeb9db5c092e15191dfaceb1cf156a0bb23"
+    },
+    {
+      "id": "FC-037",
+      "canonicalId": "FC-037",
+      "source": "fc-037-apollos-lishe-bora-porridge-mix.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f20fb1fc87fdaf4ce6b5852a670c99025601a6a2f028d15fb1a5d09321e4f694"
+    },
+    {
+      "id": "FC-038",
+      "canonicalId": "FC-038",
+      "source": "fc-038-alaska-mbeya-rice-2kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2ced67cdfc21c213e192e3fb3ef96bc16bf1db66033c14eb00c9170d43bdbe8a"
+    },
+    {
+      "id": "FC-039",
+      "canonicalId": "FC-039",
+      "source": "fc-039-korie-mbeya-rice-5kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d2f0d1ebcdbe84052407e3ddd3afd7937f23c04cd0716d452bd1a1d6cd082edb"
+    },
+    {
+      "id": "FC-040",
+      "canonicalId": "FC-040",
+      "source": "fc-040-munawar-premium-mbeya-rice-2kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e51d929204c3f8458b043a0b69ff74fef76a6327afe6509f46e107473aa0527a"
+    },
+    {
+      "id": "FC-041",
+      "canonicalId": "FC-041",
+      "source": "fc-041-daawat-1121-sella-basmati-rice-5kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a10595481f36b1389c9c2e4195588087680f3f5ff4869de82c9eef6b0b2e7c26"
+    },
+    {
+      "id": "FC-042",
+      "canonicalId": "FC-042",
+      "source": "fc-042-pera-brown-rice-2kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ea6c47980150df9e5385420bbf8ca6d73dd460632f45d801fabdf8985a0e1706"
+    },
+    {
+      "id": "FC-043",
+      "canonicalId": "FC-043",
+      "source": "fc-043-kilombero-rice.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7accd792b62cbc94adcd6b68db45dd7ce10d17575ca672e010af9cd90cd61104"
+    },
+    {
+      "id": "FC-044",
+      "canonicalId": "FC-044",
+      "source": "fc-044-red-kidney-beans.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "487a213f7d45a3b3d389e484918c9a68dd4bac697980ec04e418539afa176e98"
+    },
+    {
+      "id": "FC-045",
+      "canonicalId": "FC-045",
+      "source": "fc-045-white-beans.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "5cff4fa276cc72f18ab03208bbfc203da0e28b60e91e717d675fdc6429a45b98"
+    },
+    {
+      "id": "FC-046",
+      "canonicalId": "FC-046",
+      "source": "fc-046-yellow-beans.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "057d5391d2b985c81dbdfb8a2df8c834647ade26f0d1df4393784f48733d60e5"
+    },
+    {
+      "id": "FC-047",
+      "canonicalId": "FC-047",
+      "source": "fc-047-green-grams-choroko.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0dcb019bc0debdbb1d280675c1337731f2cf06c8fe90715b11ab25343f250f9d"
+    },
+    {
+      "id": "FC-048",
+      "canonicalId": "FC-048",
+      "source": "fc-048-cowpeas-kunde.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7420e450ba590202967d0d3a16b93d7c1a2a83e22c18abec5ff85ec3b59e7878"
+    },
+    {
+      "id": "FC-049",
+      "canonicalId": "FC-049",
+      "source": "fc-049-chickpeas.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d7a588f76e0f04a8d366f5bcc9820fdb56fdc530740aa0aff4edd3cdaa2ea526"
+    },
+    {
+      "id": "FC-050",
+      "canonicalId": "FC-050",
+      "source": "fc-050-red-lentils.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c25267148586505a32849a7c88ef280253ec6186c33582873f10354e06320007"
+    },
+    {
+      "id": "FC-051",
+      "canonicalId": "FC-051",
+      "source": "fc-051-natco-green-lentils-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0d539b3e1f23d32f7a20e974fc7f70711531e6ef4f2f94b3fc08146f8150cf56"
+    },
+    {
+      "id": "FC-052",
+      "canonicalId": "FC-052",
+      "source": "fc-052-natco-yellow-split-peas-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a29c2b6123cf9e5577f0062ffea8bf5daa035962b6e73f8794c9f54db183886d"
+    },
+    {
+      "id": "FC-053",
+      "canonicalId": "FC-053",
+      "source": "fc-053-american-garden-lite-natural-microwave-popcorn-255g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "75edfacb0211dc502bc0012e782594556626bfa0df5299caec4da9aff2d1db3e"
+    },
+    {
+      "id": "FC-054",
+      "canonicalId": "FC-054",
+      "source": "fc-054-natco-peanuts-red-400g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f315f7c8494b4ed52b44eb6e8e7d842afb1784e745cdd1a5e16750d48462d056"
+    },
+    {
+      "id": "FC-055",
+      "canonicalId": "FC-055",
+      "source": "fc-055-corona-pearl-barley-500g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a5f7efb68e24a844c1c434ccd99db137d6759fa62678ffb6b05451d538d67765"
+    },
+    {
+      "id": "FC-056",
+      "canonicalId": "FC-056",
+      "source": "fc-056-noor-sunflower-oil-1-8ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f03f07cec5ec64d6b342bf1c7ae55554aa76f8adff46af747782065d1ef8bffe"
+    },
+    {
+      "id": "FC-057",
+      "canonicalId": "FC-057",
+      "source": "fc-057-korie-refined-palm-olein-oil-3ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "857af9e76e3f8945a710b80b9212a0fe35aa5094902e3e77acecdb247dd2cf86"
+    },
+    {
+      "id": "FC-058",
+      "canonicalId": "FC-056",
+      "source": "fc-058-noor-sunflower-oil-1-8ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "81157ee35a3dafc33e1ab43d4c7538d924e25ecff3d1725d8ea0d7c8d05b2f12"
+    },
+    {
+      "id": "FC-059",
+      "canonicalId": "FC-057",
+      "source": "fc-059-korie-refined-palm-olein-oil-3ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "10ae521c80406afbbed174fa44298d2c4fb396fbacde24cfd1454877b7a86ef4"
+    },
+    {
+      "id": "FC-060",
+      "canonicalId": "FC-060",
+      "source": "fc-060-nawar-sunflower-oil-1-5ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2624f60e8bf2d6c9acd2f61b5b360ea505d20b88fa1c60b4ffd0a83be660444b"
+    },
+    {
+      "id": "FC-061",
+      "canonicalId": "FC-061",
+      "source": "fc-061-aseel-pure-ghee-400gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "99f2e6295d28b07b2ffe537b7818344589d2e3b97700c74194868ebfa7e2e185"
+    },
+    {
+      "id": "FC-062",
+      "canonicalId": "FC-062",
+      "source": "fc-062-fragata-extra-virgin-olive-oil-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6a0a91d2974baf0d025c45b686cad3b31cf634d9f8ecc3d62dcf9d59d7d7830a"
+    },
+    {
+      "id": "FC-063",
+      "canonicalId": "FC-063",
+      "source": "fc-063-blue-band-margarine-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1e992b34816ea8392e4756df7830f2051b27ab6d0cb5620850e3a93d382e1be7"
+    },
+    {
+      "id": "FC-064",
+      "canonicalId": "FC-064",
+      "source": "fc-064-kabras-premium-white-sugar-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6308c3ce5888e53eb7d7a74b4cc1b819d1eeaf75a5170f58aef9e857fd77d777"
+    },
+    {
+      "id": "FC-065",
+      "canonicalId": "FC-065",
+      "source": "fc-065-bwana-sukari-brown-sugar-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ca10a21e59ec65c2da1678d1db6e7557052145cc13b7e3914cc5ce1f206d5970"
+    },
+    {
+      "id": "FC-066",
+      "canonicalId": "FC-066",
+      "source": "fc-066-neel-premium-salt-500g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "143960f2f0771cb2f9ac214819b19650a67bafaf165d67c72523c6a04140056a"
+    },
+    {
+      "id": "FC-067",
+      "canonicalId": "FC-067",
+      "source": "fc-067-simba-baking-powder-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e1555f4b70b08de7dfcfcc3ac461f25fef9a622ff298e3a0030871731a4e1577"
+    },
+    {
+      "id": "FC-068",
+      "canonicalId": "FC-068",
+      "source": "fc-068-saf-instant-dried-yeast-lesaffre-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c98a524bf58d23fc9ef27c2c2f94355a5e1470b6a5e32a74b76ccb78c1846956"
+    },
+    {
+      "id": "FC-069",
+      "canonicalId": "FC-069",
+      "source": "fc-069-paradise-corn-flour-400g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ce66d7f48996c7533cea416c9cf54f37213f1af656ef9989bc26bc89b6f2f742"
+    },
+    {
+      "id": "FC-070",
+      "canonicalId": "FC-070",
+      "source": "fc-070-natco-vanilla-flavouring-essence-28ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7aebf1e5fda38fbabc938d63c784eac79a41cdc1df4b2f35e3d6ff19ccf46042"
+    },
+    {
+      "id": "FC-071",
+      "canonicalId": "FC-071",
+      "source": "fc-071-indomie-noodles-chicken-70gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e8499b7b33d6392ac8ccb8b0a5e838cce5cdb532623c6ae2b1aefa2b59bc51f6"
+    },
+    {
+      "id": "FC-072",
+      "canonicalId": "FC-072",
+      "source": "fc-072-santa-lucia-spaghetti-450g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "9937ef24c28a4eb1a2a69f02d7984d1f2b585da855cb5e9dfbba22743e87e962"
+    },
+    {
+      "id": "FC-073",
+      "canonicalId": "FC-073",
+      "source": "fc-073-santa-lucia-elbows-pasta-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "5a7bf6370bea4981454d320745229ca16c69f68349c59b0875a3ebfe75d93cd2"
+    },
+    {
+      "id": "FC-074",
+      "canonicalId": "FC-074",
+      "source": "fc-074-buitoni-spaghetti-400g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "491971beb424b44bef3f9694c359169ade96b7c15d4dff2439149cff75e567d8"
+    },
+    {
+      "id": "FC-075",
+      "canonicalId": "FC-075",
+      "source": "fc-075-maggi-2-minute-masala-noodles-70gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b5f6a8292da887b0ad96a8657d7e38e26e7fcc5d19c482ed65860809aa3ff38b"
+    },
+    {
+      "id": "FC-076",
+      "canonicalId": "FC-076",
+      "source": "fc-076-simba-tomato-paste-70g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2f8a5267a6a44492c45b5e0c12fb18e68b9ce55bb272f29199a1e7fa4006c0f7"
+    },
+    {
+      "id": "FC-077",
+      "canonicalId": "FC-077",
+      "source": "fc-077-simba-nazi-coconut-cream-200ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "449ffd0048a5067b8c65544d79885ded487ad8755eb1044f4cb0973c877347b3"
+    },
+    {
+      "id": "FC-078",
+      "canonicalId": "FC-078",
+      "source": "fc-078-american-garden-tomato-ketchup-340gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "90290b03f2a2bdde0250ff794fa556bfd16112c66443641769d4e1d77b73719c"
+    },
+    {
+      "id": "FC-079",
+      "canonicalId": "FC-079",
+      "source": "fc-079-roomeys-real-mayonnaise-original-700ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "add10eec625e35142e5108a66d3133bd228020070f113a7eb77b6e2201473573"
+    },
+    {
+      "id": "FC-080",
+      "canonicalId": "FC-080",
+      "source": "fc-080-amoy-light-soy-sauce-150ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "993d06c7e9df2959ef805c32d812b1632d019c5751b922c379e86004abc9cd05"
+    },
+    {
+      "id": "FC-081",
+      "canonicalId": "FC-081",
+      "source": "fc-081-american-garden-apple-cider-vinegar-946ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7962120057d54b1688727023904a051edcd88cbd030766d187a1bc7ff22f1816"
+    },
+    {
+      "id": "FC-082",
+      "canonicalId": "FC-082",
+      "source": "fc-082-best-one-red-kidney-beans-400g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0f6eb7c1cc1e9feb8fa80505a7325a4f03fd43b8cdf46374f08e9b0854a76fff"
+    },
+    {
+      "id": "FC-083",
+      "canonicalId": "FC-083",
+      "source": "fc-083-heinz-baked-beans-tomato-sauce-415gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3c8b362bdc42a7d642fb5a47a54b0d1a34132e9aa411f90da08dc9356135fb3e"
+    },
+    {
+      "id": "FC-084",
+      "canonicalId": "FC-084",
+      "source": "fc-084-johnwest-sardines-in-brine-120gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7c77a1828ef01ce6acea55da0ae5ee5255926927723626b95c0900f4b4e0a450"
+    },
+    {
+      "id": "FC-085",
+      "canonicalId": "FC-085",
+      "source": "fc-085-johnwest-tuna-steak-in-brine-160gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "9c8583baf459a36528cd00dc15a1c8a9270d4c579cbd90ea956ca3ca17c110a4"
+    },
+    {
+      "id": "FC-086",
+      "canonicalId": "FC-086",
+      "source": "fc-086-asas-milk-packet-500ml-full-cream.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "af4c8df125ac19632422d78a52d74a8a0b58843dd7b011c3abf9c086ff1abb13"
+    },
+    {
+      "id": "FC-087",
+      "canonicalId": "FC-087",
+      "source": "fc-087-azam-whole-milk-1ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "980b1adfa8d4fa8171975508154d3ce023bdf2d3477821704b62872d39031f68"
+    },
+    {
+      "id": "FC-088",
+      "canonicalId": "FC-088",
+      "source": "fc-088-dar-fresh-fresh-milk-uht-fino-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "257cd2ca6c3406a9819f97944f4167e6f10def1b42b66528f7ea2fc518af55c0"
+    },
+    {
+      "id": "FC-089",
+      "canonicalId": "FC-089",
+      "source": "fc-089-first-choice-milk-1ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d6684b9ad17edd0090eab51008b1523b7659e98879dea221908291b4a8d73d59"
+    },
+    {
+      "id": "FC-090",
+      "canonicalId": "FC-090",
+      "source": "fc-090-asas-plain-drinking-yogurt-400gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a9c549e96b6cb2453806d3f4829ef1823f97968bd48c491da8455cd0f53c5ab7"
+    },
+    {
+      "id": "FC-091",
+      "canonicalId": "FC-091",
+      "source": "fc-091-asas-strawberry-drinking-yogurt-400gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "fece551e3463b99a0ede02ff6be887b11a8ec233c63ad1b3c9ec1088d3a61f69"
+    },
+    {
+      "id": "FC-092",
+      "canonicalId": "FC-092",
+      "source": "fc-092-asas-vanilla-yoghurt-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ecba00157f26f470fcc0b062f4e85bd4dcdab5579bd2f26a81d8f11a7de36e2b"
+    },
+    {
+      "id": "FC-093",
+      "canonicalId": "FC-093",
+      "source": "fc-093-tanga-fresh-yogurt-mtindi-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "02f1062e0c434e7a338fffe574a31d0d58ec3a9c625ac5d6863e13096506bbdb"
+    },
+    {
+      "id": "FC-094",
+      "canonicalId": "FC-094",
+      "source": "fc-094-nestle-nido-milk-powder-400gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "40146239fab0101234fa64e507ef1abe7bbe9e4b41bd4a33664aa2a2df2148ca"
+    },
+    {
+      "id": "FC-095",
+      "canonicalId": "FC-095",
+      "source": "fc-095-amul-butter-unsalted-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a0d390843ae268a70f81fa4ae68cf7e3f7564b1302ccc054b17c5b2264c5443b"
+    },
+    {
+      "id": "FC-096",
+      "canonicalId": "FC-096",
+      "source": "fc-096-pizzarella-mozzarella-cheese.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7f0bd3dad77ad34683e2c6fd2d2703968409befae16893b0df52621b4dff3811"
+    },
+    {
+      "id": "FC-097",
+      "canonicalId": "FC-097",
+      "source": "fc-097-emborg-american-processed-cheese-slices-200g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "40cf42dc8b6ceeb7edcbb164cb6dcd62afe89e3221999f17068ff632b1e047b6"
+    },
+    {
+      "id": "FC-098",
+      "canonicalId": "FC-098",
+      "source": "fc-098-alaska-eggs-tray-6pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "78b5343de4749fb7bddd53fc87520eae0078cc4fc084f3eaf88b57b60c6fe5ca"
+    },
+    {
+      "id": "FC-099",
+      "canonicalId": "FC-099",
+      "source": "fc-099-alaska-eggs-tray-15pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e7c8b17838b6f7e9ebf5a88925b89dc8016193b923ffb1601369b757064988e0"
+    },
+    {
+      "id": "FC-100",
+      "canonicalId": "FC-100",
+      "source": "fc-100-alaska-eggs-tray-30pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "9f47a0212bdbcf0ecb15feb68e455bc6ba1d9409d4fada0bd7b2694efb35a244"
+    },
+    {
+      "id": "FC-101",
+      "canonicalId": "FC-101",
+      "source": "fc-101-kilimanjaro-water-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3b7a5bb876c006166fbe1e87b6208f24ef8e78a387ed803fbc34aaa4042fa344"
+    },
+    {
+      "id": "FC-102",
+      "canonicalId": "FC-102",
+      "source": "fc-102-kilimanjaro-mineral-water-1-5ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "fa012026f88f18dd7ffb94946d6b30801157d52e620e8e08d00453680dade56e"
+    },
+    {
+      "id": "FC-103",
+      "canonicalId": "FC-103",
+      "source": "fc-103-dasani-drinking-water-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8fb2a81ab8a95f486bb79e09c036d66e027006adb1c8b151f030db6f3b602104"
+    },
+    {
+      "id": "FC-104",
+      "canonicalId": "FC-104",
+      "source": "fc-104-kisima-drinking-water-16ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c9be735c57d04d9c35e2f88c5efa099f52d547c9acda24e39531b7e8c713590a"
+    },
+    {
+      "id": "FC-105",
+      "canonicalId": "FC-105",
+      "source": "fc-105-coca-cola-600ml-reg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "79be1197847282f1ed18e6414dbc610c51aae17e733afb03c21ee227cc40b577"
+    },
+    {
+      "id": "FC-106",
+      "canonicalId": "FC-106",
+      "source": "fc-106-coca-cola-regular-330ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4fbe77138b592d5d12bd793471ec02540e2f76ee1dd4bbe81dd3b90949c149dc"
+    },
+    {
+      "id": "FC-107",
+      "canonicalId": "FC-107",
+      "source": "fc-107-pepsi-range-can-300ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d02bb334e27379d3e6084a968bcc149e2530782637c97cd8f4235dd20dda144e"
+    },
+    {
+      "id": "FC-108",
+      "canonicalId": "FC-108",
+      "source": "fc-108-fanta-1-25ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "19e6d5c7e83bcda6568175aa6164f170cafa526a2e26943ec0269e31e7593f6c"
+    },
+    {
+      "id": "FC-109",
+      "canonicalId": "FC-109",
+      "source": "fc-109-sprite-1-25ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a4be3d78bee4d2f676d1e95a6520ed859be06b981c2428a88c8153fae71d020e"
+    },
+    {
+      "id": "FC-110",
+      "canonicalId": "FC-110",
+      "source": "fc-110-mirinda-orange-600ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "21fb359461fbed42d9855b14b806ac048dcb62e9e33d6cd6cda9defeacec85e5"
+    },
+    {
+      "id": "FC-111",
+      "canonicalId": "FC-111",
+      "source": "fc-111-7up-600ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "764917b2f534f1d6d793fa8350e29e60efe287ec6ff26b0b548e2bc6185a5a54"
+    },
+    {
+      "id": "FC-112",
+      "canonicalId": "FC-112",
+      "source": "fc-112-stoney-tangawizi-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2bd806c957d4d76a6a7672a3fcd7f084d048859d945ecdda1bfdc0d49956a944"
+    },
+    {
+      "id": "FC-113",
+      "canonicalId": "FC-113",
+      "source": "fc-113-azam-juice-mango-330ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1dfbb49997a0b05c687d4e9570ff601e0fb3da5e0d34ca9cbd707a83eaf3f3ad"
+    },
+    {
+      "id": "FC-114",
+      "canonicalId": "FC-114",
+      "source": "fc-114-azam-african-fruti-apple-fruit-juice-drink-1l.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3e60bc296ac2cf5aa58c31e4925f9df48608a46dfccc17556f1e142333a4a988"
+    },
+    {
+      "id": "FC-115",
+      "canonicalId": "FC-115",
+      "source": "fc-115-ceres-mango-juice-1ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "02489eae300362ba92292683012cb20f38797d8f550d84ccb1c004f023300b95"
+    },
+    {
+      "id": "FC-116",
+      "canonicalId": "FC-116",
+      "source": "fc-116-ceres-orange-juice-1ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cdf39ed52b6177d370490202d408db3b200144f62cfa91722cbf895965f09a00"
+    },
+    {
+      "id": "FC-117",
+      "canonicalId": "FC-117",
+      "source": "fc-117-ceres-apple-juice-1ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "9d5f208c9b7228c8b6ff885bb59cee4b02c19f1d2c862ffe8b360b5ed31022f3"
+    },
+    {
+      "id": "FC-118",
+      "canonicalId": "FC-118",
+      "source": "fc-118-ceres-passion-fruit-juice-1ltr.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1859678bc64b8b8703b47912ca9681632b9d7ba960fa4c1c4f9c99c7f816b7ea"
+    },
+    {
+      "id": "FC-119",
+      "canonicalId": "FC-119",
+      "source": "fc-119-chai-bora-premium-blend-tea-bags-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d8f8876f65bdfdb7a1d3a63cc565e643a3a3d01eb4456b66b12d0fddd070d776"
+    },
+    {
+      "id": "FC-120",
+      "canonicalId": "FC-120",
+      "source": "fc-120-kilimanjaro-tea-bags-100gm-50pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8ae2e25628d88d5859e350f99b448c7c54f1895b5ed909b0bff4aaa407700a62"
+    },
+    {
+      "id": "FC-121",
+      "canonicalId": "FC-121",
+      "source": "fc-121-africafe-coffee-tin-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cfad1ab25e681c22bafd686c4687c431a8b5e0815041159822983dd329bbd5c3"
+    },
+    {
+      "id": "FC-122",
+      "canonicalId": "FC-122",
+      "source": "fc-122-africafe-coffee-mix-3-in-1-180gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "033ffb1e9ac35729ecca4dfc53c52650fe985a4fa24244c031ff78e207d6806a"
+    },
+    {
+      "id": "FC-123",
+      "canonicalId": "FC-123",
+      "source": "fc-123-cadbury-drinking-chocolate-225g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ea38baf556b836b80a16ae8e18d172155785c665a77f01391e794bc31be32093"
+    },
+    {
+      "id": "FC-124",
+      "canonicalId": "FC-124",
+      "source": "fc-124-monster-energy-drink-can-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b652a39a4ae2c8b2efab94aab27036ef867971f71f91ded5b536bdb1a6791d33"
+    },
+    {
+      "id": "FC-125",
+      "canonicalId": "FC-125",
+      "source": "fc-125-bavaria-regular-malt-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "132659fb53f979ca25808fcac85a7a2b11714e0ae56c142b7a76cf7a5d19eec5"
+    },
+    {
+      "id": "FC-126",
+      "canonicalId": "FC-126",
+      "source": "fc-126-beef-stir-fry-per-kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "33bceeef047b9d5946423174775e012caa1fdee49f82c448d301ebd9db888676"
+    },
+    {
+      "id": "FC-127",
+      "canonicalId": "FC-127",
+      "source": "fc-127-beef-mince-per-kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2a121bec63109b6fdb4f491797d0162f49a8a285f29bde6472d88f95c97c5465"
+    },
+    {
+      "id": "FC-128",
+      "canonicalId": "FC-128",
+      "source": "fc-128-interchick-frozen-chicken-liver.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "5189ee68182ed1b5abe141d7b4089a53d589b68bdfe4c6e7c060910412417310"
+    },
+    {
+      "id": "FC-129",
+      "canonicalId": "FC-129",
+      "source": "fc-129-goat-meat-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4eac3346b777786956135b83877209af5dc19ca110436845428a7c07a3952aff"
+    },
+    {
+      "id": "FC-130",
+      "canonicalId": "FC-130",
+      "source": "fc-130-sadia-frozen-chicken-griller-1-2kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "70d89316b2dc548a7e004ad57623b3f15a0fb080bd23796a247a92ada4224c1b"
+    },
+    {
+      "id": "FC-131",
+      "canonicalId": "FC-131",
+      "source": "fc-131-chicken-whole-per-kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "05059955ab72c3ad19ae0ee13a33d5b24474591bf1b2c9c01fa15ec86052c538"
+    },
+    {
+      "id": "FC-132",
+      "canonicalId": "FC-132",
+      "source": "fc-132-chicken-breast-boneless-per-kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c34ab4acb923be6ed63a6e12cadc9910529ee387bbbe6114b201d273fc55754f"
+    },
+    {
+      "id": "FC-133",
+      "canonicalId": "FC-133",
+      "source": "fc-133-chicken-thighs-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1df0c4c5a29d4369283aa962dbb6279565777bbf045f20bf0f8a6ee97b4d5fe6"
+    },
+    {
+      "id": "FC-134",
+      "canonicalId": "FC-134",
+      "source": "fc-134-chicken-wings-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e013a956b135081a29c16da07d3f8f670a077d1c38f7a4f5a74c0552595c2b3e"
+    },
+    {
+      "id": "FC-135",
+      "canonicalId": "FC-135",
+      "source": "fc-135-alpha-beef-vienna-sausages-500grm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0db63c7a4d00a5c96c80be7c76936a355006537dcd40ae8804c6333b3eb4ee7b"
+    },
+    {
+      "id": "FC-136",
+      "canonicalId": "FC-136",
+      "source": "fc-136-large-sato-tilapia.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1f592073a226021cf107586de4639c47814059a3fae172d8f65ac546e0774fe2"
+    },
+    {
+      "id": "FC-137",
+      "canonicalId": "FC-137",
+      "source": "fc-137-nile-perch-slice-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3e2c7445bdbc60aeacd8b3f6795e70b895aa19febf30488978b52a259dabc0ba"
+    },
+    {
+      "id": "FC-138",
+      "canonicalId": "FC-138",
+      "source": "fc-138-dagaa-pro-family-dagaa-pack-250g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "236461c61ae4eeb0a4ec2f338cb90011877df5e02f6973fae3fa9ccce1125419"
+    },
+    {
+      "id": "FC-139",
+      "canonicalId": "FC-139",
+      "source": "fc-139-dagaa-pro-dried-fish-selection-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "55970a4bd3642f7b5e9db745bbfd7698432fc68dcaa2d6e2a56b5618222ae824"
+    },
+    {
+      "id": "FC-140",
+      "canonicalId": "FC-140",
+      "source": "fc-140-indian-mackeral-fish-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6dbf07f2def5c58705ccc19d4c9d4c266988ca5bd9b7d496c74ab650b912cec6"
+    },
+    {
+      "id": "FC-141",
+      "canonicalId": "FC-141",
+      "source": "fc-141-prawns-medium-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b0d8771c7840fe32577cf748e9454029a9968e7c0e7917f8a4295efb6f5a91c1"
+    },
+    {
+      "id": "FC-142",
+      "canonicalId": "FC-142",
+      "source": "fc-142-emborg-garden-peas-450g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f9b0e30b9b136634f482fc54b5357d095fe5903675f26e3d0e336e3361d449c4"
+    },
+    {
+      "id": "FC-143",
+      "canonicalId": "FC-143",
+      "source": "fc-143-emborg-mixed-vegetables-450g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ae435f1d39ec146bcb341b2c80fc147166690f0aacff2ba6f8e52eb77474dd11"
+    },
+    {
+      "id": "FC-144",
+      "canonicalId": "FC-144",
+      "source": "fc-144-emborg-french-fries-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0a03ffe02ea26f6fa1dcb77ee8b8f16de2b3997143293ec85e0d678bd8ad18a0"
+    },
+    {
+      "id": "FC-145",
+      "canonicalId": "FC-145",
+      "source": "fc-145-dairyland-vanilla-ice-cream-2-litres.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b7bc9940d954d325abcadb284f997e5c2b944dd5f738e094eca4221d391bb10b"
+    },
+    {
+      "id": "FC-146",
+      "canonicalId": "FC-146",
+      "source": "fc-146-white-bread-small-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "fa387ba1a33aaae362c9abef9812fb4d69084e742724016364f3a7c6f0e064f3"
+    },
+    {
+      "id": "FC-147",
+      "canonicalId": "FC-147",
+      "source": "fc-147-brown-bread-jumbo-1000gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e65c83b3bd5203bf181d7cb33948eeb1dbf4cee79ae6f362ddc863169366e33b"
+    },
+    {
+      "id": "FC-148",
+      "canonicalId": "FC-148",
+      "source": "fc-148-hot-dog-buns-400gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bface3c7b24c6aa9bf52d7c9457b403f80300ed3d5d087f675d10a849ce950dd"
+    },
+    {
+      "id": "FC-149",
+      "canonicalId": "FC-149",
+      "source": "fc-149-mandazi.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bb741d38f63860fa0a43c49bcb1f13161b8dca3fcdc7c8e2df7b26f3991c4d1d"
+    },
+    {
+      "id": "FC-150",
+      "canonicalId": "FC-150",
+      "source": "fc-150-azam-chapati-350gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "90daaf29fc610644a20f0b92aae9cd369ae756db7fd9daac7b3f3293e9063863"
+    },
+    {
+      "id": "FC-151",
+      "canonicalId": "FC-151",
+      "source": "fc-151-chocolate-cake-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7248d0061448b3e50a84aee65182a648eb6871d6ac35481cdd50ee2903afb4c4"
+    },
+    {
+      "id": "FC-152",
+      "canonicalId": "FC-152",
+      "source": "fc-152-plain-muffin.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b5bf3c8cc182a8d10883e854bfd497c34fc2348dd03ca1426c333a8e81502269"
+    },
+    {
+      "id": "FC-153",
+      "canonicalId": "FC-153",
+      "source": "fc-153-plain-croissant.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e76a9b9834b4d66730c82585838eb0d03332746c8a6688a6f72e92ac980b4602"
+    },
+    {
+      "id": "FC-154",
+      "canonicalId": "FC-154",
+      "source": "fc-154-quaker-white-oats-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c15f851eda195974f2050e2ef3ccec0c99c8470f530b6c3f105f4395f7db70a1"
+    },
+    {
+      "id": "FC-155",
+      "canonicalId": "FC-155",
+      "source": "fc-155-kelloggs-corn-flakes-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0e4bc0e5161b76d448a5cb3a26d6ae230cc84605946f0876a6d19aebf513529c"
+    },
+    {
+      "id": "FC-156",
+      "canonicalId": "FC-156",
+      "source": "fc-156-alpen-original-muesli-750gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "fad4a32d2bd5261f7cd185164a63506c7557999a3f7cc7e7d28bfccc2296252d"
+    },
+    {
+      "id": "FC-157",
+      "canonicalId": "FC-157",
+      "source": "fc-157-american-garden-peanut-butter-340gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e94943ba9f52223b972438047a8193e8879018ebad6e4d32725412f4c36be717"
+    },
+    {
+      "id": "FC-158",
+      "canonicalId": "FC-158",
+      "source": "fc-158-tabora-original-honey-500gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "85c9b201a532b68e81e4d813f6085174d9937a37fc91fb8b42cf1dfc869fab77"
+    },
+    {
+      "id": "FC-159",
+      "canonicalId": "FC-159",
+      "source": "fc-159-best-one-jam-strawberry-454gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "afc9b8bccbbecb4082693b1da684398a13a340890d8da0ba68168477a44cf91e"
+    },
+    {
+      "id": "FC-160",
+      "canonicalId": "FC-160",
+      "source": "fc-160-nutella-jars-350-grm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d125c53d4ad9f27b676f0ba222e36781f883f376818d4c10d5c84b36cd594977"
+    },
+    {
+      "id": "FC-161",
+      "canonicalId": "FC-161",
+      "source": "fc-161-bakers-eet-sum-mor-original-200g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6dd77ed6e9252614eec89e84ac2c068bbae508a3b8de6809deaad387ef68e68e"
+    },
+    {
+      "id": "FC-162",
+      "canonicalId": "FC-162",
+      "source": "fc-162-britannia-bourbon-biscuits-196gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0e1a530cf2f80f502250ff58445d6ed1080bc118ca6b42c2e38f2024901fc86a"
+    },
+    {
+      "id": "FC-163",
+      "canonicalId": "FC-163",
+      "source": "fc-163-britannia-good-day-butter-cookies-75g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "685dbe5f99d35b2f4dbffa4923d14c8f5d28a4fb83d2183ad63a363cbe6c2805"
+    },
+    {
+      "id": "FC-164",
+      "canonicalId": "FC-164",
+      "source": "fc-164-jacobs-cream-crackers-300gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "436860e40394f36653d86cb3831949c9afb9a3091c08d98aa507c72cd8be79d3"
+    },
+    {
+      "id": "FC-165",
+      "canonicalId": "FC-165",
+      "source": "fc-165-pringles-original-156gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b108c8050943c633759bc3a07c7ff434c85bb83f79feb8d70d00b735f450dc0f"
+    },
+    {
+      "id": "FC-166",
+      "canonicalId": "FC-166",
+      "source": "fc-166-big-d-salted-peanuts-50g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "88349380dec037841ef8a6c59f8caabb3f548f9a6d20f7f2cdb55b7e6133c23c"
+    },
+    {
+      "id": "FC-167",
+      "canonicalId": "FC-167",
+      "source": "fc-167-munawar-cashewnuts-unsalted-500grms.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b8e9a8256fb006cfe37e414e3b537ce95ca6a7e04c2c7af3602814bbaddb2889"
+    },
+    {
+      "id": "FC-168",
+      "canonicalId": "FC-168",
+      "source": "fc-168-snickers-classic-50gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f0866eab1283de7b6bda8217da7e2585169cd99731d1a212fada82adac464083"
+    },
+    {
+      "id": "FC-169",
+      "canonicalId": "FC-169",
+      "source": "fc-169-doublemint-chewing-gum-peppermint-5pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "22654b768eed1ade2f80dbadd8fd21dbbdd30f4a2119c0f3dd9cb2cd7d59227a"
+    },
+    {
+      "id": "FC-170",
+      "canonicalId": "FC-170",
+      "source": "fc-170-cadbury-eclairs-130g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "98de4b45acd8b865f07ce7a5c6220c763ced41a10e547e77d15565446a2bccf1"
+    },
+    {
+      "id": "FC-171",
+      "canonicalId": "FC-171",
+      "source": "fc-171-knorr-beef-cubes-54gm-6pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3c6d57ca12f181282f90093c5387f1cd5295f068a0d1b9f3a9c5c9030813df64"
+    },
+    {
+      "id": "FC-172",
+      "canonicalId": "FC-172",
+      "source": "fc-172-rajah-chicken-seasoning-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "70834e673e77dd8be8f96e1ffc98fcdc9d009b7141e6736bb6ff82f1ea12ddf7"
+    },
+    {
+      "id": "FC-173",
+      "canonicalId": "FC-173",
+      "source": "fc-173-rajah-extra-hot-chili-powder-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e3472867f91cd651af2a62ac7ea1fd88c3bab44aaee7c86721102bd0ef7a2f2d"
+    },
+    {
+      "id": "FC-174",
+      "canonicalId": "FC-174",
+      "source": "fc-174-tropical-heat-turmeric-powder-100g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "99b9f014a94bff8790a9738f1b19c36d516cb34fa34e3de045e527f553c0880f"
+    },
+    {
+      "id": "FC-175",
+      "canonicalId": "FC-175",
+      "source": "fc-175-natco-cumin-ground-jar-70g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "515ba87f7a313f0310e174df01deb405f123b7bb7239aafeecfd3b4b8205cab1"
+    },
+    {
+      "id": "FC-176",
+      "canonicalId": "FC-176",
+      "source": "fc-176-natco-coriander-ground-jar-70g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "da237d94096a799fe327c9a97484d654478a2951493972c7f43ecf8fee41e5d1"
+    },
+    {
+      "id": "FC-177",
+      "canonicalId": "FC-177",
+      "source": "fc-177-zalt-black-pepper-grinder-30g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4769ec8da9194dc81cd88eb5d56a084609c710d4a90b3408ad9f028db06940d1"
+    },
+    {
+      "id": "FC-178",
+      "canonicalId": "FC-178",
+      "source": "fc-178-tropical-heat-curry-powder-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "52f99b3793e43949d57917d97b865c21deb689e61cd23b075be5d4660774ad74"
+    },
+    {
+      "id": "FC-179",
+      "canonicalId": "FC-179",
+      "source": "fc-179-tropical-heat-pilau-masala-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2cc9c5c30062c498c28370bc8344e854e191b839457ff0d2baa700fcb2402a16"
+    },
+    {
+      "id": "FC-180",
+      "canonicalId": "FC-180",
+      "source": "fc-180-natco-cinnamon-ground-jar-100g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6fe608fa372a16d5a57ed9bbe5e0be11dd9fc22322b403e84e494901b970307a"
+    },
+    {
+      "id": "FC-181",
+      "canonicalId": "FC-181",
+      "source": "fc-181-ariel-complete-washing-powder-1kg-500g-free.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0e351c0cb5755c62adef3cc7e26fca3dddf83271595ce3cad7c6124dd37f5caa"
+    },
+    {
+      "id": "FC-182",
+      "canonicalId": "FC-182",
+      "source": "fc-182-sunlight-pure-soap-150g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "dc9c258024cc514a899ee2adab6a1658b9e04ce78ccd7a746b77e60c50756c31"
+    },
+    {
+      "id": "FC-183",
+      "canonicalId": "FC-183",
+      "source": "fc-183-sunlight-dishwashing-liquid-original-750ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "852acb41e8370fcc201c1afe294726b8231bb078e52f28ccf7041d2080a2359b"
+    },
+    {
+      "id": "FC-184",
+      "canonicalId": "FC-184",
+      "source": "fc-184-jik-bleach-regular-750ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bf0c877bdf2973a4a2da0bf67cffc2712ac117e0a808297203ebe3bd54adc7c9"
+    },
+    {
+      "id": "FC-185",
+      "canonicalId": "FC-185",
+      "source": "fc-185-comfort-fabric-conditioner-800ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "355790f3a4d36d09bd7f872874d6e9dde943a8d421fde7ee8dea7921ee4b5d18"
+    },
+    {
+      "id": "FC-186",
+      "canonicalId": "FC-186",
+      "source": "fc-186-harpic-liquid-power-plus-585ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3cd1f9529f0cdf8b55537c35c3603af22b620be1ddcb6331f0600aae95192fe2"
+    },
+    {
+      "id": "FC-187",
+      "canonicalId": "FC-187",
+      "source": "fc-187-lit-household-cleaner-disinfectant.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a5bd56cb76838e8aa8e5285f578bea803c20f7dbbc906e95f997850abc0e25b6"
+    },
+    {
+      "id": "FC-188",
+      "canonicalId": "FC-188",
+      "source": "fc-188-arix-jolly-multipurpose-sponge-1pc.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "65fc857a2af603211a8db45a20e70689ee34f634fd7b5b06420879a8cf2fb915"
+    },
+    {
+      "id": "FC-189",
+      "canonicalId": "FC-189",
+      "source": "fc-189-comfi-bathroom-tissue-4pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8f7e71edd5a75f1ad451731751dd508408bbc968532d288474be9926024e2fd9"
+    },
+    {
+      "id": "FC-190",
+      "canonicalId": "FC-190",
+      "source": "fc-190-cosmoplast-garbage-bags-gb6090.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "584534462bc1d6a571f7f7f200e340d8483abc2a154f20f6255c2016cd507bf0"
+    },
+    {
+      "id": "FC-191",
+      "canonicalId": "FC-191",
+      "source": "fc-191-colgate-maximum-protection-140gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "282882914574ee643fcff50c05b8ac52885251655c77ffaa98ca7175dcfbcd3c"
+    },
+    {
+      "id": "FC-192",
+      "canonicalId": "FC-192",
+      "source": "fc-192-colgate-extra-clean-tooth-brush-medium.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f5c1df28a20d14744672d8bdb97dda4eab3ee0e5d8d84caf0f431adbfa17a1be"
+    },
+    {
+      "id": "FC-193",
+      "canonicalId": "FC-193",
+      "source": "fc-193-dove-pink-cream-bar-100gm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "daa0403fdfb5faffe2bc9fc8e8e546fbb1cf7d8b2900c899dfe0342a351a184d"
+    },
+    {
+      "id": "FC-194",
+      "canonicalId": "FC-194",
+      "source": "fc-194-vaseline-intensive-cocoa-glow-lotion-400ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "aca31fd3a7ab04e42b094246a7dfc75c8eca453374690866d8ffa19dc0f900d9"
+    },
+    {
+      "id": "FC-195",
+      "canonicalId": "FC-195",
+      "source": "fc-195-vaseline-blue-seal-jelly-100ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "60337ff293b6501ea91ad0dfe0efb609d8c66505f4c439e73573bea238dbf3e9"
+    },
+    {
+      "id": "FC-196",
+      "canonicalId": "FC-196",
+      "source": "fc-196-pantene-shampoo-conditioner-2-in-1-375ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "49ff786d0ff386df1a2f3032b1c31793dd9ffda4e829780019272665db2e5b7a"
+    },
+    {
+      "id": "FC-197",
+      "canonicalId": "FC-197",
+      "source": "fc-197-nivea-roll-on-pearl-and-beauty-50ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "06875bc7b0f55bec6e703427c1c687af4c6ba9ed2f437eeb2d662ddf045a36f4"
+    },
+    {
+      "id": "FC-198",
+      "canonicalId": "FC-198",
+      "source": "fc-198-always-maxi-thick-softer-extra-long-7pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bf9c11db1d9025ebb19c5a6c13d9743235113738b362200482ac6ead9e2fe193"
+    },
+    {
+      "id": "FC-199",
+      "canonicalId": "FC-199",
+      "source": "fc-199-pampers-3-midi-4-9kg-36pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "612d4fb770b8e2661c6f0f7f09ed7736a057acdd0dbaf951732f3e941807bde2"
+    },
+    {
+      "id": "FC-200",
+      "canonicalId": "FC-200",
+      "source": "fc-200-cussons-baby-wipes-mild-gentle-50-sheets.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8fc16dc9c5e08bb9c066de2ca865f3f7dcbae816c5d335168ee5cd7d56ee3466"
+    },
+    {
+      "id": "FC-201",
+      "canonicalId": "FC-201",
+      "source": "fc-201-plain-yellow-matchbox.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "10b85d336b94540e587135f1fd9e6e66b603fc3750635bd5293cb7362dac37d6"
+    },
+    {
+      "id": "FC-202",
+      "canonicalId": "FC-202",
+      "source": "fc-202-bath-body-works-3-wick-candle-mahogany-coconut-soy-wax-blend-14-5-oz.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "91d1f8acf6ad9327602859151490593cf66466380d2f027464a63e864704121a"
+    },
+    {
+      "id": "FC-203",
+      "canonicalId": "FC-203",
+      "source": "fc-203-duracell-battery-aa.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4607cbd6aad801a13ac0390486c39323e43d71d8d7f78f8434cd57fe4a5ae808"
+    },
+    {
+      "id": "FC-204",
+      "canonicalId": "FC-204",
+      "source": "fc-204-duracell-aaa-batteries-8-pack.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "86a702f55c46474b8ba92cb6a95247e435f33bf15f4fd6897745a47e9bc52c3e"
+    },
+    {
+      "id": "FC-205",
+      "canonicalId": "FC-205",
+      "source": "fc-205-arg-ridax-mosquito-coil.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7482b3ece0ae12918ef56ed447fa6b47ef012085812c1f5ccca5ea4ecbf516da"
+    },
+    {
+      "id": "FC-206",
+      "canonicalId": "FC-206",
+      "source": "fc-206-mortein-doom-powergard-all-insect-kill-600ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cef04ff44fdc6b137f0ed76001e44792c3a453705c6efabae9ee22b346e3d455"
+    },
+    {
+      "id": "FC-207",
+      "canonicalId": "FC-207",
+      "source": "fc-207-glade-air-freshener-soft-cotton-300ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "21162e69a8e50f1a78924bf858585787290b6f75e362720d2f5eb97030e7fc05"
+    },
+    {
+      "id": "FC-208",
+      "canonicalId": "FC-208",
+      "source": "fc-208-kiwi-shoe-polish-100ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2138e645af2e408382865eb2034ccaa2fbe2a550bf20ffc2b879643b76a32c4a"
+    },
+    {
+      "id": "FC-209",
+      "canonicalId": "FC-209",
+      "source": "fc-209-teepee-shoe-brush-g2.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "eccaa5b3a76fec895275d081cc2675fe1ba868e8b3d76af104bdd431bf3eb607"
+    },
+    {
+      "id": "FC-210",
+      "canonicalId": "FC-210",
+      "source": "fc-210-smart-led-9-watts-e27.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "dedd9a30906eaf25de2246bbae885508eac3ef8f4d9f57585b07bd653b5ad685"
+    },
+    {
+      "id": "FC-211",
+      "canonicalId": "FC-211",
+      "source": "fc-211-cosmoplast-kitchen-aluminum-foil-200sqf.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "9f10a147ef5844fe2a5475f3a8cb59b5efda6849746fc0018c8a3bce6096593e"
+    },
+    {
+      "id": "FC-212",
+      "canonicalId": "FC-212",
+      "source": "fc-212-cosmoplast-cling-film-1500sqft.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cf8e1eeae3f857b25786aceb5a6dc3aac5fd268a828d365e4e4a971592383b36"
+    },
+    {
+      "id": "FC-213",
+      "canonicalId": "FC-213",
+      "source": "fc-213-falcon-wax-paper-25m-x-30cm.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1adc9eb7a71815e3f2518c9a88f50b66d12aed620613b6b3d9903962bb958e34"
+    },
+    {
+      "id": "FC-214",
+      "canonicalId": "FC-214",
+      "source": "fc-214-lucky-family-aluminium-foil-containers-with-lids-10pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bf87c0a611d0c5084c3b91df8b6c1fd80fab62e3f6f92075322c4261eb223cee"
+    },
+    {
+      "id": "FC-215",
+      "canonicalId": "FC-215",
+      "source": "fc-215-classic-snap-seal-sandwich-bags-50pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e14247a5736724d53958d6943bc5b8a709ebcd56580c7849a872bf340efb8d18"
+    },
+    {
+      "id": "FC-216",
+      "canonicalId": "FC-216",
+      "source": "fc-216-rexa-premium-napkins-100pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c29192487706f7f0603acedb8661ae29a5680d2b65c6137ef0e86fed10101bf7"
+    },
+    {
+      "id": "FC-217",
+      "canonicalId": "FC-217",
+      "source": "fc-217-comfi-kitchen-towel-twin-pack.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f34610f026854f92bdc1225d9929aeb4049456776027f61c6002dc6f4ba5aadd"
+    },
+    {
+      "id": "FC-218",
+      "canonicalId": "FC-218",
+      "source": "fc-218-black-ripple-cup.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c75f8b6fa2a72046825cb68682d1a884af70abb40c4528a9a5f0535139a8f886"
+    },
+    {
+      "id": "FC-219",
+      "canonicalId": "FC-219",
+      "source": "fc-219-ecopac-foam-plates-25pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2a6a9d071b98382ede5c1f6b5dc984fdc42328e9ce67dc4c2cdfa2f096a70db6"
+    },
+    {
+      "id": "FC-220",
+      "canonicalId": "FC-220",
+      "source": "fc-220-tanpicks-tooth-picks.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "9b685f6351da16e685a804306698517877fae83f79616fe2d015eb31a1a80df2"
+    },
+    {
+      "id": "FC-221",
+      "canonicalId": "FC-221",
+      "source": "fc-221-johnson-s-baby-oil-soap-100g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4fdbd216c39dbe211766837981a336b3ce63ea9963d2af05735317c77653fe66"
+    },
+    {
+      "id": "FC-222",
+      "canonicalId": "FC-222",
+      "source": "fc-222-johnson-baby-oil-200ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "31a13d41383e18f5070105a94fbeeee418aa4b3c2b7a669dda235fbc4dd2614c"
+    },
+    {
+      "id": "FC-223",
+      "canonicalId": "FC-195",
+      "source": "fc-223-vaseline-blue-seal-jelly-100ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "392026d5cc2f40404d6851e7b588a04b15d17fa435ab6258db20e7ff1dc0bdfe"
+    },
+    {
+      "id": "FC-224",
+      "canonicalId": "FC-224",
+      "source": "fc-224-johnson-baby-shampoo-200ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a5520814dce79f05f70553f9188de381b8ca2efb244e778703a1b63178614f89"
+    },
+    {
+      "id": "FC-225",
+      "canonicalId": "FC-225",
+      "source": "fc-225-sudocrem-antiseptic-healing-cream-60g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cfaa1be489670140986d47d03e1e677135805c5d60d0b7e309fc85a24b17ea8e"
+    },
+    {
+      "id": "FC-226",
+      "canonicalId": "FC-226",
+      "source": "fc-226-philips-avent-natural-feeding-bottle.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a7c9e289b0ff0e31f7b86fb53906b1af602205f427d2bfb7e312c394a5af8eaf"
+    },
+    {
+      "id": "FC-227",
+      "canonicalId": "FC-227",
+      "source": "fc-227-munchkin-sponge-bottle-brush.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ad37de77e5d070dfded745aa514ec5a8a5ba84cdd92bc3c176adc55ade865da3"
+    },
+    {
+      "id": "FC-228",
+      "canonicalId": "FC-228",
+      "source": "fc-228-twistshake-bib-4-m-pastel-grey-white-2-pack.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cb3064f2f2876b77dcedcc3a8772e2e9c65bc05e3d0c5bba7e2bbb0cdbe495a7"
+    },
+    {
+      "id": "FC-229",
+      "canonicalId": "FC-229",
+      "source": "fc-229-snuggle-baby-wash-cloths-12pc-blue-dino-set.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cfaf981f76c944417f51e0f492e5333f71ccc739fbe0098df6d30b73dd02d2c7"
+    },
+    {
+      "id": "FC-230",
+      "canonicalId": "FC-230",
+      "source": "fc-230-silvercloud-counting-sheep-changing-mat.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "27a73334ce8e47cd991cfd12591f7466ebedde83f2b3174352736a85cca01b1f"
+    },
+    {
+      "id": "FC-231",
+      "canonicalId": "FC-231",
+      "source": "fc-231-happylife-strawberry-ubuyu-candy-200g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "ff7e56cf1197f8ac27f5e5c3ef0edcf7e63bff62885d28d4de4baf375d1bdc2a"
+    },
+    {
+      "id": "FC-232",
+      "canonicalId": "FC-232",
+      "source": "fc-232-natco-tamarind-paste-jar-250g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "aec4bfe53cf6709f00feab771035ddd5933d9ca7a68da07ae07af1ebefa2cedb"
+    },
+    {
+      "id": "FC-233",
+      "canonicalId": "FC-233",
+      "source": "fc-233-happylife-cassava-flour-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c4b673cb3f5c9435ff1ecf8ec64f646fcd20891937f805d95b153c394cb3c7b9"
+    },
+    {
+      "id": "FC-234",
+      "canonicalId": "FC-234",
+      "source": "fc-234-st-lucky-family-coconut-milk-powder-300g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "49003277e28f037c22fa047a15c0dc51f77f6f74a5fd3299e2fcce069fbcd587"
+    },
+    {
+      "id": "FC-235",
+      "canonicalId": "FC-235",
+      "source": "fc-235-big-plantain.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3e71d2b3e3035636747ffb25c1d6358a934119b42db9f67b1d324b5f4825ae33"
+    },
+    {
+      "id": "FC-236",
+      "canonicalId": "FC-236",
+      "source": "fc-236-bambara-porridge-flour-1kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bf63652dedf2a2e5cc0c93b9d7ac7b37e87a84110003227a5ba12315f657456f"
+    },
+    {
+      "id": "FC-237",
+      "canonicalId": "FC-237",
+      "source": "fc-237-natco-sesame-seeds-natural-400g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "94e12862b40bc60ab26b36bc353ccf656f657da58a0b5302a393b78b163b103e"
+    },
+    {
+      "id": "FC-238",
+      "canonicalId": "FC-238",
+      "source": "fc-238-dhow-natural-raw-baobab-powder-100g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "81ade76ca1955433ab9ca4f72d63ff368240927d7746c77af4acbef99366bd80"
+    },
+    {
+      "id": "FC-239",
+      "canonicalId": "FC-239",
+      "source": "fc-239-mk-amaranth-powder-mchicha.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "256118469d175e495be543d9ea472493a8f4d0326207d1b634de6feb90469ba9"
+    },
+    {
+      "id": "FC-240",
+      "canonicalId": "FC-240",
+      "source": "fc-240-sayur-herba-dried-sweet-potato-leaves.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a0d80a3d06993ebcf11309c9385f3361a76558db017972a4587508cbda35be9d"
+    },
+    {
+      "id": "FC-241",
+      "canonicalId": "FC-241",
+      "source": "fc-241-tresemme-conditioner-750ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c5c187de15422151bb2617dedcd5dc23ce134cd49cc657243757350f50f1eeca"
+    },
+    {
+      "id": "FC-242",
+      "canonicalId": "FC-242",
+      "source": "fc-242-ors-olive-oil-nourishing-sheen-spray-275ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b9ee1abd18a860dc7a14e79eca562399281167e738ebc77d8885329aac31d969"
+    },
+    {
+      "id": "FC-243",
+      "canonicalId": "FC-243",
+      "source": "fc-243-schwarzkopf-silhouette-super-hold-hairspray-500ml.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1c0b294df3514f4e545ed5ca37975e84c30c5a8906d0869f0ac72edf1285ec0a"
+    },
+    {
+      "id": "FC-244",
+      "canonicalId": "FC-244",
+      "source": "fc-244-jaguar-a-line-520-hair-cutting-comb-6-75-inch-length-0-01-kg.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c27b4b248a5da4e01b219d476f59f814b03e9a6cf4f44b1f7d6b0c6cfc85f043"
+    },
+    {
+      "id": "FC-245",
+      "canonicalId": "FC-245",
+      "source": "fc-245-kotex-designer-maxi-pads-super-8pcs.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a44daf4612cfbc8407bbb6dd05750b5e0d60f41983435b184fdc230afe5f3b0d"
+    },
+    {
+      "id": "FC-246",
+      "canonicalId": "FC-246",
+      "source": "fc-246-velvex-cotton-wool-100g.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c26d8e5cfac1db424bc83bb39206647f12df01c50184925e90d7094281133f64"
+    },
+    {
+      "id": "FC-247",
+      "canonicalId": "FC-247",
+      "source": "fc-247-johnson-cotton-buds-100pcs-uk.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "56f90ad61baa6a70c393c1a083aa94c44bc85086f7df0f3f3018623e22d58f20"
+    },
+    {
+      "id": "FC-248",
+      "canonicalId": "FC-248",
+      "source": "fc-248-tanzania-brush-products-hard-broom-coloured.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f018a1eed300e1921eb08132306e3b3c4b5e23bedeca2b6f8a9867f7f821904c"
+    },
+    {
+      "id": "FC-249",
+      "canonicalId": "FC-249",
+      "source": "fc-249-tonkita-mopy-cotton-mop-head.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "58e23d7dee69985e7387d2562033bfc7755603cc1339b5c2b0050f8b857ae1b0"
+    },
+    {
+      "id": "FC-250",
+      "canonicalId": "FC-250",
+      "source": "fc-250-best-one-household-gloves-medium.webp",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d5fb1856f04a8622a70f0f00f6832121905ccb55750d9fff013aa99ad7bbc9f0"
+    }
+  ]
+}

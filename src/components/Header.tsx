@@ -1,9 +1,9 @@
+import { StoreLink } from './StoreLink';
 import { useEffect, useRef, useState } from 'react';
-import { Heart, Leaf, Menu, Phone, Search, ShoppingCart, Truck, User, X } from 'lucide-react';
+import { Heart, Menu, Search, ShoppingCart, User, X } from 'lucide-react';
 import { useStore } from '../store';
 import { searchProducts } from '../data';
 import { formatTzs } from '../currency';
-import { settings } from '../api';
 import type { Page } from '../types';
 import { Overlay } from './Overlay';
 
@@ -15,7 +15,7 @@ const links: { label: string; page: Page }[] = [
 ];
 const accountLinks: { label: string; page: Page }[] = [{label:'Account / Orders',page:{name:'account'}},{label:'Wishlist',page:{name:'wishlist'}}];
 export function Header() {
-  const { navigate, page, cartCount, setCartOpen, catalogVersion, catalogReady, settingsReady } = useStore();
+  const { navigate, page, cartCount, setCartOpen, catalogVersion, catalogReady } = useStore();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -54,18 +54,17 @@ export function Header() {
   const submit = () => { if (query.trim()) { go({ name: 'catalog', searchQuery: query.trim() }); setQuery(''); } };
   const toggle = (name: 'account', trigger: HTMLButtonElement) => { menuTrigger.current = trigger; setMenu(menu === name ? null : name); };
   return <>
-  <div className="fc-header-strip"><div className="store-container"><span><Truck size={15} aria-hidden="true"/>{settingsReady ? `Free delivery on groceries from ${formatTzs(settings.free_delivery_cents/100)}` : 'Delivery or pickup available at checkout'}</span><span className="fc-header-strip-right"><span>Prices in TZS</span><a href="tel:+255768641810"><Phone size={14} aria-hidden="true"/>+255 768 641 810</a></span></div></div>
   <header ref={root} className={`fc-header ${scrolled ? 'is-scrolled ' : ''}sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm`}>
     <div className="store-container">
       <div className="header-row flex items-center gap-3 xl:gap-5 min-h-16 py-2">
         <button className="xl:hidden w-11 h-11 flex items-center justify-center" aria-label="Open navigation menu" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5"/></button>
-        <button onClick={() => go({ name: 'home' })} className="flex items-center gap-2 shrink-0 text-left" aria-label="FAMILY CHOICE SUPERMARKET home"><span className="hidden sm:flex w-10 h-10 bg-green-600 rounded-xl items-center justify-center"><Leaf className="w-6 h-6 text-white" /></span><span className="brand-name">FAMILY CHOICE SUPERMARKET</span></button>
+        <button onClick={() => go({ name: 'home' })} className="brand-home shrink-0 text-left" aria-label="FAMILY CHOICE SUPERMARKET home"><img src="/images/brand/family-choice-logo.svg" width={1547} height={325} alt="FAMILY CHOICE SUPERMARKET" className="brand-logo"/></button>
 
       <nav aria-label="Main navigation" className="hidden xl:flex flex-wrap flex-1 justify-center items-center gap-1 min-w-0" onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setMenu(null); }}>
-        <button className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'home' ? 'page' : undefined} onClick={() => go({name:'home'})}>Home</button>
-        <button className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'catalog' ? 'page' : undefined} onClick={() => go({name:'catalog'})}>Shop</button>
-        <button className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'deals' ? 'page' : undefined} onClick={() => go({name:'deals'})}>Deals</button>
-        {links.slice(1).map(item => <button key={item.label} aria-current={isCurrent(item.page) ? 'page' : undefined} className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" onClick={() => go(item.page)}>{item.label}</button>)}
+        <StoreLink className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'home' ? 'page' : undefined} to={{name:'home'}} onClick={() => {setMenu(null);setPanelOpen(false);}}>Home</StoreLink>
+        <StoreLink className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'catalog' ? 'page' : undefined} to={{name:'catalog'}} onClick={() => {setMenu(null);setPanelOpen(false);}}>Shop</StoreLink>
+        <StoreLink className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50" aria-current={page.name === 'deals' ? 'page' : undefined} to={{name:'deals'}} onClick={() => {setMenu(null);setPanelOpen(false);}}>Deals</StoreLink>
+        {links.slice(1).map(item => <StoreLink key={item.label} to={item.page} aria-current={isCurrent(item.page) ? 'page' : undefined} className="px-3 text-sm font-semibold rounded-lg hover:bg-green-50">{item.label}</StoreLink>)}
       </nav>
         <div className="header-actions flex items-center gap-1 ml-auto shrink-0">
           <button ref={searchTrigger} className="header-icon" aria-label={panelOpen ? "Close search" : "Search"} aria-expanded={panelOpen} aria-controls="header-search" onClick={() => {setPanelOpen(value => !value);setSearchOpen(true);setMenu(null);}}>{panelOpen ? <X className="w-5 h-5"/> : <Search className="w-5 h-5"/>}</button>

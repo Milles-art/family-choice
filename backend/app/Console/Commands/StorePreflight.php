@@ -16,7 +16,11 @@ class StorePreflight extends Command
             'Production environment' => app()->environment('production'),
             'Debug disabled' => config('app.debug') === false,
             'Application key configured' => filled(config('app.key')),
-            'Correct HTTPS application URL' => ($url['scheme'] ?? '') === 'https' && ($url['host'] ?? '') === 'familychoiceminimarket.co.tz',
+            'Public HTTPS application URL' => ($url['scheme'] ?? '') === 'https' && !in_array(strtolower($url['host'] ?? ''), ['', 'localhost', '127.0.0.1', '::1', '[::1]'], true),
+            'Queue is asynchronous' => config('queue.default') !== 'sync',
+            'Real mail transport configured' => !in_array(config('mail.default'), ['log', 'array'], true),
+            'Production log level' => config('logging.channels.stack') && config('logging.channels.single.level') !== 'debug',
+            'Selcom configuration consistent' => !config('services.selcom.enabled') || app(\App\Services\SelcomService::class)->enabled(),
             'Secure session cookie' => config('session.secure') === true,
             'HttpOnly session cookie' => config('session.http_only') === true,
             'SameSite session protection' => in_array(config('session.same_site'), ['lax', 'strict'], true),
@@ -30,9 +34,8 @@ class StorePreflight extends Command
             $this->line(($pass ? 'PASS' : 'FAIL').' '.$label);
         }
         $this->warn('Configuration checks cannot verify DNS/TLS, real delivery coverage, prices, backups, payment operations or concurrent checkout on the host.');
-        if (config('store.mobile_money_enabled')) {
-            $this->warn('Mobile money uses manual staff confirmation. No automatic payment gateway/webhook is implemented.');
-        }
+        $this->warn('Run a queue worker and scheduler; confirm their health on the host.');
+        $this->warn('Trusted proxies: configure only actual proxy IPs/CIDRs. Check request IP/HTTPS and separate login, password-recovery and webhook limiter buckets from two devices.');
 
         return in_array(false, $checks, true) ? self::FAILURE : self::SUCCESS;
     }

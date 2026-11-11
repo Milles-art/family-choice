@@ -1,0 +1,26 @@
+.fc-footer-compact {background: #f1f6f3; border-top: 1px solid #d6e2db; color: #243d30; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5;}
+.fc-footer-compact .footer-main {display: grid; grid-template-columns: 230px minmax(0, 1fr) 200px; align-items: center; gap: 24px; padding-block: 24px;}
+.fc-footer-compact .footer-home {display: flex; align-items: center; min-height: 44px; width: 100%;}
+.fc-footer-compact .footer-home img {width: 220px; max-width: 100%; height: auto;}
+.fc-footer-compact .footer-links {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 16px; max-width: 540px; margin: 0; padding: 0; list-style: none;}
+.fc-footer-compact .footer-links :is(button, a) {display: block; min-height: 44px; width: 100%; text-align: left; font-size: 15px; font-weight: 500; color: #243d30;}
+.fc-footer-compact .footer-contact {display: grid; font-style: normal; margin: 0; font-size: 14px;}
+.fc-footer-compact .footer-contact a {display: flex; align-items: center; gap: 9px; min-height: 44px; width: fit-content;}
+.fc-footer-compact .footer-contact svg {flex-shrink: 0; color: #174c36;}
+.fc-footer-compact .footer-bottom {display: flex; align-items: center; justify-content: flex-start; gap: 24px; border-top: 1px solid #d6e2db; padding-block: 8px; font-size: 13px; color: #405749;}
+.fc-footer-compact .footer-bottom p {margin: 0;}
+.fc-footer-compact .footer-bottom :is(button, a) {min-height: 44px; font-size: 14px; flex-shrink: 0;}
+.fc-footer-compact button:hover, .fc-footer-compact a:hover {color: #174c36; text-decoration: underline; text-underline-offset: 4px;}
+.fc-footer-compact button:focus-visible, .fc-footer-compact a:focus-visible {outline: 2px solid #174c36; outline-offset: 3px; border-radius: 4px;}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .fc-footer-compact .footer-main {grid-template-columns: 200px minmax(0, 1fr); gap: 12px 24px; padding-block: 20px;}
+  .fc-footer-compact .footer-contact {grid-column: 1 / -1; display: flex; gap: 24px;}
+}
+@media (max-width: 639px) {
+  .fc-footer-compact .footer-main {grid-template-columns: minmax(0, 1fr); gap: 8px; padding-block: 16px;}
+  .fc-footer-compact .footer-home img {width: 210px;}
+  .fc-footer-compact .footer-links {gap: 0 12px;}
+  .fc-footer-compact .footer-links :is(button, a) {font-size: 14px;}
+  .fc-footer-compact .footer-contact {display: flex; flex-wrap: wrap; gap: 0 20px;}
+  .fc-footer-compact .footer-bottom {flex-direction: column; align-items: flex-start; gap: 0; padding-block: 8px;}
+}

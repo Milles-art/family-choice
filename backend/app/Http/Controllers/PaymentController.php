@@ -16,6 +16,7 @@ class PaymentController extends Controller
     public function status(Request $request, Order $order)
     {
         abort_unless($order->user_id === $request->user()->id, 404);
+        abort_if($order->status === 'cancelled', 422, 'This order is cancelled. See order tracking for any staff review.');
 
         return response()->json(['payment_status' => OrderPayments::status($order->payment_status),
             'message' => $order->payment_message, ...($order->confirmation_email_sent_at ? [
@@ -26,6 +27,7 @@ class PaymentController extends Controller
     public function retry(Request $request, Order $order, SelcomService $selcom, OrderPayments $payments)
     {
         abort_unless($order->user_id === $request->user()->id, 404);
+        abort_if($order->status === 'cancelled', 422, 'This order is cancelled.');
         abort_unless($selcom->enabled(), 503, 'Mobile-money payments are unavailable.');
         abort_unless($order->payment_method === 'selcom', 422, 'This order does not use Selcom.');
         $request->merge(['phone' => SelcomService::normalizePhone($request->input('phone'))]);

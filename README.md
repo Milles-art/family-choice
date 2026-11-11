@@ -49,13 +49,17 @@ For editing React, keep Laravel running on port 8000 and run `npm run dev` from 
 
 ## Enable your administrator account
 
-Register your account through the storefront, then run from `backend`:
+Create the administrator first from `backend`, using a long unique password (minimum 14 characters). Never register the intended administrator email through the public customer form:
 
 ```sh
-php artisan freshcart:admin your-email@example.com
+php artisan freshcart:admin:create your-email@example.com "Owner Name"
 ```
 
 Sign in again, open **My Account → Manage store**, and edit product prices, inventory, order status and payment status. Public registration cannot create administrators.
+
+Promoting an existing account requires `php artisan freshcart:admin email@example.com --existing`, reviewing its name, creation time and order count, and confirming ownership. Admin API access requires verified email, is throttled, and can be restricted with `ADMIN_ALLOWED_IPS`. Customer email verification is a future option and remains disabled for checkout.
+
+See [security deployment settings](backend/docs/HOSTING.md#security-hardening-settings) for trusted proxies, CSP/HSTS, unpaid-order expiry, reconciliation limits, mail and queue requirements. The additive security migration must be reviewed/applied on staging before deploying this code; it has not been applied to the local MySQL store.
 
 ## Settings and launch work
 

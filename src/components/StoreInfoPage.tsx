@@ -60,7 +60,7 @@ export function StoreInfoPage({ section }: { section: Section }) {
       ['about-store-interior-concept','Shoppers browsing grocery aisles','Room for everything on your list.'],
       ['about-team-produce-concept','A team arranging fresh vegetables','Care in the everyday details.'],
     ].map(([name,alt,title]) => <figure key={name}><EditorialImage name={name} alt={alt}/><figcaption>{title}</figcaption></figure>)}</div></section>}
-    {section === 'delivery' && <section className="fc-fee-panel"><div><Truck size={30}/><h2>Review fees before you order</h2></div><p>{settingsReady ? `Delivery costs ${formatTzs(settings.delivery_cents/100)}. Grocery subtotals of ${formatTzs(settings.free_delivery_cents/100)} or more qualify for free delivery. Pickup has no delivery fee.` : 'Review delivery fees in the order summary before placing your order.'}</p></section>}
+    {section === 'delivery' && <section className="fc-fee-panel"><div><Truck size={30}/><h2>Review fees before you order</h2></div><p>{settingsReady ? `Delivery costs ${formatTzs(settings.delivery_cents/100)}. Pickup has no delivery fee.` : 'Review delivery fees in the order summary before placing your order.'}</p></section>}
     <section className="fc-info-features">{page.cards.map((card,i) => {const CardIcon=card.icon;return <article key={card.title}><CardIcon size={28}/><h2>{card.title}</h2><p>{card.text}</p>{section === 'help' && <button className="fc-text-button" onClick={() => navigate({name:'account'})}>{i===0 ? 'View my orders' : 'My Account'}<ChevronRight size={18}/></button>}</article>})}</section>
     {section === 'help' && <section className="fc-help-faq"><h2>Quick answers</h2>{[
       ['Where can I see my orders?','Sign in to My Account to review current and previous orders.'],

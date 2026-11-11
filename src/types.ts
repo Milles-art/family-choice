@@ -18,7 +18,17 @@ export type Product = {
   rating: number;
   reviews: number;
   inStock: boolean;
-  stock?: number;
+  stock?: number | null;
+  stockStatus?: 'confirmed' | 'available' | 'unverified';
+  orderable?: boolean;
+  priceType?: 'retailer-listed' | 'planning-estimate' | 'store-confirmed';
+  priceBasis?: 'retailer-listed' | 'planning-estimate';
+  sourceIds?: string[];
+  priceUnit?: string;
+  priceNote?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   tags: string[];
   badge?: string;
   nutrition?: {
@@ -67,7 +77,8 @@ export type Deal = {
 
 export type Page =
   | { name: 'home' }
-  | { name: 'catalog'; categoryId?: string; searchQuery?: string }
+  | { name: 'not-found' }
+  | { name: 'catalog'; categoryId?: string; searchQuery?: string; pageNumber?: number }
   | { name: 'product'; productId: string }
   | { name: 'cart' }
   | { name: 'checkout' }

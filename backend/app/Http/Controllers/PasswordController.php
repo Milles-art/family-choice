@@ -30,7 +30,7 @@ class PasswordController extends Controller
     public function reset(Request $request)
     {
         $data = $request->validate(['email' => 'required|email|max:255', 'token' => 'required|string|max:512',
-            'password' => 'required|string|min:8|max:128|confirmed']);
+            'password' => ['required', 'string', 'max:128', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()]]);
         $status = Password::reset($data, function (User $user, string $password) {
             $user->forceFill(['password' => Hash::make($password), 'remember_token' => Str::random(60)])->save();
             if (config('session.driver') === 'database') {

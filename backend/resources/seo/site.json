@@ -1,0 +1,61 @@
+{
+    "name": "FAMILY CHOICE SUPERMARKET",
+    "origin": "https://familychoiceminimarket.co.tz",
+    "email": "info@familychoiceminimarket.co.tz",
+    "phone": "+255768641810",
+    "address": "Mafiga Shell, Morogoro, Tanzania",
+    "categories": {
+        "produce": "Fruits & Vegetables",
+        "dairy": "Dairy & Eggs",
+        "meat": "Meat & Poultry",
+        "bakery": "Bakery",
+        "beverages": "Beverages",
+        "frozen": "Frozen Foods",
+        "pantry": "Pantry Staples",
+        "household": "Household Essentials",
+        "personal-care": "Personal Care",
+        "baby-care": "Baby Care"
+    },
+    "pages": {
+        "/": [
+            "Groceries in Morogoro",
+            "Shop groceries, fresh produce and household essentials at FAMILY CHOICE SUPERMARKET, Mafiga Shell, Morogoro. Choose local delivery or store pickup."
+        ],
+        "/shop": [
+            "Shop groceries",
+            "Browse groceries and household essentials with TSh prices, pack sizes and stock information. Delivery within Morogoro or pickup at Mafiga Shell."
+        ],
+        "/deals": [
+            "Current grocery offers",
+            "Browse current offers at FAMILY CHOICE SUPERMARKET. See product prices, pack sizes and availability before placing your order."
+        ],
+        "/new-arrivals": [
+            "New arrivals",
+            "Explore the latest groceries and household essentials added to FAMILY CHOICE SUPERMARKET in Morogoro."
+        ],
+        "/recipes": [
+            "Recipe inspiration",
+            "Explore recipe inspiration and available catalogue ingredients at FAMILY CHOICE SUPERMARKET."
+        ],
+        "/about": [
+            "About our supermarket",
+            "Find out about FAMILY CHOICE SUPERMARKET at Mafiga Shell, Morogoro, and how to shop online for delivery or pickup."
+        ],
+        "/delivery": [
+            "Delivery in Morogoro",
+            "We deliver within Morogoro only. Delivery timing is arranged with the store. Review the configured delivery fee before ordering."
+        ],
+        "/help": [
+            "Contact our store",
+            "Contact FAMILY CHOICE SUPERMARKET at Mafiga Shell, Morogoro. Call +255 768 641 810 or email info@familychoiceminimarket.co.tz."
+        ],
+        "/how-to-order": [
+            "How to order groceries",
+            "Choose groceries, sign in, select delivery or pickup, and review your total. Order confirmation and payment status are shown separately."
+        ],
+        "/privacy": [
+            "Privacy notice",
+            "Read the FAMILY CHOICE SUPERMARKET privacy notice and learn how to contact us about your customer information."
+        ]
+    }
+}

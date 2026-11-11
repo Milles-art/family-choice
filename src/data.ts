@@ -1,6 +1,8 @@
 import type { Category, Product, Recipe, Deal } from './types';
 
 export const categories: Category[] = [
+  { id: 'personal-care', name: 'Personal Care', icon: 'Sparkles', image: '/images/editorial/category-household-essentials-640.webp', color: '#64748b' },
+  { id: 'baby-care', name: 'Baby Care', icon: 'Heart', image: '/images/editorial/category-household-essentials-640.webp', color: '#64748b' },
   {
     id: 'produce',
     name: 'Fruits & Vegetables',
@@ -126,7 +128,7 @@ export function getProductsByCategory(categoryId: string): Product[] {
   return products.filter((p) => p.categoryId === categoryId);
 }
 export function getProductById(id: string): Product | undefined {
-  return products.find((p) => p.id === id);
+  return products.find((p) => p.id === id || p.sourceIds?.includes(id));
 }
 
 export function getCategoryById(id: string): Category | undefined {
@@ -151,6 +153,8 @@ export function searchProducts(query: string): Product[] {
   return products.filter(
     (p) =>
       p.name.toLowerCase().includes(q) ||
+      p.unit.toLowerCase().includes(q) ||
+      (p.sourceIds ?? [p.id]).some(id => id.toLowerCase().includes(q)) ||
       p.description.toLowerCase().includes(q) ||
       getCategoryById(p.categoryId)?.name.toLowerCase().includes(q)
   );

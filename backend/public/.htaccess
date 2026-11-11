@@ -1,9 +1,32 @@
+DirectoryIndex index.php
+
+# Compress text responses; WebP images are already compressed.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# Revalidate assets before use, while allowing efficient conditional requests.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(webp|woff2|js|css)$">
+        Header set Cache-Control "public, max-age=86400"
+    </FilesMatch>
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
+
+    # One public origin; 308 preserves method/body on existing form/API requests.
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?familychoiceminimarket\.co\.tz$ [NC]
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP_HOST} ^www\.familychoiceminimarket\.co\.tz$ [NC]
+    RewriteRule ^ https://familychoiceminimarket.co.tz%{REQUEST_URI} [R=308,L]
+
+    RewriteCond %{HTTP_HOST} ^familychoiceminimarket\.co\.tz$ [NC]
+    RewriteRule ^index\.html$ / [R=308,L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -22,4 +45,10 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
 </IfModule>

@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -303,8 +302,7 @@ class PaymentsTest extends TestCase
     {
         foreach (['/track', '/forgot-password', '/reset-password?token=test&email=user@example.test'] as $url) {
             $response = $this->get($url)->assertOk();
-            $this->assertInstanceOf(BinaryFileResponse::class, $response->baseResponse);
-            $this->assertStringContainsString('<div id="root">', file_get_contents($response->baseResponse->getFile()->getPathname()));
+            $response->assertSee('<div id="root">', false)->assertHeader('X-Robots-Tag', 'noindex, follow');
         }
     }
 }

@@ -1,0 +1,51 @@
+import { ArrowRight, Apple, Milk, Beef, Croissant, CupSoda, Snowflake, Wheat, SprayCan, ShoppingBag, MapPin, ShieldCheck, Heart, Check, Clock } from 'lucide-react';
+import { useStore } from '../store';
+import { categories, getDealProducts, getBestSellers, getProductsByCategory, recipes } from '../data';
+import { ProductCard } from './ProductCard';
+import { StoreLink } from './StoreLink';
+import { SectionSkeleton } from './LoadingState';
+import { imageSet } from '../images';
+import { formatTzs } from '../currency';
+
+const categoryIcons = { produce: Apple, dairy: Milk, meat: Beef, bakery: Croissant, beverages: CupSoda, frozen: Snowflake, pantry: Wheat, household: SprayCan };
+
+export function LightMotionHome() {
+  const { catalogReady, catalogError, retryCatalog } = useStore();
+  const offers = getDealProducts();
+  const featured = (offers.length ? offers : getBestSellers().length ? getBestSellers() : getProductsByCategory('produce')).slice(0, 4);
+  const departments = categories.filter(category => category.id in categoryIcons);
+  const spotlight = offers[0];
+  return <div className="lm-home">
+    <section className="lm-hero" aria-labelledby="lm-hero-title">
+      <div className="store-container">
+        <p className="lm-location"><MapPin size={15}/> Your neighbourhood supermarket in Morogoro</p>
+        <h1 id="lm-hero-title"><span>Groceries.</span><span>Good things, every day.</span></h1>
+        <p className="lm-hero-description">Fresh ingredients, pantry favourites and everyday essentials.<br className="lm-desktop-break"/> A little less planning. A little more living.</p>
+        <div className="lm-actions"><StoreLink to={{name:'catalog'}} className="lm-button">Start shopping <ArrowRight size={18}/></StoreLink><StoreLink to={{name:'info',section:'how-it-works'}} className="lm-button lm-button-outline">How it works <ArrowRight size={18}/></StoreLink></div>
+        <div className="lm-trust"><span><Check size={15}/> Prices in TSh</span><span><Check size={15}/> Delivery or pickup</span><span><Check size={15}/> Clear checkout totals</span></div>
+        <div className="lm-collage">
+          <figure className="lm-main-photo"><img src="/images/hero/market-1280.webp" srcSet="/images/hero/market-640.webp 640w, /images/hero/market-1280.webp 1280w, /images/hero/market-1920.webp 1920w" sizes="(min-width: 1000px) 780px, 88vw" width={1920} height={768} alt="A basket of vegetables, tomatoes and fresh fruit" fetchPriority="high"/><figcaption>Good food starts with good ingredients.</figcaption></figure>
+          <div className="lm-float lm-float-left"><span className="lm-icon"><ShoppingBag size={23}/></span><div><strong>Your weekly shop</strong><span>All in one place.</span></div><div className="lm-mini-photos">{departments.slice(0,3).map(category => <img key={category.id} src={category.image} alt="" width={56} height={56}/>)}</div></div>
+          <StoreLink className="lm-float lm-float-right" to={spotlight ? {name:'product',productId:spotlight.id} : {name:'catalog',categoryId:'pantry'}}><span className="lm-float-caption">{spotlight ? 'From our offers' : 'For your everyday'}</span><strong>{spotlight ? spotlight.name : 'A well-stocked kitchen.'}</strong>{spotlight ? <span className="lm-float-price">{formatTzs(spotlight.price)}</span> : <span>Explore pantry essentials</span>}<span className="lm-float-link">Take a look <ArrowRight size={16}/></span></StoreLink>
+          <span className="lm-photo-tag"><Apple size={17}/> Fresh ideas for your basket</span>
+        </div>
+      </div>
+    </section>
+    <div className="lm-ribbon" aria-label="Grocery departments"><div>{['Fresh produce', 'Pantry favourites', 'Dairy & eggs', 'Household essentials'].map(text => <span key={text}><span aria-hidden="true">✳</span>{text}</span>)}</div></div>
+    <section className="store-container lm-section lm-departments" aria-labelledby="lm-departments-title">
+      <div className="lm-section-heading"><div><p className="lm-kicker">Find your favourites</p><h2 id="lm-departments-title">A little of everything.<br/>All in your basket.</h2></div><StoreLink to={{name:'catalog'}} className="lm-text-link">Explore the shop <ArrowRight size={18}/></StoreLink></div>
+      <div className="lm-category-grid">{departments.map(category => { const Icon = categoryIcons[category.id as keyof typeof categoryIcons]; return <StoreLink key={category.id} to={{name:'catalog',categoryId:category.id}} className="lm-category"><img src={category.image} srcSet={imageSet(category.image)} sizes="(min-width: 1000px) 23vw, 47vw" width={640} height={640} alt="" loading="lazy"/><span className="lm-category-icon"><Icon size={21}/></span><span className="lm-category-name">{category.name}<ArrowRight size={18}/></span></StoreLink>; })}</div>
+    </section>
+    <section className="lm-featured lm-section" aria-labelledby="lm-featured-title"><div className="store-container"><div className="lm-section-heading"><div><p className="lm-kicker">Make room in your basket</p><h2 id="lm-featured-title">{offers.length ? 'Good finds. Better value.' : 'Fresh picks for your table.'}</h2></div><StoreLink to={offers.length ? {name:'deals'} : {name:'catalog'}} className="lm-text-link">{offers.length ? 'Explore deals' : 'View all products'} <ArrowRight size={18}/></StoreLink></div>
+      {!catalogReady ? catalogError ? <div className="surface p-6"><p role="alert">{catalogError}</p><button className="lm-button" onClick={retryCatalog}>Retry catalogue</button></div> : <SectionSkeleton cards={4}/> : featured.length ? <div className="lm-product-grid">{featured.map(product => <ProductCard key={product.id} product={product}/>)}</div> : <p>Browse the shop to see what is available today.</p>}
+    </div></section>
+    <section className="store-container lm-section lm-manifesto" aria-labelledby="lm-manifesto-title"><p className="lm-kicker">More time for what matters</p><h2 id="lm-manifesto-title">Your list.<img src="/images/editorial/category-fruits-vegetables-320.webp" alt="" width={100} height={72} loading="lazy"/>Your favourites.<br/>Your kind of everyday.</h2><p>From the first cup of the morning to dinner together.<br/>Find the ingredients for your day at Family Choice Supermarket.</p></section>
+    <section className="store-container lm-section lm-stories" aria-label="Shopping with Family Choice">
+      <div className="lm-story"><div className="lm-story-photo"><img src="/images/editorial/promotion-weekly-shopping-960.webp" srcSet={imageSet('/images/editorial/promotion-weekly-shopping-960.webp')} sizes="(min-width: 800px) 46vw, 92vw" width={960} height={720} alt="Groceries for the weekly household shop" loading="lazy"/><span className="lm-story-badge"><ShoppingBag size={27}/></span></div><div className="lm-story-copy"><p className="lm-kicker">One shop, plenty of possibilities</p><h2>From your weekly list<br/>to tonight’s dinner.</h2><p>Fruit for the bowl. Flour for the kitchen. The little things you nearly forgot. Browse by category and bring your basket together.</p><StoreLink to={{name:'catalog'}} className="lm-text-link">Find your essentials <ArrowRight size={18}/></StoreLink></div></div>
+      <div className="lm-story lm-story-reverse"><div className="lm-story-photo"><img src="/images/editorial/promotion-pantry-essentials-960.webp" srcSet={imageSet('/images/editorial/promotion-pantry-essentials-960.webp')} sizes="(min-width: 800px) 46vw, 92vw" width={960} height={720} alt="Pantry ingredients for everyday meals" loading="lazy"/><span className="lm-story-badge"><Heart size={27}/></span></div><div className="lm-story-copy"><p className="lm-kicker">Keep the good things close</p><h2>A place for<br/>your favourites.</h2><p>Save products to your wishlist as you browse. When you are ready to shop, your favourites are easy to find again.</p><StoreLink to={{name:'wishlist'}} className="lm-text-link">See your wishlist <ArrowRight size={18}/></StoreLink></div></div>
+    </section>
+    <section className="lm-how lm-section" aria-labelledby="lm-how-title"><div className="store-container"><div className="lm-centered-heading"><p className="lm-kicker">From your list to your table</p><h2 id="lm-how-title">Shopping made simple.</h2><p>Choose what you need. We’ll help with the rest.</p></div><div className="lm-steps">{[{icon:ShoppingBag,title:'Fill your basket',text:'Explore the categories and add your everyday favourites.'},{icon:MapPin,title:'Choose how to receive it',text:'Select delivery or pickup and review the available options.'},{icon:ShieldCheck,title:'Review your order',text:'Check your items, delivery details and total before placing your order.'}].map((step,index) => <div className="lm-step" key={step.title}><div className="lm-step-icon"><step.icon size={30}/><span>{index+1}</span></div><h3>{step.title}</h3><p>{step.text}</p></div>)}</div><StoreLink to={{name:'info',section:'how-it-works'}} className="lm-text-link">More about ordering <ArrowRight size={18}/></StoreLink></div></section>
+    <section className="store-container lm-section" aria-labelledby="lm-recipes-title"><div className="lm-section-heading"><div><p className="lm-kicker">Something delicious starts here</p><h2 id="lm-recipes-title">A little kitchen inspiration.</h2></div><StoreLink to={{name:'recipes'}} className="lm-text-link">All recipes <ArrowRight size={18}/></StoreLink></div><div className="lm-recipes">{recipes.slice(0,3).map(recipe => <StoreLink to={{name:'recipes'}} className="lm-recipe" key={recipe.id}><img src={recipe.image} srcSet={imageSet(recipe.image)} sizes="(min-width: 768px) 30vw, 92vw" width={960} height={640} alt={recipe.name} loading="lazy"/><span><Clock size={15}/>{recipe.prepTime}</span><h3>{recipe.name}</h3><span className="lm-text-link">Explore recipe <ArrowRight size={17}/></span></StoreLink>)}</div></section>
+    <section className="lm-cta"><div className="store-container"><ShoppingBag size={36}/><h2>Good things are<br/>a basket away.</h2><p>Your next meal. Your everyday essentials. Let’s fill that list.</p><StoreLink to={{name:'catalog'}} className="lm-button">Start shopping <ArrowRight size={18}/></StoreLink><StoreLink to={{name:'info',section:'help'}} className="lm-text-link">Need a hand? Get in touch <ArrowRight size={17}/></StoreLink></div></section>
+  </div>;
+}

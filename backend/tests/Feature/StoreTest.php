@@ -43,6 +43,19 @@ class StoreTest extends TestCase
         $this->postJson('/api/orders', $this->payload())->assertUnauthorized();
     }
 
+    public function test_delivery_is_charged_even_above_the_old_free_delivery_threshold(): void
+    {
+        config(['store.delivery_cents' => 500000, 'store.free_delivery_cents' => 7500000]);
+        $payload = $this->payload();
+        $payload['items'][0]['quantity'] = 20;
+        $payload['requestId'] = (string) Str::uuid();
+        $this->actingAs(User::factory()->create())->postJson('/api/orders', $payload)
+            ->assertCreated()->assertJsonPath('delivery_cents', 500000);
+        $payload['deliveryOption'] = 'pickup';
+        $payload['requestId'] = (string) Str::uuid();
+        $this->postJson('/api/orders', $payload)->assertCreated()->assertJsonPath('delivery_cents', 0);
+    }
+
     public function test_api_responses_prevent_caching_and_content_sniffing(): void
     {
         $this->getJson('/api/products')->assertOk()

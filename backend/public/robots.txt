@@ -1,2 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /api/
+Allow: /
+
+Sitemap: https://familychoiceminimarket.co.tz/sitemap.xml

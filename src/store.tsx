@@ -90,7 +90,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (!catalogResource.data) return;
     setCart(previous => previous.flatMap(item => {
       const product = catalogResource.data?.find(p => p.id === item.product.id);
-      if (!product?.inStock) return [];
+      if (!product || (!product.inStock && product.stockStatus !== 'unverified')) return [];
       const quantity = Math.min(item.quantity, product.stock ?? 100, 100);
       return quantity > 0 ? [{ product, quantity }] : [];
     }));
@@ -162,7 +162,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const addToCart = useCallback(
     (product: Product, quantity = 1) => {
       const existingQuantity = cart.find(item => item.product.id === product.id)?.quantity ?? 0;
-      if (!product.inStock || !Number.isInteger(quantity) || quantity < 1 || existingQuantity + quantity > Math.min(product.stock ?? 100, 100)) {
+      if ((!product.inStock && product.stockStatus !== 'unverified') || !Number.isInteger(quantity) || quantity < 1 || existingQuantity + quantity > Math.min(product.stock ?? 100, 100)) {
         showToast('The requested quantity is unavailable.', 'info'); return false;
       }
       setCart((prev) => {
