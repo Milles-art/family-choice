@@ -7,7 +7,7 @@ const slides: { image: string; title: string; text: string; page: Page; label: s
   { image: 'market', title: 'Good food. A fresh start.', text: 'Bring colour to your table with fruit, vegetables and everyday favourites. Your next delicious meal starts here.', page: { name: 'catalog', categoryId: 'produce' }, label: 'Fresh produce' },
   { image: 'family', title: 'For the moments you share.', text: 'From the weekly grocery list to a meal together, find everyday essentials for your family in one place.', page: { name: 'catalog' }, label: 'Family groceries' },
   { image: 'pantry', title: 'A well-stocked kitchen starts here.', text: 'Make room for pantry staples, simple ingredients and all the possibilities of a home-cooked meal.', page: { name: 'catalog' }, label: 'Pantry essentials' },
-  { image: 'breakfast', title: 'Make mornings a little warmer.', text: 'Bread for the table. Eggs for the pan. Discover everyday favourites for your breakfast basket.', page: { name: 'catalog', categoryId: 'bakery' }, label: 'Breakfast favourites' },
+  { image: 'breakfast', title: 'Make mornings a little warmer.', text: 'Milk for the glass and fresh favourites for the breakfast table. Discover everyday dairy essentials for the first meal of the day.', page: { name: 'catalog', categoryId: 'dairy' }, label: 'Dairy favourites' },
 ];
 
 export function HeroSlideshow() {

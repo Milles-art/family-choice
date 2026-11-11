@@ -1,4 +1,4 @@
-import { ArrowRight, Apple, Milk, Beef, Croissant, CupSoda, Snowflake, Wheat, SprayCan, ShoppingBag, MapPin, ShieldCheck, Heart, Check, Clock } from 'lucide-react';
+import { ArrowRight, Apple, Milk, CupSoda, Wheat, SprayCan, ShoppingBag, Sparkles, Cookie, MapPin, ShieldCheck, Heart, Check, Clock } from 'lucide-react';
 import { useStore } from '../store';
 import { categories, getDealProducts, getBestSellers, getProductsByCategory, recipes } from '../data';
 import { ProductCard } from './ProductCard';
@@ -7,7 +7,7 @@ import { SectionSkeleton } from './LoadingState';
 import { imageSet } from '../images';
 import { formatTzs } from '../currency';
 
-const categoryIcons = { produce: Apple, dairy: Milk, meat: Beef, bakery: Croissant, beverages: CupSoda, frozen: Snowflake, pantry: Wheat, household: SprayCan };
+const categoryIcons = { 'personal-care': Sparkles, produce: Apple, dairy: Milk, beverages: CupSoda, pantry: Wheat, snacks: Cookie, household: SprayCan, general: ShoppingBag };
 
 export function LightMotionHome() {
   const { catalogReady, catalogError, retryCatalog } = useStore();

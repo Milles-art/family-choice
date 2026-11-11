@@ -1,5 +1,23 @@
 # Supplied product catalogue import
 
+## POS catalogue replacement — 2026-11-11
+
+The storefront catalogue is now sourced from the live BiziSmart POS instead of the supplied workbook. All 121 active POS products replaced the 247 seeded products; the display pipeline (`products` table → `Product::storefront()` → `/api/products` → React) is unchanged, so no display code was rewritten.
+
+Run `php artisan pos:products:import` from `backend` to refresh the catalogue (idempotent; `--dry-run` reports without writing, `--skip-images` leaves image files alone). The command reads the POS through the `pos` database connection (`POS_DB_*` credentials in `.env`, `POS_IMAGE_SOURCE` for the image folder) and fails loudly on unmapped POS categories, duplicate or non-URL-safe SKUs, out-of-range prices, or removals that would break `order_items` history.
+
+Mapping and behaviour:
+
+- POS category → storefront category: Fresh Produce → produce, Dairy & Chilled → dairy, Drinks & Water → beverages, Pantry & Staples → pantry, Household Essentials → household, Personal Care → personal-care, Snacks & Sweets → snacks, General Merchandise → general. The storefront now has exactly these eight categories; meat, bakery, frozen and baby-care were removed and their URLs return 404.
+- Product id is the POS SKU. `price_cents` is `selling_price` × 100. `created_at`/`updated_at` carry over from the POS so `Product::latest()` keeps New Arrivals correct.
+- Stock is the sum of non-quarantined, non-recalled, non-expired `product_batches.qty_remaining_atoms`; weight products convert atoms to whole kg. Stock status is `confirmed` (tracked, decrements at checkout); zero-stock products show as out of stock.
+- Tags: `bestseller` for the 19 SKUs with POS sales, `new` for the 12 newest products (matching `NewArrivalsPage`). No `deal` tags — the POS has no active pricing rules, so `/deals` shows an empty list and is excluded from the sitemap, as before.
+- Images: the best `product_images` gallery row per product is copied to `public/images/products/{sku}.webp` plus 480/960 responsive variants (ImageMagick converts non-webp sources and resizes; idempotent by filemtime). One product (FC-SD-0131 Apple) has no photo and renders the designed "Image unavailable" placeholder.
+
+The earlier `freshcart:products:import` workbook pipeline and `backend/database/catalog/*` provenance files remain for history but are superseded. The 741 seeded `fc-*` WebPs and the meat/frozen editorial photos were removed from the repository.
+
+Validation: TypeScript, lint, production build, and 72 backend tests (4,112 assertions) passed, including four feature tests for the POS import itself (mapped transformation, unmapped-category refusal, order-history guard, dry-run purity). Live verification after deployment: `/api/products` returns 121 rows with correct category counts, all shop/category/deal/new-arrival/product pages return 200, removed category URLs return 404, the sitemap lists all 121 product URLs plus the eight category URLs, image srcset URLs return 200, and the browser shows no console errors or broken images.
+
 ## Owner confirmation and pagination update — 2026-10-08
 
 The owner subsequently confirmed all supplied product details, prices, and availability in this chat. `backend/database/catalog/owner-verification.json` records that confirmation and takes precedence over the earlier workbook confirmation flags during import. All 247 distinct products are now available and orderable. Customer-facing estimate/source and verification notices are removed; original provenance and the historic review manifest remain in the import records. Undocumented exact pack weights are displayed as “per pack” rather than invented.

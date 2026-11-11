@@ -27,5 +27,8 @@ dist-ssr
 /backend/public/images/
 /backend/public/fonts/
 
-# Browser screenshots are local verification output, not source files.
-/artifacts/**/*.png
+# Local verification/working output (screenshots, backups, temp scripts, exports),
+# not source files.
+/artifacts/
+/output/
+/tmp/

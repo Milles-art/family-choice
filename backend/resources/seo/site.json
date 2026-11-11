@@ -7,14 +7,12 @@
     "categories": {
         "produce": "Fruits & Vegetables",
         "dairy": "Dairy & Eggs",
-        "meat": "Meat & Poultry",
-        "bakery": "Bakery",
         "beverages": "Beverages",
-        "frozen": "Frozen Foods",
         "pantry": "Pantry Staples",
+        "snacks": "Snacks & Sweets",
         "household": "Household Essentials",
         "personal-care": "Personal Care",
-        "baby-care": "Baby Care"
+        "general": "General Merchandise"
     },
     "pages": {
         "/": [

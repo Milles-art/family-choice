@@ -4,15 +4,7 @@ export const editorialDimensions: Record<string, { width: number; height: number
     "width": 640,
     "height": 640
   },
-  "category-meat-poultry": {
-    "width": 640,
-    "height": 640
-  },
   "category-dairy-eggs": {
-    "width": 640,
-    "height": 640
-  },
-  "category-frozen-foods": {
     "width": 640,
     "height": 640
   },

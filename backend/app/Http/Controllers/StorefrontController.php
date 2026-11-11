@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Throwable;
 
-/** Public progressive HTML for every visitor, replaced by React when it loads. */
 class StorefrontController extends Controller
 {
     private const PRIVATE_PATHS = ['/account', '/cart', '/checkout', '/wishlist', '/track', '/forgot-password', '/reset-password'];
@@ -48,7 +47,7 @@ class StorefrontController extends Controller
         $indexable = ! $private;
         $products = collect();
         $product = null;
-        $category = is_string($request->query('category')) ? $request->query('category') : ''; 
+        $category = is_string($request->query('category')) ? $request->query('category') : '';
         $search = is_string($request->query('search')) ? Str::limit(trim($request->query('search')), 200, '') : '';
         $pageValue = $request->query('page', '1');
         $page = is_scalar($pageValue) && ctype_digit((string) $pageValue) ? max(1, min(1000000, (int) $pageValue)) : 1;

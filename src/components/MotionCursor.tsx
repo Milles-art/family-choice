@@ -34,20 +34,6 @@ export function MotionCursor() {
       setLabel('');
     };
 
-    const onHoverEnter = (e: Event) => {
-      const target = (e.currentTarget as HTMLElement);
-      const lbl =
-        target.getAttribute('aria-label') ||
-        target.textContent?.trim() ||
-        'View';
-      setLabel(lbl);
-      setIsHover(true);
-    };
-    const onHoverLeave = () => {
-      setIsHover(false);
-      setLabel('');
-    };
-
     document.body.addEventListener('mousemove', onMouseMove);
     document.body.addEventListener('mouseenter', onMouseEnter, true);
     document.body.addEventListener('mouseleave', onMouseLeave, true);

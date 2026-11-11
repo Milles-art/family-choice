@@ -64,6 +64,25 @@ return [
             ], fn ($value) => $value !== null) : [],
         ],
 
+        /*
+        | Read-only connection to the live BiziSmart POS catalogue, used by the
+        | pos:products:import command. Configure with POS_DB_* credentials.
+        */
+        'pos' => [
+            'driver' => 'mysql',
+            'host' => env('POS_DB_HOST', '127.0.0.1'),
+            'port' => env('POS_DB_PORT', '3306'),
+            'database' => env('POS_DB_DATABASE'),
+            'username' => env('POS_DB_USERNAME'),
+            'password' => env('POS_DB_PASSWORD', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => 'InnoDB',
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

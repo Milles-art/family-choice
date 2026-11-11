@@ -2,7 +2,6 @@ import type { Category, Product, Recipe, Deal } from './types';
 
 export const categories: Category[] = [
   { id: 'personal-care', name: 'Personal Care', icon: 'Sparkles', image: '/images/editorial/category-household-essentials-640.webp', color: '#64748b' },
-  { id: 'baby-care', name: 'Baby Care', icon: 'Heart', image: '/images/editorial/category-household-essentials-640.webp', color: '#64748b' },
   {
     id: 'produce',
     name: 'Fruits & Vegetables',
@@ -18,32 +17,11 @@ export const categories: Category[] = [
     color: '#0891b2',
   },
   {
-    id: 'meat',
-    name: 'Meat & Poultry',
-    icon: 'Beef',
-    image: '/images/editorial/category-meat-poultry-640.webp',
-    color: '#dc2626',
-  },
-  {
-    id: 'bakery',
-    name: 'Bakery',
-    icon: 'Croissant',
-    image: '/images/editorial/category-bakery-640.webp',
-    color: '#d97706',
-  },
-  {
     id: 'beverages',
     name: 'Beverages',
     icon: 'CupSoda',
     image: '/images/editorial/category-beverages-640.webp',
     color: '#7c3aed',
-  },
-  {
-    id: 'frozen',
-    name: 'Frozen Foods',
-    icon: 'Snowflake',
-    image: '/images/editorial/category-frozen-foods-640.webp',
-    color: '#0ea5e9',
   },
   {
     id: 'pantry',
@@ -53,11 +31,25 @@ export const categories: Category[] = [
     color: '#ca8a04',
   },
   {
+    id: 'snacks',
+    name: 'Snacks & Sweets',
+    icon: 'Cookie',
+    image: '/images/editorial/category-bakery-640.webp',
+    color: '#ea580c',
+  },
+  {
     id: 'household',
     name: 'Household Essentials',
     icon: 'SprayCan',
     image: '/images/editorial/category-household-essentials-640.webp',
     color: '#64748b',
+  },
+  {
+    id: 'general',
+    name: 'General Merchandise',
+    icon: 'ShoppingBag',
+    image: '/images/editorial/about-store-interior-concept-960.webp',
+    color: '#0d9488',
   },
 ];
 
@@ -76,21 +68,21 @@ export const deals: Deal[] = [
   },
   {
     id: 'd2',
-    title: 'Butcher\'s Choice',
-    subtitle: 'Browse meat and poultry',
-    image: 'https://images.pexels.com/photos/1314041/pexels-photo-1314041.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-    buttonText: 'Shop Meat',
-    bgColor: 'from-red-600 to-rose-700',
-    categoryId: 'meat',
+    title: 'Refreshing drinks',
+    subtitle: 'Water, juice and everyday favourites',
+    image: '/images/editorial/category-beverages-640.webp',
+    buttonText: 'Shop Beverages',
+    bgColor: 'from-sky-600 to-blue-700',
+    categoryId: 'beverages',
   },
   {
     id: 'd3',
-    title: 'From the bakery',
-    subtitle: 'Explore breads and pastries',
-    image: 'https://images.pexels.com/photos/2680601/pexels-photo-2680601.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-    buttonText: 'Shop Bakery',
-    bgColor: 'from-amber-600 to-orange-700',
-    categoryId: 'bakery',
+    title: 'Snack time',
+    subtitle: 'Biscuits, sweets and crunchy favourites',
+    image: '/images/editorial/category-bakery-640.webp',
+    buttonText: 'Shop Snacks',
+    bgColor: 'from-orange-600 to-amber-700',
+    categoryId: 'snacks',
   },
 ];
 
