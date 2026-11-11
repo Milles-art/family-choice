@@ -16,9 +16,9 @@ main > * { animation: page-in .45s var(--ease-out) backwards; }
 @keyframes page-in { from { opacity: 0; transform: translateY(10px); } }
 
 /* ---------- Scroll reveal (driven by src/reveal.ts) ---------- */
-.js-reveal [data-reveal]:not([data-revealed]) { opacity: 0; }
-[data-reveal][data-revealed] { animation: reveal-up .7s var(--ease-out) var(--reveal-delay, 0ms) backwards; }
-@keyframes reveal-up { from { opacity: 0; transform: translateY(26px); } }
+/* Never hide pending content: observation is an enhancement, not a loading gate. */
+[data-reveal][data-revealed] { animation: reveal-up .4s var(--ease-out) var(--reveal-delay, 0ms) backwards; }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(12px); } }
 
 /* ---------- Announcement strip (above the sticky header) ---------- */
 .fc-header-strip { --fc-green: #075443; background: var(--fc-green); color: #fff; font-size: 12.5px; position: relative; z-index: 51; }
@@ -84,7 +84,7 @@ main > * { animation: page-in .45s var(--ease-out) backwards; }
 .fc-text-button:hover svg, .lower-link:hover svg { transform: translateX(4px); }
 
 /* ---------- Hero ---------- */
-.hero-backdrops img { transition: opacity .9s ease; }
+.hero-backdrops img { transition: opacity .8s ease; }
 .hero-backdrops img.is-active { animation: hero-zoom 7s ease-out forwards; }
 @keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.06); } }
 
@@ -270,3 +270,22 @@ main > * { animation: page-in .45s var(--ease-out) backwards; }
 .fc-area-result .is-no { color: #92400e; }
 .fc-area-result a { text-decoration: underline; font-weight: 600; }
 @media (max-width: 767px) { .fc-area-checker { grid-template-columns: 1fr; gap: 20px; padding: 22px; } }
+
+/* Shopping motion: short, predictable transitions and persistent feedback. */
+.fc-home .fc-slide-controls { display: flex; align-items: center; gap: 3px; }
+.fc-slide-controls button { color: #123d29; border-radius: 50%; }
+.fc-slide-controls button:focus-visible { outline: 2px solid #123d29; outline-offset: 2px; }
+.fc-slide-controls span { background: #123d2940; }
+.fc-slide-controls button:hover span { background: #123d2980; }
+.hero-slideshow.is-paused .hero-backdrops img { animation-play-state: paused; }
+.fc-add-confirmation { display: inline-flex; align-items: center; gap: 4px; color: #075443; font-size: 12px; font-weight: 700; animation: check-in .25s var(--ease-out); }
+.fc-cart > .absolute { animation: fade-in .25s ease both; }
+.fc-cart-sheet { animation: cart-enter .32s var(--ease-out) both; }
+.fc-cart.is-closing { pointer-events: none; }
+.fc-cart.is-closing > .absolute { animation: fade-in .22s ease reverse both; }
+.fc-cart.is-closing .fc-cart-sheet { animation: cart-leave .22s ease-in both; }
+@keyframes cart-enter { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes cart-leave { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) {
+  .fc-card-media img, .fc-category img, .button-primary svg, .lower-link svg { transform: none !important; }
+}
