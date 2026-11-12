@@ -16,7 +16,7 @@ export function Footer() {
     <div className="store-container">
       <div className="footer-main">
         <StoreLink to={{name:'home'}} className="footer-home" aria-label="FAMILY CHOICE SUPERMARKET home">
-          <img src="/images/brand/family-choice-logo.svg" width={1547} height={325} alt="FAMILY CHOICE SUPERMARKET" loading="lazy" decoding="async"/>
+          <img src="/images/brand/family-choice-logo-light.svg" width={1547} height={325} alt="FAMILY CHOICE SUPERMARKET" loading="lazy" decoding="async"/>
         </StoreLink>
         <nav aria-label="Footer navigation">
           <ul className="footer-links">{links.map(link => <li key={link.label}><StoreLink to={link.destination}>{link.label}</StoreLink></li>)}</ul>

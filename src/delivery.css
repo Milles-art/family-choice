@@ -1,4 +1,4 @@
-.delivery-page { padding-block:16px 56px; font-family:var(--font-sans); color:#123d29; }
+.delivery-page { padding-block:16px 56px; font-family:var(--font-sans); color:#3b1d15; }
 .delivery-hero { display:grid; grid-template-columns:.9fr 1.1fr; gap:48px; align-items:center; }
 .fc-page .delivery-page h1 { font-family:var(--font-sans); font-size:clamp(2.5rem,4.6vw,5rem); line-height:1.06; letter-spacing:-.045em; }
 .delivery-hero p { margin-block:24px 28px; max-width:44ch; line-height:1.75; color:var(--muted); }
@@ -21,7 +21,7 @@
 .delivery-fee-skeleton { display:grid; gap:16px; }
 .delivery-ordering ol { list-style:none; counter-reset:ordering; }
 .delivery-ordering li { position:relative; counter-increment:ordering; padding:0 0 24px 60px; }
-.delivery-ordering li::before { content:counter(ordering); position:absolute; left:0; top:0; width:36px; height:36px; border:1px solid #b9cec0; border-radius:50%; display:grid; place-items:center; font-weight:600; }
+.delivery-ordering li::before { content:counter(ordering); position:absolute; left:0; top:0; width:36px; height:36px; border:1px solid #e0cabb; border-radius:50%; display:grid; place-items:center; font-weight:600; }
 .delivery-ordering h3 { font-size:1.125rem; line-height:1.5; }
 .delivery-ordering li p { margin-top:8px; color:var(--muted); line-height:1.75; }
 .delivery-question { border-top:1px solid var(--border); padding-top:32px; display:flex; align-items:center; justify-content:space-between; gap:32px; }

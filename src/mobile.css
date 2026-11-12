@@ -34,7 +34,7 @@
   .shop-banner p { max-width: none; font-size: 15px; }
 
   .fc-mobile-nav button { min-height: 56px; color: #465d51; }
-  .fc-mobile-nav button[aria-current="page"] { color: #166534; }
+  .fc-mobile-nav button[aria-current="page"] { color: #e8477c; }
   .fc-mobile-nav button > span:not(.absolute) { font-size: 12px; }
   main input:not([type="checkbox"]):not([type="radio"]),
   main select, main textarea, .fc-header input { font-size: 16px; }
@@ -43,10 +43,10 @@
   .product-detail .grid.md\:grid-cols-2 { gap: 24px; }
   .mobile-filter-sheet { max-height: 85dvh; padding-bottom: env(safe-area-inset-bottom); }
   .mobile-filter-sheet > .overflow-y-auto { min-height: 0; overscroll-behavior: contain; }
-  .fc-cart-sheet > div:first-child { background: #fff; color: #123d29; }
+  .fc-cart-sheet > div:first-child { background: #fff; color: #3b1d15; }
   .fc-cart-sheet > div:first-child h2,
   .fc-cart-sheet > div:first-child svg,
-  .fc-cart-sheet > div:first-child span { color: #123d29; }
+  .fc-cart-sheet > div:first-child span { color: #3b1d15; }
   .fc-cart-sheet > div:first-child h2 { font-size: 22px; }
   .fc-cart-sheet button[aria-label="Close cart"],
   .fc-cart-sheet button[aria-label$="from cart"] { min-width: 44px; min-height: 44px; }

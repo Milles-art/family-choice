@@ -1,55 +1,55 @@
 import type { Category, Product, Recipe, Deal } from './types';
 
 export const categories: Category[] = [
-  { id: 'personal-care', name: 'Personal Care', icon: 'Sparkles', image: '/images/editorial/category-household-essentials-640.webp', color: '#64748b' },
+  { id: 'personal-care', name: 'Personal Care', icon: 'Sparkles', image: '/images/editorial/category-household-essentials-640.webp', color: '#8b7566' },
   {
     id: 'produce',
     name: 'Fruits & Vegetables',
     icon: 'Apple',
     image: '/images/editorial/category-fruits-vegetables-640.webp',
-    color: '#16a34a',
+    color: '#e8477c',
   },
   {
     id: 'dairy',
     name: 'Dairy & Eggs',
     icon: 'Milk',
     image: '/images/editorial/category-dairy-eggs-640.webp',
-    color: '#0891b2',
+    color: '#f0b429',
   },
   {
     id: 'beverages',
     name: 'Beverages',
     icon: 'CupSoda',
     image: '/images/editorial/category-beverages-640.webp',
-    color: '#7c3aed',
+    color: '#e86a5c',
   },
   {
     id: 'pantry',
     name: 'Pantry Staples',
     icon: 'Wheat',
     image: '/images/editorial/category-pantry-staples-640.webp',
-    color: '#ca8a04',
+    color: '#c89b3c',
   },
   {
     id: 'snacks',
     name: 'Snacks & Sweets',
     icon: 'Cookie',
     image: '/images/editorial/category-bakery-640.webp',
-    color: '#ea580c',
+    color: '#c83065',
   },
   {
     id: 'household',
     name: 'Household Essentials',
     icon: 'SprayCan',
     image: '/images/editorial/category-household-essentials-640.webp',
-    color: '#64748b',
+    color: '#72564d',
   },
   {
     id: 'general',
     name: 'General Merchandise',
     icon: 'ShoppingBag',
     image: '/images/editorial/about-store-interior-concept-960.webp',
-    color: '#0d9488',
+    color: '#a8785c',
   },
 ];
 

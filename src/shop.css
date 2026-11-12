@@ -1,8 +1,8 @@
 .shop-page { font-family: var(--font-sans); padding-top: 8px; }
 .shop-page>div:first-child { margin-bottom: 8px; }
-.shop-banner { position: relative; min-height: 260px; overflow: hidden; border-radius: 16px; margin-inline: -8px; margin-bottom: 32px; background: #eee8d8; }
+.shop-banner { position: relative; min-height: 260px; overflow: hidden; border-radius: 16px; margin-inline: -8px; margin-bottom: 32px; background: #f6ecdd; }
 .shop-banner>img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.shop-banner-copy { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 260px; padding: 32px 40px; width: 48%; color: #123d29; }
+.shop-banner-copy { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 260px; padding: 32px 40px; width: 48%; color: #3b1d15; }
 .shop-page .shop-banner h2 { font-family: var(--font-sans); font-size: clamp(1.75rem, 2.8vw, 2.75rem); font-weight: 700; line-height: 1.12; letter-spacing: -.03em; max-width: 15ch; }
 .shop-banner p { margin-top: 14px; font-size: 1rem; line-height: 1.5; max-width: 34ch; }
 .shop-layout { display: flex; gap: 24px; align-items: flex-start; }
@@ -35,9 +35,9 @@
 
 /* Deals page: quiet surfaces let category and product photography lead. */
 .deals-page { font-family: var(--font-sans); }
-.deals-intro { padding: 32px; background: #f3efe5; color: #123d29; border: 1px solid #e6e1d5; border-radius: 16px; margin-bottom: 24px; }
+.deals-intro { padding: 32px; background: #fbf3e9; color: #3b1d15; border: 1px solid #efd9cd; border-radius: 16px; margin-bottom: 24px; }
 .deals-intro h1 { font-size: clamp(2rem,3vw,3rem); font-weight: 700; line-height: 1.15; letter-spacing: -.03em; }
-.deals-intro p { margin-top: 12px; max-width: 48ch; line-height: 1.6; color: #43594b; }
+.deals-intro p { margin-top: 12px; max-width: 48ch; line-height: 1.6; color: #72564d; }
 .deals-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-block: 32px 20px; }
 .deals-toolbar h2 { font-size: 1.5rem; font-weight: 700; }
 .deals-toolbar p { color: var(--muted); font-size: .875rem; margin-top: 4px; }

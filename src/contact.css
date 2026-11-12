@@ -1,11 +1,11 @@
-.contact-page { padding-block:16px 56px; color:#123d29; font-family:var(--font-sans); }
+.contact-page { padding-block:16px 56px; color:#3b1d15; font-family:var(--font-sans); }
 .contact-breadcrumb { display:flex; align-items:center; gap:12px; color:var(--muted); font-size:.875rem; margin-bottom:20px; }
 .contact-breadcrumb button { min-height:44px; }
 .contact-hero { display:grid; grid-template-columns:.9fr 1.1fr; align-items:center; gap:48px; }
 .fc-page .contact-page h1 { font-family:var(--font-sans); font-size:clamp(2.5rem,4.4vw,5rem); line-height:1.06; letter-spacing:-.045em; }
 .contact-intro>p { max-width:43ch; color:var(--muted); line-height:1.75; margin-block:24px; }
-.contact-primary { display:inline-flex; align-items:center; gap:12px; min-height:48px; padding:12px 20px; border-radius:10px; background:#166534; color:#fff; font-weight:600; }
-.contact-primary:hover { background:#14532d; }
+.contact-primary { display:inline-flex; align-items:center; gap:12px; min-height:48px; padding:12px 20px; border-radius:10px; background:#e8477c; color:#fff; font-weight:600; }
+.contact-primary:hover { background:#c83065; }
 .contact-intro .contact-note { margin-block:14px 0; font-size:.875rem; }
 .contact-photo { margin:0; aspect-ratio:3/2; border-radius:16px; overflow:hidden; min-width:0; }
 .contact-photo img { height:100%; width:100%; object-fit:cover; }
