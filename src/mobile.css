@@ -27,12 +27,6 @@
   .fc-home .hero-bottom { margin-top: 20px; }
   .fc-home .hero-benefits { display: flex; flex-wrap: wrap; font-size: 12px; text-shadow: none; gap: 8px 16px; }
 
-  .shop-banner { min-height: 0; background: #fff; border: 1px solid #e0e7e2; }
-  .shop-banner > img { position: relative; inset: auto; display: block; height: auto; width: 100%; aspect-ratio: 5 / 2; object-fit: contain; object-position: center; }
-  .shop-banner-copy { min-height: 0; width: 100%; max-width: none; padding: 20px; }
-  .shop-page .shop-banner h2 { max-width: none; font-size: 1.6rem; }
-  .shop-banner p { max-width: none; font-size: 15px; }
-
   .fc-mobile-nav button { min-height: 56px; color: #465d51; }
   .fc-mobile-nav button[aria-current="page"] { color: #e8477c; }
   .fc-mobile-nav button > span:not(.absolute) { font-size: 12px; }

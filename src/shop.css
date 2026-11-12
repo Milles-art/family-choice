@@ -1,15 +1,20 @@
-.shop-page { font-family: var(--font-sans); padding-top: 8px; }
-.shop-page>div:first-child { margin-bottom: 8px; }
-.shop-banner { position: relative; min-height: 260px; overflow: hidden; border-radius: 16px; margin-inline: -8px; margin-bottom: 32px; background: #f6ecdd; }
-.shop-banner>img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.shop-banner-copy { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 260px; padding: 32px 40px; width: 48%; color: #3b1d15; }
-.shop-page .shop-banner h2 { font-family: var(--font-sans); font-size: clamp(1.75rem, 2.8vw, 2.75rem); font-weight: 700; line-height: 1.12; letter-spacing: -.03em; max-width: 15ch; }
-.shop-banner p { margin-top: 14px; font-size: 1rem; line-height: 1.5; max-width: 34ch; }
+.shop-page { font-family: var(--font-sans); }
+/* Reference ProductsPage shell: pink hero with dot pattern + huge display type.
+   The design-system sets -0.025em on every heading; the hero needs the
+   reference's tighter tracking, and this file loads after design-system.css
+   so the equal-specificity tie goes to this rule. */
+.shop-hero h1 { letter-spacing: -.05em; }
+/* Category pills bleed to the viewport gutters like the reference (their
+   scrollbar is hidden); on lg they sit beside the search field, no bleed. */
+.shop-pill-row { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }
+.shop-pill-row::-webkit-scrollbar { display: none; }
+@media (min-width: 1024px) { .shop-pill-row { margin-inline: 0; padding-inline: 0; } }
 .shop-layout { display: flex; gap: 24px; align-items: flex-start; }
-.shop-sidebar { display: none; flex: 0 0 224px; }
-.shop-sidebar-panel { position: sticky; top: 128px; max-height: calc(100dvh - 144px); overflow-y: auto; overscroll-behavior: contain; }
+.shop-sidebar { display: none; flex: 0 0 224px; align-self: stretch; }
+/* Sticks below the sticky header AND the sticky search/pill bar (~69px tall). */
+.shop-sidebar-panel { position: sticky; top: calc(var(--header-height, 140px) + 76px); max-height: calc(100dvh - var(--header-height, 140px) - 92px); overflow-y: auto; overscroll-behavior: contain; }
 .shop-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
-.shop-page .shop-result-title h1 { font-family: var(--font-sans); font-size: clamp(1.4rem, 2vw, 1.8rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.3; overflow-wrap: anywhere; }
+.shop-page .shop-result-title h2 { font-family: var(--font-sans); font-size: clamp(1.4rem, 2vw, 1.8rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.3; overflow-wrap: anywhere; }
 .shop-result-title p { font-size: .875rem; color: var(--muted); margin-top: 4px; }
 .shop-toolbar-controls { display: flex; align-items: center; gap: 12px; }
 .shop-toolbar-controls button,.shop-toolbar-controls select { min-height: 44px; }
@@ -22,16 +27,9 @@
 @media (min-width:1440px) { .shop-product-grid { grid-template-columns: repeat(5,minmax(0,1fr)); } }
 @media (min-width:1800px) { .shop-product-grid { grid-template-columns: repeat(6,minmax(0,1fr)); } }
 @media (max-width:767px) {
-  .shop-banner { min-height: 200px; margin-bottom: 24px; border-radius: 12px; }
-  .shop-banner>img { object-position: left center; }
-  .shop-banner-copy { min-height: 200px; padding: 20px; width: 80%; max-width: 360px; }
-  .shop-page .shop-banner h2 { font-size: 1.6rem; max-width: 15ch; }
-  .shop-banner p { font-size: .875rem; max-width: 26ch; margin-top: 10px; }
   .shop-toolbar { gap: 12px; }
   .shop-toolbar-controls { width: 100%; justify-content: space-between; }
 }
-
-@media (min-width:768px) { .shop-banner { margin-inline: -16px; } }
 
 /* Deals page: quiet surfaces let category and product photography lead. */
 .deals-page { font-family: var(--font-sans); }
