@@ -7,7 +7,29 @@ import { formatTzs } from '../currency';
 import { FormField } from './FormField';
 import { EditorialImage } from './EditorialImage';
 import { SectionSkeleton } from './LoadingState';
-const btn='bg-green-600 text-white rounded-xl px-4 py-3 disabled:opacity-50';
+import { motion } from 'framer-motion';
+import { ChevronRight, Home } from 'lucide-react';
+const btn='bg-green-600 text-white rounded-full px-6 py-3 font-semibold disabled:opacity-50 cursor-pointer';
+
+/** Reference hero shell for every account state. */
+function AccountHero() {
+ const {navigate}=useStore();
+ return <section className="relative overflow-hidden bg-[#FFE9B0]" aria-labelledby="account-title">
+  <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(#4A2618_1px,transparent_1px)] [background-size:22px_22px]" aria-hidden="true"/>
+  <div className="relative store-container pt-4 pb-12 sm:pb-16">
+   <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-1.5 text-sm text-[#4A2618]/70">
+    <button onClick={()=>navigate({name:'home'})} className="flex items-center gap-1 hover:text-primary"><Home className="w-3.5 h-3.5"/> Home</button>
+    <ChevronRight className="w-3.5 h-3.5"/>
+    <span className="font-medium text-[#4A2618]">My account</span>
+   </nav>
+   <p className="text-xs font-bold tracking-[0.25em] text-primary uppercase">Account · Orders, profile, support</p>
+   <h1 id="account-title" className="mt-4 font-display text-[15vw] leading-[0.82] font-extrabold tracking-tighter text-[#4A2618] uppercase sm:text-[10vw] lg:text-[7.5vw]">
+    <motion.span initial={{y:'25%'}} animate={{y:0}} transition={{duration:0.8, ease:[0.22, 1, 0.36, 1]}} className="block">My account.</motion.span>
+   </h1>
+   <p className="mt-8 max-w-2xl text-[#4A2618]/75 sm:text-lg">Sign in to follow your orders, manage your details and return to checkout.</p>
+  </div>
+ </section>;
+}
 export function AccountPage(){
  const {navigate}=useStore();
  const [user,setUser]=useState<Customer|null>(null),[loading,setLoading]=useState(true),[register,setRegister]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[admin,setAdmin]=useState(false);
@@ -19,8 +41,8 @@ export function AccountPage(){
  useEffect(()=>{void api<Customer>('/me').then(async u=>{setUser(u);setAccountError('');await refresh();}).catch(e=>{if(!e.message.includes('Please sign in'))setAccountError(e.message);}).finally(()=>setLoading(false));},[]);
  async function run(action:()=>Promise<void>,message=''){setBusy(true);setError('');setNotice('');setFieldErrors({});try{await action();setNotice(message);}catch(e){setError((e as Error).message);if(e instanceof ApiError)setFieldErrors(Object.fromEntries(Object.entries(e.errors).map(([key,value])=>[key,value.join(' ')]))); }finally{setBusy(false);}}
  function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();const f=new FormData(e.currentTarget);void run(async()=>{const u=await api<Customer>(register?'/register':'/login','POST',{name:f.get('name'),email:f.get('email'),password:f.get('password'),privacyConsent:f.get('privacyConsent')==='on'});setUser(u);await refresh();});}
- if(loading)return <div className="form-container py-8"><SectionSkeleton cards={2}/></div>;
- return <div className="form-container fc-account py-8"><h1 className="text-2xl font-bold mb-6">{user?`Welcome, ${user.name}`:register?'Create your account':'Sign in'}</h1>
+ if(loading)return <div className="fc-ref"><AccountHero/><div className="form-container py-8"><SectionSkeleton cards={2}/></div></div>;
+ return <div className="fc-ref"><AccountHero/><div className="form-container fc-account py-8"><h2 className="font-display text-3xl font-extrabold tracking-tighter text-[#4A2618] uppercase mb-6">{user?`Welcome, ${user.name}`:register?'Create your account':'Sign in'}</h2>
  {accountError&&<div className="surface p-4 mb-4" role="status"><p>{accountError}</p><button className="underline text-green-700" disabled={busy} onClick={()=>void run(async()=>{const u=await api<Customer>('/me');setUser(u);setAccountError('');await refresh();})}>Retry account</button></div>}{notice&&<p role="status" className="surface p-4 mb-4 text-green-700">{notice}</p>}{error&&<p role="alert" className="text-red-600 my-4">{error}</p>}
  {!user?<div className="fc-account-layout"><aside><EditorialImage name="promotion-weekly-shopping" alt="Bread, eggs and fresh fruit in a grocery bag"/><div><h2>Your everyday shop.<br/>All in one place.</h2><p>Sign in to follow your orders and return to checkout.</p></div></aside><form onSubmit={submit} className="fc-account-form bg-white rounded-2xl p-6 space-y-4">
  {register&&<FormField name="name" label="Full name" required maxLength={100} autoComplete="name" error={fieldErrors.name}/>}
@@ -38,5 +60,5 @@ export function AccountPage(){
  <div className="fc-account-orders space-y-4">{orders.map(o=><div key={o.id} className="bg-white border rounded-2xl p-5"><div className="flex flex-wrap justify-between gap-3"><strong>{o.number}</strong>{!admin&&<button className="text-green-700 underline text-sm" onClick={()=>navigate({name:'track',orderId:o.id})}>Track order</button>}<span>{formatTzs(o.total_cents/100)} · {o.payment_status}</span></div><p className="text-gray-500 text-sm my-2">{new Date(o.created_at).toLocaleDateString('en-TZ')} · {o.time_slot} · {o.status === 'cancelled' ? 'Cancelled' : o.status.replace(/_/g,' ')}</p>{o.items.map(i=><p key={i.id}>{i.name} × {i.quantity}</p>)}
  {admin&&o.needs_review&&<p role="alert" className="text-red-600 my-2">Paid after cancellation: staff review/refund needed</p>}{admin&&o.delivery&&<div className="text-sm my-3"><p>{o.delivery.name} · {o.delivery.phone} · {o.delivery_option}</p><p>{o.delivery.address} {o.delivery.city}</p><p>{o.delivery.instructions}</p>{o.payment_method==='mobile_money'&&<p className="mt-1">Mobile Money · {o.payment_details?.provider} · Ref: {o.payment_details?.reference}</p>}</div>}{admin&&<div className="flex flex-wrap gap-3 mt-3"><select aria-label={`Status for ${o.number}`} disabled={busy || o.status === 'cancelled'} value={o.status} onChange={e=>{const status=e.target.value;void run(async()=>{await api(`/admin/orders/${o.id}`,'PATCH',{status});await refresh(true);},'Order updated.');}}>{['pending','processing','out_for_delivery','delivered','cancelled'].map(s=><option key={s}>{s}</option>)}</select><select aria-label={`Payment for ${o.number}`} disabled={busy || o.payment_method === 'selcom'} value={o.payment_status} onChange={e=>{const payment_status=e.target.value;void run(async()=>{await api(`/admin/orders/${o.id}`,'PATCH',{payment_status});await refresh(true);});}}>{!['unpaid','paid'].includes(o.payment_status)&&<option>{o.payment_status}</option>}<option>unpaid</option><option>paid</option></select></div>}</div>)}</div>
  {admin&&<><h2 className="text-xl font-bold my-6">Products and inventory</h2><div className="space-y-3">{catalog.map(p=><form key={`${p.id}-${p.price}-${p.stock}`} className="bg-white rounded-xl p-4 flex flex-wrap gap-3 items-center" onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);void run(async()=>{await api(`/admin/products/${p.id}`,'PATCH',{price_cents:Math.round(Number(f.get('price'))*100),stock:Number(f.get('stock'))});const latest=await loadProducts();products.splice(0,products.length,...latest);setCatalog(latest);},'Product updated.');}}><strong className="flex-1 min-w-40">{p.name}</strong><label>Price (TZS) <input className="border rounded p-2 w-28" name="price" type="number" min="1" step="1" required defaultValue={p.price}/></label><label>Stock <input className="border rounded p-2 w-24" name="stock" type="number" min="0" step="1" required defaultValue={p.stock ?? ''}/></label><button className={btn} disabled={busy}>Save</button></form>)}</div></>}
- </>}</div>;
+ </>}</div></div>;
 }
