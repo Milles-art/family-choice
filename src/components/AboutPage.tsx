@@ -3,7 +3,7 @@ import { useStore } from '../store';
 import { storeConfig } from '../storeConfig';
 
 function AboutImage({ name, alt, eager = false }: { name: string; alt: string; eager?: boolean }) {
-  return <figure className="about-photo"><img src={`/images/about/${name}-1280.webp`} srcSet={[640,1280,1536].map(width => `/images/about/${name}-${width}.webp ${width}w`).join(', ')} sizes="(min-width: 1024px) 55vw, 100vw" width={1536} height={1024} alt={alt} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : 'low'} decoding="async"/></figure>;
+  return <figure className="about-photo"><img src={`/images/about/${name}-1280.webp`} srcSet={[640,1280,1536].map(width => `/images/about/${name}-${width}.webp ${width}w`).join(', ')} sizes="(min-width: 1024px) 55vw, 100vw" width={1536} height={1024} alt={alt} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'low'} decoding="async"/></figure>;
 }
 
 export function AboutPage() {

@@ -1,3 +1,10 @@
 /* ice-cream-hub design port — imported last in main.tsx so it wins the cascade. */
-body { background: #fff9f2; }
+/* overflow-x matches the reference site: the -1deg marquee rotation would
+   otherwise add ~1px of horizontal scroll on the home page. Propagated to the
+   viewport (html has no overflow set), so body's used overflow stays visible
+   and the sticky header is unaffected. */
+body {
+  background: #fff9f2;
+  overflow-x: hidden;
+}
 #root > div { background: #fff9f2; }

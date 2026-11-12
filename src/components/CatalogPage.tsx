@@ -202,7 +202,7 @@ export function CatalogPage() {
       </div>
 
       <section className="shop-banner" aria-labelledby="shop-banner-title">
-        <img src="/images/hero/pantry-1280.webp" srcSet="/images/hero/pantry-640.webp 640w, /images/hero/pantry-1280.webp 1280w, /images/hero/pantry-1920.webp 1920w" sizes="(min-width: 1920px) 1824px, 100vw" width={1920} height={768} alt="" fetchPriority="high" decoding="async"/>
+        <img src="/images/hero/pantry-1280.webp" srcSet="/images/hero/pantry-640.webp 640w, /images/hero/pantry-1280.webp 1280w, /images/hero/pantry-1920.webp 1920w" sizes="(min-width: 1920px) 1824px, 100vw" width={1920} height={768} alt="" fetchpriority="high" decoding="async"/>
         <div className="shop-banner-copy"><h2 id="shop-banner-title">Shop your everyday essentials</h2><p>Browse groceries, fresh produce and household essentials.</p></div>
       </section>
 
