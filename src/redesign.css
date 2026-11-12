@@ -190,17 +190,12 @@
 .fc-cart-sheet>div:last-child{padding:24px}
 .fc-cart-sheet button{font-family:var(--fc-body)}
 .fc-recipe-heading{padding-block:28px 18px}
-.fc-recipe-list{display:grid;gap:36px;padding-bottom:50px}
-.fc-recipe-detail{display:grid;grid-template-columns:1.1fr 1fr;background:#fdf8f3;border-radius:18px;overflow:hidden}
-.fc-recipe-photo img{height:100%;min-height:480px;object-fit:cover}
-.fc-recipe-body{padding:34px}
-.fc-page .fc-recipe-body h2{font-size:32px}
-.fc-page .fc-recipe-body h3{font-family:var(--fc-body);font-size:15px;letter-spacing:0}
-.fc-recipe-detail:nth-child(even) .fc-recipe-photo{order:2}
+.fc-recipe-list{display:grid;gap:24px;padding-bottom:50px}
+.fc-recipe-detail{background:#fff}
+.fc-recipe-photo img{height:100%;min-height:100%;object-fit:cover}
+.fc-recipe-detail:nth-child(even) .fc-recipe-photo{order:0}
 .fc-faq-grid details{border-width:0 0 1px!important;border-radius:0!important;padding:22px 0}
-.fc-page-privacy>div{padding-block:40px 60px}
-.fc-page-privacy section{margin-top:28px}
-.fc-page-privacy h2{font-size:24px!important;margin-bottom:12px}
+.fc-page-privacy>div{padding-block:0}
 @media(min-width:1920px){.fc-home .hero-inner{min-height:710px}.fc-promotions{grid-template-rows:270px 270px}}
 @media(max-width:1279px){.fc-category-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:26px}.fc-category img{max-width:175px}.fc-promotions{grid-template-rows:220px 220px}.fc-promotion>div{padding:22px}.fc-home .hero-copy{width:65%}.fc-footer-grid{gap:30px}}
 @media(max-width:767px){
