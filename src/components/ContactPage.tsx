@@ -11,7 +11,7 @@ import { site } from '../site-data';
 // (no ring-3/shadow-xs in v3 — ring-2/shadow-sm are the equivalents).
 const INPUT = 'w-full min-w-0 border border-input bg-card px-5 text-base shadow-sm transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 h-11 rounded-full';
 const TEXTAREA = INPUT.replace('h-11 rounded-full', 'min-h-36 rounded-3xl py-3');
-const BUTTON_BASE = 'group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0';
+const BUTTON_BASE = 'group/button inline-flex shrink-0 items-center justify-center gap-2 border border-transparent bg-clip-padding font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0';
 const BUTTON_PRIMARY = `${BUTTON_BASE} bg-primary text-primary-foreground hover:bg-primary/80 h-11 rounded-full px-6 text-sm`;
 const BUTTON_MUTED = `${BUTTON_BASE} bg-muted text-foreground hover:bg-secondary h-11 rounded-full px-6 text-sm`;
 const BUTTON_SUBMIT = `${BUTTON_BASE} bg-primary text-primary-foreground hover:bg-primary/80 h-12 rounded-full px-7 text-base`;
