@@ -41,5 +41,5 @@
 .deals-toolbar p { color: var(--muted); font-size: .875rem; margin-top: 4px; }
 .deals-controls { display: flex; gap: 16px; }
 .deals-controls label { display: flex; flex-direction: column; gap: 6px; font-size: .8125rem; color: var(--muted); }
-.deals-controls select { min-height: 44px; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; color: var(--ink); max-width: 100%; }
+.deals-controls select { min-height: 44px; background: white; border: 1px solid var(--border); border-radius: 9999px; padding: 8px 18px; color: var(--ink); max-width: 100%; }
 @media(max-width:639px) { .deals-intro { padding: 24px; } .deals-controls { width: 100%; gap: 12px; } .deals-controls label { min-width: 0; flex: 1; } }
