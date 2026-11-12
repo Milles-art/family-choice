@@ -169,14 +169,16 @@
 .fc-page input,.fc-page select,.fc-page textarea{border-color:#e0cabb;border-radius:9px}
 .fc-page input:focus,.fc-page select:focus,.fc-page textarea:focus{border-color:var(--fc-green)}
 .fc-page-account{background:#fdf8f3}
-.fc-checkout{padding-block:34px 64px}
-.fc-checkout-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:20px}
-.fc-checkout-heading h1{margin-bottom:0}
-.fc-checkout-heading p{color:var(--fc-muted);font-size:15px}
-.fc-checkout-steps{padding:20px;background:#ffe3ea;border-radius:12px}
-.fc-checkout .lg\:sticky{border:1px solid #e0cabb;border-radius:14px;background:#fdf8f3;padding:26px}
-.fc-checkout>.grid>div:first-child>.bg-white{padding:28px;border-radius:14px;border-color:#f0e2d7}
-.fc-page .fc-checkout h2{font-size:24px}
+/* Checkout shell — the page root carries .fc-ref, so display headings come
+   from Tailwind utilities in CheckoutPage.tsx. These rules only cover the
+   pieces the component keeps as native elements. */
+.fc-checkout{padding-block:40px 72px}
+.fc-checkout-steps{padding:16px;background:#ffe3ea;border-radius:16px}
+.fc-checkout .lg\:sticky{border:1px solid #efd9cd;border-radius:32px;background:#fff;padding:26px}
+/* redesign.css forces border-radius:9px on every .fc-page input (0,1,1 beats
+   Tailwind's rounded-*); the reference form uses pill inputs + rounded textarea. */
+.fc-page .fc-checkout input,.fc-page .fc-checkout select{border-radius:9999px}
+.fc-page .fc-checkout textarea{border-radius:24px}
 .fc-page-checkout{background:#fff}
 .fc-cart-sheet{max-width:480px;font-family:var(--fc-body)}
 .fc-cart-sheet>div:first-child{background:var(--fc-green);color:#fff;padding:22px}
@@ -208,7 +210,7 @@
  .fc-home .fc-category img{width:min(100%,64px)}.fc-category{gap:9px}.fc-category-grid{gap:16px 12px}
  .fc-footer-grid{grid-template-columns:1fr 1fr;gap:22px 24px;padding-block:24px}.fc-footer-brand{grid-column:1/-1}.fc-footer-grid>nav:last-child{grid-column:1/-1}.fc-footer-grid>nav:last-child ul{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}.fc-footer-home strong{max-width:250px;font-size:18px}.fc-footer-brand .fc-footer-description{max-width:45ch;margin-top:8px}.fc-footer .fc-footer-currency{margin-top:7px}.fc-footer h2{font-size:13px}.fc-footer li button{font-size:12px;min-height:36px}.fc-footer-bottom{flex-wrap:wrap;gap:4px 16px;padding-block:12px}.fc-footer-bottom p{max-width:none;font-size:10px}
  .fc-info{padding-block:20px 38px}.fc-info-hero{grid-template-columns:1fr;gap:26px;padding-block:16px 30px}.fc-info-hero h1{font-size:36px}.fc-info-hero p{font-size:14px;line-height:1.7;margin-block:20px}.fc-info-hero img{aspect-ratio:3/2;max-height:350px}.fc-info-callout{padding:30px}.fc-info-callout svg{width:44px}.fc-about-story{padding-block:22px}.fc-about-images{grid-template-columns:1fr;gap:26px}.fc-about-images figcaption{font-size:23px}.fc-info-features{grid-template-columns:1fr;gap:0;padding-block:20px}.fc-info-features article{padding-block:24px;border-bottom:1px solid #f0e2d7}.fc-info-features p{font-size:14px}.fc-fee-panel{grid-template-columns:1fr;padding:25px;gap:15px}.fc-fee-panel p{font-size:14px}.fc-help-faq summary{font-size:14px}
- .fc-account-layout{grid-template-columns:1fr}.fc-account-layout aside{min-height:270px}.fc-account-layout aside>div{padding:28px;padding-top:60px}.fc-account-layout aside h2{font-size:30px}.fc-account-layout aside p{font-size:13px;margin-top:14px}.fc-account-form{padding:26px}.fc-checkout-heading{display:block}.fc-checkout-heading p{margin-top:12px;font-size:13px}.fc-checkout-steps{padding:15px;gap:4px}.fc-checkout>.grid>div:first-child>.bg-white{padding:20px}.fc-cart-sheet>div:last-child{padding:18px}.fc-cart-sheet>div:first-child{padding:18px}
+ .fc-account-layout{grid-template-columns:1fr}.fc-account-layout aside{min-height:270px}.fc-account-layout aside>div{padding:28px;padding-top:60px}.fc-account-layout aside h2{font-size:30px}.fc-account-layout aside p{font-size:13px;margin-top:14px}.fc-account-form{padding:26px}.fc-checkout-steps{padding:12px;gap:4px}.fc-checkout>.grid>div:first-child>div{padding:20px}.fc-cart-sheet>div:last-child{padding:18px}.fc-cart-sheet>div:first-child{padding:18px}
  .fc-recipe-detail{grid-template-columns:1fr}.fc-recipe-detail:nth-child(even) .fc-recipe-photo{order:0}.fc-recipe-photo img{min-height:0;aspect-ratio:3/2}.fc-recipe-body{padding:26px}.fc-page .fc-recipe-body h2{font-size:28px}
 }
 @media(max-width:359px){.fc-header .brand-name{font-size:14px}.fc-header .header-icon{width:34px}.fc-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.fc-category img{max-width:120px}}

@@ -14,6 +14,7 @@ import { HomePage } from './components/HomePage';
 import { CatalogPage } from './components/CatalogPage';
 import { ProductDetail } from './components/ProductDetail';
 import { CheckoutPage } from './components/CheckoutPage';
+import { CartPage } from './components/CartPage';
 import { AccountPage } from './components/AccountPage';
 import { DealsPage } from './components/DealsPage';
 import { RecipesPage } from './components/RecipesPage';
@@ -64,7 +65,7 @@ function PageContent() {
     case 'reset-password':
       return <ResetPasswordPage token={page.token} email={page.email} />;
     case 'cart':
-      return <CheckoutPage />;
+      return <CartPage />;
     default:
       return <HomePage />;
   }
