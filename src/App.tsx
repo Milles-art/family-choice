@@ -82,7 +82,7 @@ function AppShell() {
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <PageSeo />
       <Header />
-      <main ref={main} id="main-content" tabIndex={-1} className={`flex-1 pb-16 md:pb-0 ${['catalog','product','deals','new-arrivals','wishlist'].includes(page.name) ? '' : `fc-page fc-page-${page.name}`}`}>
+      <main ref={main} id="main-content" tabIndex={-1} className={`flex-1 ${['catalog','product','deals','new-arrivals','wishlist'].includes(page.name) ? '' : `fc-page fc-page-${page.name}`}`}>
         {catalogReady && catalogError && <div className="store-container py-3" role="status">Catalogue refresh failed. Displaying the last loaded products. <button className="underline" onClick={retryCatalog}>Retry</button></div>}
         {catalogReady && catalogLoading && <div className="store-container py-2 text-sm" role="status">Refreshing products…</div>}
         <PageContent />

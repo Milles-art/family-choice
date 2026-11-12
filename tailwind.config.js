@@ -4,6 +4,23 @@ export default {
   theme: {
     extend: {
       colors: {
+        // ice-cream-hub reference tokens (oklch → hex).
+        background: '#fff9f2',
+        foreground: '#3b1d15',
+        card: '#ffffff',
+        'card-foreground': '#3b1d15',
+        primary: '#e8477c',
+        'primary-foreground': '#fefbf8',
+        secondary: '#ffdbed',
+        'secondary-foreground': '#472218',
+        muted: '#f8ece0',
+        'muted-foreground': '#72564d',
+        accent: '#acefd1',
+        'accent-foreground': '#472218',
+        border: '#efd9cd',
+        input: '#efd9cd',
+        ring: '#e8477c',
+        destructive: '#e7000b',
         // Warm brown-tinted neutrals replacing the stock gray scale.
         gray: {
           50: '#FBF7F3',
@@ -48,6 +65,11 @@ export default {
         },
         // red/amber/blue stay stock: errors, stars and links keep semantics.
       },
+      fontFamily: {
+        display: ['"Bricolage Grotesque"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
+      borderColor: { DEFAULT: '#efd9cd' },
+      divideColor: { DEFAULT: '#efd9cd' },
     },
   },
   plugins: [],

@@ -1,35 +1,19 @@
-import { StoreLink } from './StoreLink';
-import { Phone, MessageCircle } from 'lucide-react';
-import type { Page } from '../types';
+import { IceCreamCone } from 'lucide-react';
+import { site } from '../site-data';
 
-const links: { label: string; destination: Page }[] = [
-  { label: 'Shop', destination: { name: 'catalog' } },
-  { label: 'Deals', destination: { name: 'deals' } },
-  { label: 'Delivery', destination: { name: 'info', section: 'delivery' } },
-  { label: 'Contact', destination: { name: 'info', section: 'help' } },
-  { label: 'About us', destination: { name: 'info', section: 'about' } },
-  { label: 'Account', destination: { name: 'account' } },
-];
-
+/** Minimal dark footer from the ice-cream-hub reference design. */
 export function Footer() {
-  return <footer className="fc-footer fc-footer-compact mt-auto">
-    <div className="store-container">
-      <div className="footer-main">
-        <StoreLink to={{name:'home'}} className="footer-home" aria-label="FAMILY CHOICE SUPERMARKET home">
-          <img src="/images/brand/family-choice-logo-light.svg" width={1547} height={325} alt="FAMILY CHOICE SUPERMARKET" loading="lazy" decoding="async"/>
-        </StoreLink>
-        <nav aria-label="Footer navigation">
-          <ul className="footer-links">{links.map(link => <li key={link.label}><StoreLink to={link.destination}>{link.label}</StoreLink></li>)}</ul>
-        </nav>
-        <address className="footer-contact" aria-label="Contact the supermarket">
-          <a href="tel:+255768641810"><Phone size={17} aria-hidden="true"/><span>+255 768 641 810</span></a>
-          <a href="https://wa.me/255768641810" target="_blank" rel="noopener noreferrer"><MessageCircle size={17} aria-hidden="true"/><span>WhatsApp</span></a>
-        </address>
+  return (
+    <footer className="mt-auto bg-[#2E170E] py-8 pb-24 text-white/60 md:pb-8">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 text-sm sm:flex-row">
+        <p className="flex items-center gap-2 font-display text-base text-white">
+          <IceCreamCone className="size-4 text-[#FFB3C7]" />
+          {site.name}
+        </p>
+        <p>
+          © {new Date().getFullYear()} {site.name}. Mafiga Shell, Morogoro.
+        </p>
       </div>
-      <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} FAMILY CHOICE SUPERMARKET</p>
-        <StoreLink to={{name:'privacy'}}>Privacy notice</StoreLink>
-      </div>
-    </div>
-  </footer>;
+    </footer>
+  );
 }

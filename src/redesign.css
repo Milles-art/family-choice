@@ -4,11 +4,11 @@
 @font-face{font-family:'Manrope';src:url('/fonts/manrope-latin.woff2') format('woff2');font-weight:300 800;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* Every selector is scoped: the original Shop design system remains intact. */
 .fc-page,.fc-header,.fc-footer,.fc-cart,.fc-mobile-nav{--fc-green:#e8477c;--fc-yellow:#f7ce46;--fc-mint:#ffe3ea;--fc-ink:#3b1d15;--fc-muted:#72564d;--fc-display:'Bricolage Grotesque',sans-serif;--fc-body:'Manrope',sans-serif;font-family:var(--fc-body);color:var(--fc-ink)}
-.fc-page{background:#fff}
-.fc-page h1,.fc-page h2:not(.product-card *),.fc-page h3:not(.product-card *){font-family:var(--fc-display);letter-spacing:-.045em;font-weight:700;line-height:1.12}
-.fc-page h1{font-size:clamp(2.2rem,4.4vw,4.6rem)}
-.fc-page h2:not(.product-card *){font-size:clamp(1.7rem,2.8vw,2.65rem)}
-.fc-page p{max-width:72ch}
+.fc-page{background:#fff9f2}
+.fc-page h1:not(.fc-ref *),.fc-page h2:not(.fc-ref *):not(.product-card *),.fc-page h3:not(.fc-ref *):not(.product-card *){font-family:var(--fc-display);letter-spacing:-.045em;font-weight:700;line-height:1.12}
+.fc-page h1:not(.fc-ref *){font-size:clamp(2.2rem,4.4vw,4.6rem)}
+.fc-page h2:not(.fc-ref *):not(.product-card *){font-size:clamp(1.7rem,2.8vw,2.65rem)}
+.fc-page p:not(.fc-ref *){max-width:72ch}
 .fc-page .product-card{font-family:var(--font-sans);color:var(--ink);line-height:1.5}
 .fc-page .button-primary,.fc-page .button-secondary{font-family:var(--fc-body);border-radius:9px;min-height:48px;padding:12px 22px}
 .fc-page .button-primary{background:var(--fc-green)}

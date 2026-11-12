@@ -25,3 +25,4 @@ root.render(
   </StrictMode>
 );
 import './light-adaptation.css';
+import './reference-design.css';

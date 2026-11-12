@@ -2,12 +2,48 @@
 :root{color-scheme:light;--lm-green:#e8477c;--lm-dark:#3b1d15;--lm-muted:#72564d;--lm-pale:#ffe3ea;--lm-yellow:#f6d34a;--lm-line:#efd9cd}
 body{background:#fff}
 #root>div{background:#fff}
-.fc-header{background:rgb(255 255 255 / 95%);box-shadow:none;border-color:var(--lm-line);backdrop-filter:blur(14px)}
-.fc-header.is-scrolled{box-shadow:0 6px 24px #3b1d1508}
-.fc-header .header-row{min-height:86px}
-.fc-header .brand-logo{max-width:235px}
+/* ── Floating pill header (ice-cream-hub design language) ───────────────── */
+.fc-header{background:transparent;border-bottom:0;box-shadow:none;backdrop-filter:none}
+.fc-header.is-scrolled{box-shadow:none}
+.fc-pill{transition:background-color .5s ease,box-shadow .5s ease,backdrop-filter .5s ease}
+.fc-pill.is-elevated{background:rgb(255 255 255 / 85%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 14px 36px rgb(59 29 21 / .10);outline:1px solid rgb(255 255 255 / 80%)}
+.fc-pill-icon{display:grid;place-items:center;width:40px;height:40px;min-width:40px;border-radius:9999px;color:#3b1d15;transition:background-color .2s ease,transform .2s ease}
+.fc-pill-icon:hover{background:rgb(255 255 255 / 75%);transform:translateY(-1px)}
+.fc-pill-icon:active{transform:scale(.94)}
+.fc-brand{display:flex;align-items:center;min-width:0;flex:0 1 auto;width:150px}
+@media(min-width:1024px){.fc-brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}}
+.fc-header .brand-logo{display:block;width:100%;height:auto;object-fit:contain}
+@media(min-width:640px){.fc-brand{width:200px}}
+@media(min-width:1024px){.fc-brand{width:235px}}
+.fc-cta{display:inline-flex;align-items:center;gap:6px;border-radius:9999px;background:#e8477c;color:#fff;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;transition:background-color .2s ease,transform .2s ease}
+.fc-cta:hover{background:#c83065}
+@media(min-width:640px){.fc-cta{padding:10px 20px}}
+.fc-search-panel{margin-top:12px;background:rgb(255 255 255 / 92%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--lm-line);border-radius:24px;padding:14px;box-shadow:0 16px 40px rgb(59 29 21 / .08)}
+.fc-pill-link{display:none;align-items:center;gap:6px;border-radius:9999px;padding:9px 16px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#3b1d15;transition:background-color .2s ease}
+.fc-pill-link:hover{background:rgb(255 255 255 / 75%)}
+.fc-pill-link[aria-current=page]{background:rgb(255 255 255 / 85%)}
+@media(min-width:768px){.fc-pill-link{display:inline-flex}}
+/* Dark-brown slide-out sheet with giant uppercase links. */
+.fc-sheet{position:absolute;left:0;top:0;bottom:0;width:min(400px,88vw);background:#4A2618;color:#fff;display:flex;flex-direction:column;gap:18px;padding:26px 26px 30px;box-shadow:0 0 60px rgb(0 0 0 / .35);overflow-y:auto;animation:fc-sheet-in .3s cubic-bezier(.22,1,.36,1)}
+@keyframes fc-sheet-in{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.fc-sheet-title{font-family:var(--fc-display,'Bricolage Grotesque',sans-serif);font-size:12px;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:#FFB3C7}
+.fc-sheet-close{display:grid;place-items:center;width:40px;height:40px;border-radius:9999px;color:#fff;transition:background-color .2s ease}
+.fc-sheet-close:hover{background:rgb(255 255 255 / .12)}
+.fc-sheet-nav{display:flex;flex-direction:column;gap:4px;margin-top:6px;overflow-y:auto;flex:1 1 auto}
+.fc-sheet-link{font-family:var(--fc-display,'Bricolage Grotesque',sans-serif);font-size:clamp(1.6rem,5.5vw,2.4rem);font-weight:800;line-height:1.08;letter-spacing:-.02em;text-transform:uppercase;text-align:left;color:#fff;transition:color .18s ease;animation:fc-link-in .4s both}
+.fc-sheet-link:hover{color:#FFB3C7}
+.fc-sheet-link[aria-current=page]{color:#FFB3C7}
+@keyframes fc-link-in{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}
+.fc-sheet-footer{margin-top:auto;display:flex;flex-direction:column;gap:3px;font-size:13px;color:rgb(255 255 255 / .6)}
+.fc-sheet-footer a{color:#fff;font-weight:700}
+.fc-sheet-footer a:hover{color:#FFB3C7}
+/* ── Rotated pink marquee ───────────────────────────────────────────────── */
+.fc-marquee{position:relative;z-index:10;transform:rotate(-1deg);overflow:hidden;background:#e8477c;color:#fff;padding-block:20px;margin-block:8px}
+.fc-marquee-track{display:flex;width:max-content;animation:fc-marquee-scroll 28s linear infinite}
+.fc-marquee-item{display:flex;align-items:center;gap:2.5rem;padding-right:2.5rem;font-family:var(--fc-display,'Bricolage Grotesque',sans-serif);font-size:clamp(1.5rem,3.4vw,2.25rem);font-weight:800;letter-spacing:-.02em;text-transform:uppercase;white-space:nowrap}
+@keyframes fc-marquee-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.fc-marquee-track{animation:none}}
 .fc-header nav a{border-radius:99px}
-.fc-header nav a[aria-current=page]{background:var(--lm-pale);color:var(--lm-green)}
 .lm-home{background:#fff;color:var(--lm-dark);overflow:clip;font-family:var(--font-sans)}
 .lm-home .store-container{max-width:1320px;padding-inline:32px}
 .fc-page .lm-home h1,.fc-page .lm-home h2,.fc-page .lm-home h3{font-family:var(--fc-display,var(--font-sans));font-weight:750;letter-spacing:-.045em}

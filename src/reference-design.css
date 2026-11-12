@@ -1,0 +1,3 @@
+/* ice-cream-hub design port — imported last in main.tsx so it wins the cascade. */
+body { background: #fff9f2; }
+#root > div { background: #fff9f2; }

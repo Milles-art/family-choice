@@ -2,6 +2,7 @@ import { ArrowRight, Apple, Milk, CupSoda, Wheat, SprayCan, ShoppingBag, Sparkle
 import { useStore } from '../store';
 import { categories, getDealProducts, getBestSellers, getProductsByCategory, recipes } from '../data';
 import { ProductCard } from './ProductCard';
+import { Marquee } from './Marquee';
 import { StoreLink } from './StoreLink';
 import { SectionSkeleton } from './LoadingState';
 import { imageSet } from '../images';
@@ -31,7 +32,7 @@ export function LightMotionHome() {
         </div>
       </div>
     </section>
-    <div className="lm-ribbon" aria-label="Grocery departments"><div>{['Fresh produce', 'Pantry favourites', 'Dairy & eggs', 'Household essentials'].map(text => <span key={text}><span aria-hidden="true">✳</span>{text}</span>)}</div></div>
+    <Marquee />
     <section className="store-container lm-section lm-departments" aria-labelledby="lm-departments-title">
       <div className="lm-section-heading"><div><p className="lm-kicker">Find your favourites</p><h2 id="lm-departments-title">A little of everything.<br/>All in your basket.</h2></div><StoreLink to={{name:'catalog'}} className="lm-text-link">Explore the shop <ArrowRight size={18}/></StoreLink></div>
       <div className="lm-category-grid">{departments.map(category => { const Icon = categoryIcons[category.id as keyof typeof categoryIcons]; return <StoreLink key={category.id} to={{name:'catalog',categoryId:category.id}} className="lm-category"><img src={category.image} srcSet={imageSet(category.image)} sizes="(min-width: 1000px) 23vw, 47vw" width={640} height={640} alt="" loading="lazy"/><span className="lm-category-icon"><Icon size={21}/></span><span className="lm-category-name">{category.name}<ArrowRight size={18}/></span></StoreLink>; })}</div>
