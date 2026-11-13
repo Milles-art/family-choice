@@ -23,7 +23,7 @@ export function ProductCard({ product, onQuickView }: { product: Product; onQuic
 
     </div>
     <div className="p-3 sm:p-4 flex flex-col flex-1">
-      <h3 className="text-sm font-semibold leading-snug mb-1"><StoreLink to={{name:'product',productId:product.id}} className="text-left hover:text-green-700">{product.name}</StoreLink></h3>
+      <h3 className="text-sm font-semibold leading-snug mb-1"><StoreLink to={{name:'product',productId:product.id}} className="inline-block py-2 -my-1 text-left hover:text-green-700">{product.name}</StoreLink></h3>
       <p className="text-sm text-gray-500">{product.unit}</p>
       <p className={`text-xs font-medium my-2 ${product.stockStatus === 'unverified' ? 'text-gray-600' : product.inStock ? 'text-green-700' : 'text-red-700'}`}>{product.stockStatus === 'unverified' ? 'Availability unverified' : product.inStock ? 'In stock' : 'Out of stock'}</p>
       <div className="mt-auto pt-2"><strong className="product-price block text-xl">{formatTzs(product.price)}</strong><ProductPriceNote product={product}/><div className="min-h-5 text-xs text-gray-500">{discount > 0 && <><span className="sr-only">Original price </span><del>{formatTzs(product.originalPrice!)}</del></>}</div>

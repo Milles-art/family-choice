@@ -72,7 +72,7 @@ export function VisitSection() {
 
         <a
           href={`mailto:${site.email}`}
-          className="inline-flex cursor-pointer items-center gap-2 text-white/70 hover:text-white"
+          className="inline-flex cursor-pointer items-center gap-2 py-2 text-white/70 hover:text-white"
         >
           <Mail className="size-4" /> {site.email}
         </a>

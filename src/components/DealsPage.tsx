@@ -95,7 +95,7 @@ export function DealsPage() {
                 aria-label="Category"
                 value={category}
                 onChange={event => setCategory(event.target.value)}
-                className="h-11 min-w-[10rem] cursor-pointer rounded-full border border-border bg-card px-4 text-sm text-foreground outline-none transition-[color,box-shadow] focus:border-ring focus:ring-2 focus:ring-ring/50"
+                className="h-11 min-w-[10rem] cursor-pointer rounded-full border border-border bg-card px-4 text-base text-foreground outline-none transition-[color,box-shadow] focus:border-ring focus:ring-2 focus:ring-ring/50"
               >
                 <option value="">All categories</option>
                 {offerCategories.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
@@ -107,7 +107,7 @@ export function DealsPage() {
                 aria-label="Sort by"
                 value={sort}
                 onChange={event => setSort(event.target.value)}
-                className="h-11 min-w-[10rem] cursor-pointer rounded-full border border-border bg-card px-4 text-sm text-foreground outline-none transition-[color,box-shadow] focus:border-ring focus:ring-2 focus:ring-ring/50"
+                className="h-11 min-w-[10rem] cursor-pointer rounded-full border border-border bg-card px-4 text-base text-foreground outline-none transition-[color,box-shadow] focus:border-ring focus:ring-2 focus:ring-ring/50"
               >
                 <option value="relevance">Catalogue order</option>
                 <option value="price-low">Price: low to high</option>

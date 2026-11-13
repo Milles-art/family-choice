@@ -299,7 +299,7 @@ export function CatalogPage() {
                   aria-label="Sort products"
                   value={sortBy}
                   onChange={(e) => {resetPage(); setSortBy(e.target.value as SortOption);}}
-                  className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-base font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                   <option value="relevance">Relevance</option>
                   <option value="price-low">Price: Low to High</option>

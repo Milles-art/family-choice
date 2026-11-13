@@ -140,9 +140,9 @@ export function ContactPage() {
             <div className="space-y-3 text-white/70">
               <p className="flex items-start gap-3"><MapPin className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/>{storeConfig.address}</p>
               <p className="flex items-start gap-3"><Clock className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/>{site.hours}</p>
-              <p className="flex items-start gap-3"><Phone className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/><a href={site.phoneHref} className="cursor-pointer text-white">{site.phoneDisplay}</a></p>
-              {storeConfig.contactEmail && <p className="flex items-start gap-3"><Mail className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/><a href={`mailto:${storeConfig.contactEmail}`} className="cursor-pointer text-white">{site.email}</a></p>}
-              <p className="flex items-start gap-3"><Globe className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/><a href="https://familychoiceminimarket.co.tz" target="_blank" rel="noreferrer" className="cursor-pointer text-white">familychoiceminimarket.co.tz</a></p>
+              <p className="flex items-start gap-3"><Phone className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/><a href={site.phoneHref} className="cursor-pointer py-2 text-white">{site.phoneDisplay}</a></p>
+              {storeConfig.contactEmail && <p className="flex items-start gap-3"><Mail className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/><a href={`mailto:${storeConfig.contactEmail}`} className="cursor-pointer py-2 text-white">{site.email}</a></p>}
+              <p className="flex items-start gap-3"><Globe className="mt-0.5 size-4 shrink-0 text-[#FFB3C7]"/><a href="https://familychoiceminimarket.co.tz" target="_blank" rel="noreferrer" className="cursor-pointer py-2 text-white">familychoiceminimarket.co.tz</a></p>
             </div>
             <a href={storeConfig.mapUrl} target="_blank" rel="noreferrer" className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-bold tracking-wider text-[#4A2618] uppercase transition-colors hover:bg-white/90">
               <MapPin className="size-4"/> Open in Google Maps
